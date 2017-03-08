@@ -13,7 +13,7 @@ import java.util.Properties;
 
 public abstract class PropertyLoader {
 
-    public static final String PROPERTIES_PATH = "src/main/resources/config.properties";
+    public static final String PROPERTIES_PATH = "resources/config.properties";
     private Properties properties = new Properties();
 
     protected PropertyLoader() {

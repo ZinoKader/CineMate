@@ -1,4 +1,4 @@
-package main;
+package main.controllers;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -8,6 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.api.ApiService;
 import main.api.MovieApi;
+import main.config.UserSettings;
+import main.exceptions.PropertyAccessException;
+import main.exceptions.PropertyLoadException;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -15,8 +18,12 @@ import retrofit.client.Response;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CineMateController implements Initializable {
+/**
+ * Controller for startup screen. Handles implementations of logic.
+ */
+public class StartupController implements Initializable {
 
+    private UserSettings settings = null;
     private MovieApi movieApi = new MovieApi();
     private ApiService apiService = movieApi.getService();
 
@@ -29,7 +36,24 @@ public class CineMateController implements Initializable {
     private Label entryValidityStatusText;
 
     @Override public void initialize(final URL location, final ResourceBundle resources) {
+	try {
+	    settings = new UserSettings();
+	} catch (PropertyLoadException e) {
+	    e.printStackTrace();
+	}
+	assert settings != null;
 
+	String apiKey = "";
+	try {
+	    apiKey = settings.getApiKey();
+	} catch (PropertyAccessException e) {
+	    e.printStackTrace();
+	}
+
+	//We can continue with logging in if the API key has been set before already
+	if(!apiKey.isEmpty()) {
+
+	}
     }
 
     public void handleSubmit(ActionEvent actionEvent) {
@@ -37,7 +61,9 @@ public class CineMateController implements Initializable {
 
 	apiService.getResponse(apiKey, new Callback<Response>() {
 	    @Override public void success(final Response response, final Response response2) {
-		//UI can't be updated from non-application thread, run this later on the UI thread
+		//UI can't be updated from non-application thread, run this later on the UI thread.
+		//Set API key in properties file, so the user only needs to enter it once.
+		settings.setApiKey(apiKeyTextField.getText());
 	        Platform.runLater( () -> entryValidityStatusText.setText("Success! You're being logged in..."));
 	    }
 
