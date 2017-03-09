@@ -3,9 +3,11 @@ package main.controllers.screens;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import main.api.ApiAdapater;
 import main.api.ApiService;
@@ -19,6 +21,7 @@ import main.model.Person;
 import main.model.ResultsPager;
 import main.model.Series;
 import main.model.TmdbObject;
+import main.view.MovieListViewCell;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -40,6 +43,11 @@ public class MainController implements Initializable, ControlledScreen {
 
     private ApiAdapater apiAdapter;
     private ApiService apiService;
+
+    @FXML
+    private ListView<Movie> movieListView;
+
+    private ObservableList<Movie> movieObservableList = FXCollections.observableArrayList();
 
 
     /**
@@ -91,7 +99,7 @@ public class MainController implements Initializable, ControlledScreen {
 	    handleSearch(apiQueries);
 
 	} else {
-	    System.out.println("no results");
+	    System.out.println("You need to choose a search type and enter a query to search.");
 	}
     }
 
@@ -134,7 +142,9 @@ public class MainController implements Initializable, ControlledScreen {
     }
 
     private void populateMovieList(List<Movie> movies) {
-
+        movieObservableList.addAll(movies);
+	movieListView.setItems(movieObservableList);
+	movieListView.setCellFactory(listView -> new MovieListViewCell());
     }
 
     @Override public void setScreenParent(final ScreenController screenParent) {
