@@ -7,6 +7,6 @@ package main.controllers;
  */
 public interface ControlledScreen {
 
-    public void setScreen(ScreenController screenController);
+    public void setScreenParent(ScreenController screenController);
 
 }

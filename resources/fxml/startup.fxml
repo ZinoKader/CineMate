@@ -15,7 +15,8 @@
       <ImageView fitHeight="120.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@/image/logo.png" />
-         </image></ImageView>
+         </image>
+      </ImageView>
       <Label alignment="CENTER" minWidth="600.0" text="Enter your TMDB API key" textAlignment="CENTER" wrapText="true">
          <VBox.margin>
             <Insets top="40.0" />
@@ -25,7 +26,7 @@
             <Insets left="175.0" top="5.0" />
          </VBox.margin>
       </TextField>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSubmit" text="Submit">
+      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSubmitApiKey" text="Submit">
          <VBox.margin>
             <Insets left="268.0" top="6.0" />
          </VBox.margin>

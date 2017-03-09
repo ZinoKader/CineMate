@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import main.CineMateApplication;
 import main.api.ApiService;
 import main.api.MovieApi;
 import main.config.UserSettings;
@@ -23,7 +24,7 @@ import java.util.ResourceBundle;
  */
 public class StartupController implements Initializable, ControlledScreen {
 
-    ScreenController screenController;
+    private ScreenController screenController;
     private UserSettings settings = null;
     private MovieApi movieApi = new MovieApi();
     private ApiService apiService = movieApi.getService();
@@ -54,11 +55,12 @@ public class StartupController implements Initializable, ControlledScreen {
 	//FOR DEBUGGING: APIKEY 4b45808a4d1a83471866761a8d7e5325
 	//We can continue with logging in if the API key has been set before already
 	if(apiKey != null && !apiKey.equals("null") && !apiKey.isEmpty()) {
-	    System.out.println("Api key is already stored! Key: " + apiKey);
+	    System.out.println("Api key is already stored, going to main screen! Key: " + apiKey);
+	    goToMainScreen();
 	}
     }
 
-    public void handleSubmit(ActionEvent actionEvent) {
+    public void handleSubmitApiKey(ActionEvent actionEvent) {
 	String apiKey = apiKeyTextField.getText();
 
 	apiService.getResponse(apiKey, new Callback<Response>() {
@@ -67,7 +69,7 @@ public class StartupController implements Initializable, ControlledScreen {
 		//Set API key in properties file, so the user only needs to enter it once.
 		settings.setApiKey(apiKeyTextField.getText());
 	        Platform.runLater( () -> entryValidityStatusText.setText("Success! You're being logged in..."));
-	        goToMain(actionEvent);
+	        goToMainScreen();
 	    }
 
 	    @Override public void failure(final RetrofitError retrofitError) {
@@ -77,11 +79,11 @@ public class StartupController implements Initializable, ControlledScreen {
 	});
     }
 
-    public void goToMain(ActionEvent event) {
-	screenController.
+    public void goToMainScreen() {
+	screenController.setScreen(CineMateApplication.MAIN_SCREEN_ID);
     }
 
-    @Override public void setScreen(final ScreenController screenController) {
-	this.screenController = screenController;
+    @Override public void setScreenParent(ScreenController screenParent) {
+	this.screenController = screenParent;
     }
 }
