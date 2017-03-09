@@ -1,4 +1,4 @@
-package main.controllers;
+package main.controllers.screens;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -10,6 +10,8 @@ import main.CineMateApplication;
 import main.api.ApiService;
 import main.api.MovieApi;
 import main.config.UserSettings;
+import main.controllers.ControlledScreen;
+import main.controllers.ScreenController;
 import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
 import retrofit.Callback;
@@ -22,7 +24,8 @@ import java.util.ResourceBundle;
 /**
  * Controller for startup screen. Handles implementations of logic.
  */
-public class StartupController implements Initializable, ControlledScreen {
+public class StartupController implements Initializable, ControlledScreen
+{
 
     private ScreenController screenController;
     private UserSettings settings = null;
@@ -70,7 +73,7 @@ public class StartupController implements Initializable, ControlledScreen {
 		//UI can't be updated from non-application thread, run this later on the UI thread.
 		//Set API key in properties file, so the user only needs to enter it once.
 		settings.setApiKey(apiKeyTextField.getText());
-	        Platform.runLater( () -> entryValidityStatusText.setText("Success! You're being logged in..."));
+		Platform.runLater( () -> entryValidityStatusText.setText("Success! You're being logged in..."));
 	        goToMainScreen();
 	    }
 
