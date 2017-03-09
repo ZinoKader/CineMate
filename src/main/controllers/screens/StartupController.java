@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.CineMateApplication;
 import main.api.ApiService;
-import main.api.MovieApi;
+import main.api.ApiAdapater;
 import main.config.UserSettings;
 import main.controllers.ControlledScreen;
 import main.controllers.ScreenController;
@@ -29,8 +29,8 @@ public class StartupController implements Initializable, ControlledScreen
 
     private ScreenController screenController;
     private UserSettings settings = null;
-    private MovieApi movieApi = new MovieApi();
-    private ApiService apiService = movieApi.getService();
+    private ApiAdapater apiAdapater = new ApiAdapater();
+    private ApiService apiService = apiAdapater.getService();
 
     //@FXML exposes the fields to the fxml file while keeping the fields private, nice!
 
@@ -55,14 +55,15 @@ public class StartupController implements Initializable, ControlledScreen
 	    e.printStackTrace();
 	}
 
-	System.out.println(apiKey + " DICK");
-
 	//FOR DEBUGGING: APIKEY 4b45808a4d1a83471866761a8d7e5325
 	//We can continue with logging in if the API key has been set before already
 	if(apiKey != null && !apiKey.equals("null") && !apiKey.isEmpty()) {
 	    System.out.println("Api key is already stored, going to main screen! Key: " + apiKey);
 	    goToMainScreen();
 	}
+
+	//FOR DEBUGGING: REMOVE LATER
+	apiKeyTextField.setText("4b45808a4d1a83471866761a8d7e5325");
     }
 
     public void handleSubmitApiKey(ActionEvent actionEvent) {

@@ -53,6 +53,7 @@ public class CineMateApplication extends Application {
     }
 
     public static void resizeScreen() {
+	//sizes the window automatically to fit the contents of the scene
 	primaryStage.sizeToScene();
 	primaryStage.centerOnScreen();
     }

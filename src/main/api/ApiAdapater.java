@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 /**
  * Provides an appropriate rest adapter with our given TheMovieDB API endpoint
  */
-public class MovieApi {
+public class ApiAdapater {
 
 
     /**
@@ -23,10 +23,10 @@ public class MovieApi {
 
 
     /**
-     *  New instance of MovieApi,
+     *  New instance of ApiAdapater,
      *  with single thread executor both for http and callbacks.
      */
-    public MovieApi() {
+    public ApiAdapater() {
         Executor httpExecutor = Executors.newSingleThreadExecutor();
         Executor callbackExecutor = Executors.newSingleThreadExecutor();
         apiService = init(httpExecutor, callbackExecutor);
@@ -44,7 +44,7 @@ public class MovieApi {
 
 
     /**
-     * @return The MovieApi instance
+     * @return The ApiAdapater instance
      */
     public ApiService getService() {
         return apiService;

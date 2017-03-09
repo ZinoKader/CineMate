@@ -4,6 +4,7 @@ import main.model.Movie;
 import main.model.Person;
 import main.model.ResultsPager;
 import main.model.Series;
+import main.model.TmdbObject;
 import retrofit.Callback;
 import retrofit.client.Response;
 import retrofit.http.GET;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 
 /**
- * Interface for MovieApi REST adapter
+ * Interface for ApiAdapater REST adapter
  */
 public interface ApiService {
 
@@ -31,14 +32,20 @@ public interface ApiService {
      * Searches for several objects
      * Since all parameters here are queries, we put them in a map
      */
+
+
+    //This is hard to get working...
+    @GET("/search/multi")
+    ResultsPager<TmdbObject> searchMulti(@QueryMap Map<String, String> queries);
+
     @GET("/search/movie")
     ResultsPager<Movie> searchMovies(@QueryMap Map<String, String> queries);
 
     @GET("/search/tv")
-    void searchSeries(@QueryMap Map<String, String> queries, Callback<ResultsPager<Series>> callback);
+    ResultsPager<Series> searchSeries(@QueryMap Map<String, String> queries);
 
-    @GET("/search/pager")
-    void searchPeople(@QueryMap Map<String, String> queries, Callback<ResultsPager<Person>> callback);
+    @GET("/search/person")
+    ResultsPager<Person> searchPeople(@QueryMap Map<String, String> queries);
 
 
     /**
@@ -48,5 +55,6 @@ public interface ApiService {
      */
     @GET("/movie/{movie_id}")
     Movie getMovie(@Path("movie_id") String movieId, @Query("api_key") String apiKey);
+
 
 }

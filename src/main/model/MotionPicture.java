@@ -9,12 +9,6 @@ import main.api.constants.TmdbConstants;
  */
 public abstract class MotionPicture {
 
-    @SerializedName("id")
-    private String id;
-
-    @SerializedName("original_title")
-    private String originalTitle;
-
     @SerializedName("overview")
     private String description;
 
@@ -26,25 +20,6 @@ public abstract class MotionPicture {
 
     @SerializedName("backdrop_path")
     private String backdropPath;
-
-
-    /**
-     * These getters are used by Handlebars (HTML templating engine)
-     * Handlebar will use the getter that matches the field name automatically,
-     * therefore the fields that need reformatting are formatted in the original getters,
-     * but have getSomethingRaw() functions that return the original, unformatted value in case they are needed.
-     * Even though not all of these functions are used currently, it's good practice to make all private fields reachable
-     * from their respective getters.
-     */
-
-
-    public String getId() {
-	return id;
-    }
-
-    public String getOriginalTitle() {
-        return originalTitle;
-    }
 
     public String getDescription() {
 	return description;

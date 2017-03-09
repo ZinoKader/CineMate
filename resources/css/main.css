@@ -1,3 +1,15 @@
+/*
+ * This CSS file contains styles that are used by the FXML files.
+ * For instance, .tool-bar refers to and styles every JavaFX ToolBar object that inherits
+ * styles from this file.
+ */
+
+
 * {
     -fx-font-family: "Raleway";
+}
+
+.tool-bar {
+    /* We want the toolbar to have the same bg color as the rest of the window */
+    -fx-background-color: inherit;
 }
