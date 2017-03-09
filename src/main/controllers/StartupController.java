@@ -21,8 +21,9 @@ import java.util.ResourceBundle;
 /**
  * Controller for startup screen. Handles implementations of logic.
  */
-public class StartupController implements Initializable {
+public class StartupController implements Initializable, ControlledScreen {
 
+    ScreenController screenController;
     private UserSettings settings = null;
     private MovieApi movieApi = new MovieApi();
     private ApiService apiService = movieApi.getService();
@@ -50,9 +51,10 @@ public class StartupController implements Initializable {
 	    e.printStackTrace();
 	}
 
+	//FOR DEBUGGING: APIKEY 4b45808a4d1a83471866761a8d7e5325
 	//We can continue with logging in if the API key has been set before already
-	if(!apiKey.isEmpty()) {
-
+	if(apiKey != null && !apiKey.equals("null") && !apiKey.isEmpty()) {
+	    System.out.println("Api key is already stored! Key: " + apiKey);
 	}
     }
 
@@ -65,6 +67,7 @@ public class StartupController implements Initializable {
 		//Set API key in properties file, so the user only needs to enter it once.
 		settings.setApiKey(apiKeyTextField.getText());
 	        Platform.runLater( () -> entryValidityStatusText.setText("Success! You're being logged in..."));
+	        goToMain(actionEvent);
 	    }
 
 	    @Override public void failure(final RetrofitError retrofitError) {
@@ -72,6 +75,13 @@ public class StartupController implements Initializable {
 	        Platform.runLater( () -> entryValidityStatusText.setText("Your API key is incorrect or invalid."));
 	    }
 	});
+    }
 
+    public void goToMain(ActionEvent event) {
+	screenController.
+    }
+
+    @Override public void setScreen(final ScreenController screenController) {
+	this.screenController = screenController;
     }
 }
