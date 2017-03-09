@@ -1,5 +1,7 @@
 package main.view;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
@@ -53,11 +55,21 @@ public class MovieListViewCell extends ListCell<Movie> {
               description.setText(movie.getDescription());
 
               String imageUrl = movie.getPosterPath();
-	      try(InputStream in = new URL(imageUrl).openStream()) {
-		  image.setImage(new Image(in));
-	      } catch (IOException e) {
-		  e.printStackTrace();
-	      }
+
+              //This task will ensure we run the downloading of the image in a background thread
+              Task<Void> setImageTask = new Task<Void>() {
+		  @Override protected Void call() throws Exception {
+		      try(InputStream in = new URL(imageUrl).openStream()) {
+			  image.setImage(new Image(in));
+		      } catch (IOException e) {
+			  e.printStackTrace();
+		      }
+		      return null;
+		  }
+	      };
+
+              //We run each task like this in a new thread to ensure maximum performance
+              new Thread(setImageTask).start();
 
               setText(null);
               setGraphic(container);

@@ -142,6 +142,7 @@ public class MainController implements Initializable, ControlledScreen {
     }
 
     private void populateMovieList(List<Movie> movies) {
+        movieObservableList.clear();
         movieObservableList.addAll(movies);
 	movieListView.setItems(movieObservableList);
 	movieListView.setCellFactory(listView -> new MovieListViewCell());
