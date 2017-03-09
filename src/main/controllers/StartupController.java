@@ -52,6 +52,8 @@ public class StartupController implements Initializable, ControlledScreen {
 	    e.printStackTrace();
 	}
 
+	System.out.println(apiKey + " DICK");
+
 	//FOR DEBUGGING: APIKEY 4b45808a4d1a83471866761a8d7e5325
 	//We can continue with logging in if the API key has been set before already
 	if(apiKey != null && !apiKey.equals("null") && !apiKey.isEmpty()) {
