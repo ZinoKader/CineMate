@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.StackPane?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.screens.MainController">
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
@@ -31,6 +32,10 @@
             </HBox>
         </items>
       </ToolBar>
-       <ListView fx:id="movieListView" minHeight="620.0" />
+       <StackPane fx:id="searchPane">
+           <ListView fx:id="movieListView" minHeight="620.0" />
+           <ListView fx:id="seriesListView" minHeight="620.0" />
+           <ListView fx:id="personListView" minHeight="620.0" />
+       </StackPane>
    </children>
 </VBox>

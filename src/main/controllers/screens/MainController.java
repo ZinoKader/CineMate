@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import main.api.ApiAdapater;
 import main.api.ApiService;
 import main.config.UserSettings;
@@ -16,14 +17,18 @@ import main.controllers.ControlledScreen;
 import main.controllers.ScreenController;
 import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
+import main.model.MediaType;
 import main.model.Movie;
 import main.model.Person;
 import main.model.ResultsPager;
 import main.model.Series;
 import main.model.TmdbObject;
 import main.view.MovieListViewCell;
+import main.view.PersonListViewCell;
+import main.view.SeriesListViewCell;
 
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,11 +49,25 @@ public class MainController implements Initializable, ControlledScreen {
     private ApiAdapater apiAdapter;
     private ApiService apiService;
 
+
+    @FXML
+    private StackPane searchPane;
+
     @FXML
     private ListView<Movie> movieListView;
 
+    @FXML
+    private ListView<Series> seriesListView;
+
+    @FXML
+    private ListView<Person> personListView;
+
+
     private ObservableList<Movie> movieObservableList = FXCollections.observableArrayList();
 
+    private ObservableList<Series> seriesObservableList = FXCollections.observableArrayList();
+
+    private ObservableList<Person> personObservableList = FXCollections.observableArrayList();
 
     /**
      * Types of objects you can search for in the searchfield
@@ -58,6 +77,7 @@ public class MainController implements Initializable, ControlledScreen {
     }
 
     private static final Map<Integer, SEARCHTYPE> SEARCH_TYPE_INDICES = new HashMap<>();
+    private static final Map<MediaType, Integer> LIST_VIEW_ORDER = new HashMap<>();
 
     @Override public void initialize(final URL location, final ResourceBundle resources) {
 	//init our choicebox with possible values. We add these items as observables so changes are broadcasted.
@@ -66,6 +86,9 @@ public class MainController implements Initializable, ControlledScreen {
 	SEARCH_TYPE_INDICES.put(0, SEARCHTYPE.MOVIES);
 	SEARCH_TYPE_INDICES.put(1, SEARCHTYPE.SERIES);
 	SEARCH_TYPE_INDICES.put(2, SEARCHTYPE.PEOPLE);
+	LIST_VIEW_ORDER.put(MediaType.MOVIE, 0);
+	LIST_VIEW_ORDER.put(MediaType.SERIES, 1);
+	LIST_VIEW_ORDER.put(MediaType.PERSON, 2);
 
 	try {
 	    userSettings = new UserSettings();
@@ -111,42 +134,46 @@ public class MainController implements Initializable, ControlledScreen {
 	    case MOVIES:
 		searchResults = apiService.searchMovies(apiQueries);
 		List<Movie> movies = (List<Movie>) searchResults.getResults();
-		populateMovieList(movies);
+		populateList(movies);
 		break;
 	    case SERIES:
 	        searchResults = apiService.searchSeries(apiQueries);
+		List<Series> series = (List<Series>) searchResults.getResults();
+		populateList(series);
 	        break;
 	    case PEOPLE:
 	        searchResults = apiService.searchPeople(apiQueries);
+		List<Person> people = (List<Person>) searchResults.getResults();
+		populateList(people);
 	}
 
+    }
 
-	//TODO: Remove!! for debugging.
-	for(TmdbObject tmdbObject : searchResults.getResults()) {
-
-	    switch(tmdbObject.getMediaType()) {
-		case MOVIE:
-		    Movie movie = (Movie) tmdbObject;
-		    System.out.println(movie.getTitle());
-		    break;
-		case SERIES:
-		    Series series = (Series) tmdbObject;
-		    System.out.println(series.getTitle());
-		    break;
-		case PERSON:
-		    Person person = (Person) tmdbObject;
-		    System.out.println(person.getName());
-		    break;
-	    }
+    private void populateList(List<? extends TmdbObject> listObjects) {
+	MediaType mediaType = listObjects.get(0).getMediaType();
+        switch(mediaType) {
+	    case MOVIE:
+		movieObservableList.clear();
+  		movieObservableList.addAll((Collection<? extends Movie>) listObjects);
+		movieListView.setItems(movieObservableList);
+		movieListView.setCellFactory(listView -> new MovieListViewCell());
+	        break;
+	    case SERIES:
+		seriesObservableList.clear();
+  		seriesObservableList.addAll((Collection<? extends Series>) listObjects);
+		seriesListView.setItems(seriesObservableList);
+		seriesListView.setCellFactory(listView -> new SeriesListViewCell());
+	        break;
+	    case PERSON:
+		personObservableList.clear();
+		personObservableList.addAll((Collection<? extends Person>) listObjects);
+		personListView.setItems(personObservableList);
+		personListView.setCellFactory(listView -> new PersonListViewCell());
+	        break;
 	}
+	searchPane.getChildren().get(LIST_VIEW_ORDER.get(mediaType)).toFront();
     }
 
-    private void populateMovieList(List<Movie> movies) {
-        movieObservableList.clear();
-        movieObservableList.addAll(movies);
-	movieListView.setItems(movieObservableList);
-	movieListView.setCellFactory(listView -> new MovieListViewCell());
-    }
 
     @Override public void setScreenParent(final ScreenController screenParent) {
 	this.screenController = screenParent;

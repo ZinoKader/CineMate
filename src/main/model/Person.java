@@ -1,14 +1,24 @@
 package main.model;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.gson.annotations.SerializedName;
+import main.api.constants.TmdbConstants;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
+import java.util.List;
+
+/**
+ *
+ */
 
 public class Person implements TmdbObject {
 
     @SerializedName("name")
     private String name;
+
+    @SerializedName("profile_path")
+    private String profilePath;
+
+    @SerializedName("known_for")
+    private List<MotionPicture> knownFor;
 
     public Person() {
 
@@ -20,5 +30,17 @@ public class Person implements TmdbObject {
 
     public String getName() {
 	return name;
+    }
+
+    public String getProfilePath() {
+	if(profilePath == null) {
+	    return TmdbConstants.POSTER_PLACEHOLDER;
+	} else {
+	    return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_POSTER_SIZE + profilePath;
+	}
+    }
+
+    public List<MotionPicture> getKnownFor() {
+	return knownFor;
     }
 }

@@ -8,13 +8,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import main.model.Movie;
+import main.model.Person;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-public class MovieListViewCell extends ListCell<Movie> {
+public class PersonListViewCell extends ListCell<Person> {
 
     @FXML
     private Text title;
@@ -31,15 +31,15 @@ public class MovieListViewCell extends ListCell<Movie> {
     private FXMLLoader mLLoader;
 
     @Override
-    protected void updateItem(Movie movie, boolean empty) {
-          super.updateItem(movie, empty);
+    protected void updateItem(Person person, boolean empty) {
+          super.updateItem(person, empty);
 
-          if(empty || movie == null) {
+          if(empty || person == null) {
               setText(null);
               setGraphic(null);
           } else {
               if (mLLoader == null) {
-                  mLLoader = new FXMLLoader(getClass().getResource("/fxml/movie_cell.fxml"));
+                  mLLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
                   mLLoader.setController(this);
 
                   try {
@@ -50,10 +50,10 @@ public class MovieListViewCell extends ListCell<Movie> {
 
               }
 
-              title.setText(movie.getTitle());
-              description.setText(movie.getDescription());
+              title.setText(person.getName());
+              //description.setText(person.getKnownFor());
 
-              String imageUrl = movie.getPosterPath();
+              String imageUrl = person.getProfilePath();
 
               //This task will ensure we run the downloading of the image in a background thread
               Task<Void> setImageTask = new Task<Void>() {
