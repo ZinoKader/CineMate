@@ -1,0 +1,34 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="CineMate">
+    <output-path>$PROJECT_DIR$/out/artifacts/CineMate</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="main.CineMateApplication" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="icons">
+          <JavaFxApplicationIcons>
+            <option name="linuxIcon" value="$PROJECT_DIR$/resources/image/icon.png" />
+            <option name="macIcon" value="$PROJECT_DIR$/resources/image/icon.png" />
+            <option name="windowsIcon" value="$PROJECT_DIR$/resources/image/icon.png" />
+          </JavaFxApplicationIcons>
+        </option>
+        <option name="nativeBundle" value="all" />
+        <option name="title" value="CineMate" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="CineMate.jar">
+        <element id="module-output" name="CineMate" />
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="library" level="project" name="com.squareup.retrofit:retrofit:1.8.0" />
+        <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-core:2.0.6" />
+        <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-annotations:2.0.4" />
+      </element>
+    </root>
+  </artifact>
+</component>

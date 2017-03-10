@@ -3,7 +3,6 @@ package main.config;
 import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -13,7 +12,7 @@ import java.util.Properties;
 
 public abstract class PropertyLoader {
 
-    public static final String PROPERTIES_PATH = "resources/config/settings.properties";
+    public static final String PROPERTIES_PATH = "config/settings.properties";
     private Properties properties = new Properties();
 
     protected PropertyLoader() {
@@ -21,7 +20,7 @@ public abstract class PropertyLoader {
 
     protected void initializeProperties() throws PropertyLoadException {
 	try {
-	    properties.load(new FileInputStream(PROPERTIES_PATH));
+	    properties.load((getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)));
 	} catch (IOException exception) {
 	    throw new PropertyLoadException(exception);
 	}

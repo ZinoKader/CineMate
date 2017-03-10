@@ -1,6 +1,5 @@
 package main.view;
 
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -71,7 +70,7 @@ public class MovieListViewCell extends ListCell<Movie> {
               //We run each task like this in a new thread to ensure maximum performance
               new Thread(setImageTask).start();
 
-              setText(null);
+	      setText(null);
               setGraphic(container);
           }
 
