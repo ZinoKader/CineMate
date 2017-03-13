@@ -55,12 +55,15 @@ public class MainController implements Initializable, ControlledScreen {
 
     @FXML
     private ListView<Movie> movieListView;
+    private static final String MOVIE_LW_FX_ID = "movieListView";
 
     @FXML
     private ListView<Series> seriesListView;
+    private static final String SERIES_LW_FX_ID = "seriesListView";
 
     @FXML
     private ListView<Person> personListView;
+    private static final String PERSON_LW_FX_ID = "personListView";
 
 
     private ObservableList<Movie> movieObservableList = FXCollections.observableArrayList();
@@ -128,6 +131,7 @@ public class MainController implements Initializable, ControlledScreen {
 
     private void handleSearch(Map<String, String> apiQueries) {
 
+        //All of our search objects implement TmdbObject, "? extends ..." really means "is a subclass of ..."
 	ResultsPager<? extends TmdbObject> searchResults = null;
 
 	switch(currentSearchType) {
@@ -151,27 +155,45 @@ public class MainController implements Initializable, ControlledScreen {
 
     private void populateList(List<? extends TmdbObject> listObjects) {
 	MediaType mediaType = listObjects.get(0).getMediaType();
+	int searchPaneIndex = 0;
         switch(mediaType) {
 	    case MOVIE:
 		movieObservableList.clear();
   		movieObservableList.addAll((Collection<? extends Movie>) listObjects);
 		movieListView.setItems(movieObservableList);
 		movieListView.setCellFactory(listView -> new MovieListViewCell());
+		for(int i = 0; i < 3; i++) { //find the index in the stackpane of our desired listview to show
+		    if(searchPane.getChildren().get(i).getId().equals(MOVIE_LW_FX_ID)) {
+			searchPaneIndex = i;
+		    }
+		}
 	        break;
 	    case SERIES:
 		seriesObservableList.clear();
   		seriesObservableList.addAll((Collection<? extends Series>) listObjects);
 		seriesListView.setItems(seriesObservableList);
 		seriesListView.setCellFactory(listView -> new SeriesListViewCell());
+		for(int i = 0; i < 3; i++) {
+		    if(searchPane.getChildren().get(i).getId().equals(SERIES_LW_FX_ID)) {
+			searchPaneIndex = i;
+		    }
+		}
 	        break;
 	    case PERSON:
 		personObservableList.clear();
 		personObservableList.addAll((Collection<? extends Person>) listObjects);
 		personListView.setItems(personObservableList);
 		personListView.setCellFactory(listView -> new PersonListViewCell());
+		for(int i = 0; i < 3; i++) {
+		    if(searchPane.getChildren().get(i).getId().equals(PERSON_LW_FX_ID)) {
+			searchPaneIndex = i;
+		    }
+		}
 	        break;
 	}
-	searchPane.getChildren().get(LIST_VIEW_ORDER.get(mediaType)).toFront();
+
+	searchPane.getChildren().get(searchPaneIndex).toFront();
+
     }
 
 

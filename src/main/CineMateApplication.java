@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import main.controllers.ScreenController;
+import main.helpers.Log;
 
 
 /**
@@ -29,6 +30,8 @@ public class CineMateApplication extends Application {
     }
 
     @Override public void start(Stage primaryStage) throws Exception {
+
+	Log.DEBUG(); //set logging level to DEBUG as default
 
 	CineMateApplication.primaryStage = primaryStage;
 	Font.loadFont(getClass().getResource("/font/Raleway.ttf").toExternalForm(), DEFAULT_FONT_SIZE);

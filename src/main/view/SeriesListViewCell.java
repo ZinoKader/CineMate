@@ -1,19 +1,20 @@
 package main.view;
 
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import main.helpers.ImageHelper;
+import main.helpers.Log;
 import main.model.Series;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
+/**
+ * Cell view for series for the main screen listview. Has to extend ListCell.
+ */
 public class SeriesListViewCell extends ListCell<Series> {
 
     @FXML
@@ -28,7 +29,9 @@ public class SeriesListViewCell extends ListCell<Series> {
     @FXML
     private HBox container;
 
-    private FXMLLoader mLLoader;
+    private FXMLLoader fxmlLoader;
+
+    private ImageHelper imageHelper = new ImageHelper();
 
     @Override
     protected void updateItem(Series series, boolean empty) {
@@ -38,16 +41,14 @@ public class SeriesListViewCell extends ListCell<Series> {
 	    setText(null);
 	    setGraphic(null);
 	} else {
-	    if (mLLoader == null) {
-		mLLoader = new FXMLLoader(getClass().getResource("/fxml/series_cell.fxml"));
-		mLLoader.setController(this);
-
+	    if (fxmlLoader == null) {
+		fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/series_cell.fxml"));
+		fxmlLoader.setController(this);
 		try {
-		    mLLoader.load();
+		    fxmlLoader.load();
 		} catch (IOException e) {
-		    e.printStackTrace();
+		    Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
 		}
-
 	    }
 
 	    title.setText(series.getTitle());
@@ -55,19 +56,12 @@ public class SeriesListViewCell extends ListCell<Series> {
 
 	    String imageUrl = series.getPosterPath();
 
-	    //This task will ensure we run the downloading of the image in a background thread
-	    Task<Void> setImageTask = new Task<Void>() {
-		@Override protected Void call() throws Exception {
-		    try(InputStream in = new URL(imageUrl).openStream()) {
-			image.setImage(new Image(in));
-		    } catch (IOException e) {
-			e.printStackTrace();
-		    }
-		    return null;
-		}};
-
-	    //We run each task like this in a new thread to ensure maximum performance
-	    new Thread(setImageTask).start();
+	    //We are utilizing caching to minimize network calls
+	    if(imageHelper.isImageCached(imageUrl)) {
+		image.setImage(imageHelper.getCachedImage(imageUrl));
+	    } else {
+		imageHelper.downloadAndSetImage(imageUrl, image);
+	    }
 
 	    setText(null);
 	    setGraphic(container);

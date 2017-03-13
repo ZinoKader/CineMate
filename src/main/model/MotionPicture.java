@@ -5,9 +5,13 @@ import com.google.gson.annotations.SerializedName;
 import main.api.constants.TmdbConstants;
 
 /**
- * Abstract class for shared values between Movies and TV-series.
+ * This class would be abstract if we didn't need to keep an instance of it in our Person class.
+ * Gson needs to be able to create an instance of MotionPicture so it can serialize to a List of MotionPicture in Person
  */
-public abstract class MotionPicture {
+public class MotionPicture {
+
+    public MotionPicture() {
+    }
 
     @SerializedName("overview")
     private String description;
@@ -65,4 +69,4 @@ public abstract class MotionPicture {
     }
 
 
- }
+}

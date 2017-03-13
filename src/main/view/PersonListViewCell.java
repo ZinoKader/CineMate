@@ -1,19 +1,20 @@
 package main.view;
 
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import main.helpers.ImageHelper;
+import main.helpers.Log;
 import main.model.Person;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
+/**
+ * Cell view for people for the main screen listview. Has to extend ListCell.
+ */
 public class PersonListViewCell extends ListCell<Person> {
 
     @FXML
@@ -23,56 +24,51 @@ public class PersonListViewCell extends ListCell<Person> {
     private Text description;
 
     @FXML
-    private ImageView image;
+    private ImageView imageView;
 
     @FXML
     private HBox container;
 
-    private FXMLLoader mLLoader;
+    private ImageHelper imageHelper = new ImageHelper();
+
+    public PersonListViewCell() {
+	final FXMLLoader mLLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
+	mLLoader.setController(this);
+
+	try {
+	    mLLoader.load();
+	} catch (IOException e) {
+	    Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
+	}
+    }
 
     @Override
     protected void updateItem(Person person, boolean empty) {
-          super.updateItem(person, empty);
+	super.updateItem(person, empty);
 
-          if(empty || person == null) {
-              setText(null);
-              setGraphic(null);
-          } else {
-              if (mLLoader == null) {
-                  mLLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
-                  mLLoader.setController(this);
+	if(empty || person == null) {
+	    setText(null);
+	    setGraphic(null);
+	} else {
 
-                  try {
-                      mLLoader.load();
-                  } catch (IOException e) {
-                      e.printStackTrace();
-                  }
+	    title.setText(person.getName());
 
-              }
 
-              title.setText(person.getName());
-              //description.setText(person.getKnownFor());
+	    //description.setText(person.getKnownFor());
 
-              String imageUrl = person.getProfilePath();
+	    String imageUrl = person.getProfilePath();
 
-              //This task will ensure we run the downloading of the image in a background thread
-              Task<Void> setImageTask = new Task<Void>() {
-		  @Override protected Void call() throws Exception {
-		      try(InputStream in = new URL(imageUrl).openStream()) {
-			  image.setImage(new Image(in));
-		      } catch (IOException e) {
-			  e.printStackTrace();
-		      }
-		      return null;
-		  }};
+	    //We are utilizing caching to minimize network calls
+	    if(imageHelper.isImageCached(imageUrl)) {
+		imageView.setImage(imageHelper.getCachedImage(imageUrl));
+	    } else {
+		imageHelper.downloadAndSetImage(imageUrl, imageView);
+	    }
 
-              //We run each task like this in a new thread to ensure maximum performance
-              new Thread(setImageTask).start();
+	    setText(null);
+	    setGraphic(container);
+	}
 
-	      setText(null);
-              setGraphic(container);
-          }
-
-      }
+    }
 
 }
