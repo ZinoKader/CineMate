@@ -1,10 +1,13 @@
 # CineMate
-CineMate: Your movie companion
+## Your movie companion
 
-Used tools:
+#### Used tools:
 
 *Retrofit*
+<br>
 *Gson*
+<br>
 *TMDB API*
+<br>
 *JavaFX*
 
