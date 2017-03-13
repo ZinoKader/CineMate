@@ -42,6 +42,7 @@ public class PersonListViewCell extends ListCell<Person> {
 	    setText(null);
 	    setGraphic(null);
 	} else {
+	    
 	    if (fxmlLoader == null) {
 		fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
 		fxmlLoader.setController(this);
