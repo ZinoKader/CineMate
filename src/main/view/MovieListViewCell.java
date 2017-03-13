@@ -63,7 +63,6 @@ public class MovieListViewCell extends ListCell<Movie> {
 		imageHelper.downloadAndSetImage(imageUrl, image);
 	    }
 
-
 	    setText(null);
 	    setGraphic(container);
 	}

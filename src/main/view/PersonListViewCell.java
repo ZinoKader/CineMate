@@ -24,23 +24,15 @@ public class PersonListViewCell extends ListCell<Person> {
     private Text description;
 
     @FXML
-    private ImageView imageView;
+    private ImageView image;
 
     @FXML
     private HBox container;
 
+    private FXMLLoader fxmlLoader;
+
     private ImageHelper imageHelper = new ImageHelper();
 
-    public PersonListViewCell() {
-	final FXMLLoader mLLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
-	mLLoader.setController(this);
-
-	try {
-	    mLLoader.load();
-	} catch (IOException e) {
-	    Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
-	}
-    }
 
     @Override
     protected void updateItem(Person person, boolean empty) {
@@ -50,6 +42,15 @@ public class PersonListViewCell extends ListCell<Person> {
 	    setText(null);
 	    setGraphic(null);
 	} else {
+	    if (fxmlLoader == null) {
+		fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
+		fxmlLoader.setController(this);
+		try {
+		    fxmlLoader.load();
+		} catch (IOException e) {
+		    Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
+		}
+	    }
 
 	    title.setText(person.getName());
 
@@ -60,9 +61,9 @@ public class PersonListViewCell extends ListCell<Person> {
 
 	    //We are utilizing caching to minimize network calls
 	    if(imageHelper.isImageCached(imageUrl)) {
-		imageView.setImage(imageHelper.getCachedImage(imageUrl));
+		image.setImage(imageHelper.getCachedImage(imageUrl));
 	    } else {
-		imageHelper.downloadAndSetImage(imageUrl, imageView);
+		imageHelper.downloadAndSetImage(imageUrl, image);
 	    }
 
 	    setText(null);
