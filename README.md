@@ -1,13 +1,14 @@
-# CineMate
-## Your movie companion
+![CineMate](https://www.zinokader.se/img/CineMate_Logo.png)
 
-#### Used tools:
+<br>
 
-*Retrofit*
+<b>Used tools:</b>
+
+* Retrofit
 <br>
-*Gson*
+* Gson
 <br>
-*TMDB API*
+* TMDB API
 <br>
-*JavaFX*
+* JavaFX
 
