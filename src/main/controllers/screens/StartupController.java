@@ -1,19 +1,20 @@
 package main.controllers.screens;
 
+import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import main.CineMateApplication;
-import main.api.ApiService;
 import main.api.ApiAdapater;
+import main.api.ApiService;
 import main.config.UserSettings;
 import main.controllers.ControlledScreen;
 import main.controllers.ScreenController;
 import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
+import main.helpers.MessageHelper;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -24,28 +25,32 @@ import java.util.ResourceBundle;
 /**
  * Controller for startup screen. Handles implementations of logic.
  */
-public class StartupController implements Initializable, ControlledScreen
-{
+public class StartupController implements Initializable, ControlledScreen {
 
     private ScreenController screenController;
-    private UserSettings settings = null;
+    private UserSettings settings;
+    private MessageHelper messageHelper;
     private ApiAdapater apiAdapater = new ApiAdapater();
     private ApiService apiService = apiAdapater.getService();
 
     //@FXML exposes the fields to the fxml file while keeping the fields private, nice!
 
     @FXML
-    private TextField apiKeyTextField;
+    private VBox startupPane;
 
     @FXML
-    private Label entryValidityStatusText;
+    private JFXTextField apiKeyTextField;
 
     @Override public void initialize(final URL location, final ResourceBundle resources) {
+
+        messageHelper = new MessageHelper(startupPane);
+
 	try {
 	    settings = new UserSettings();
 	} catch (PropertyLoadException e) {
 	    e.printStackTrace();
 	}
+
 	assert settings != null;
 
 	String apiKey = "";
@@ -58,7 +63,7 @@ public class StartupController implements Initializable, ControlledScreen
 	//FOR DEBUGGING: APIKEY 4b45808a4d1a83471866761a8d7e5325
 	//We can continue with logging in if the API key has been set before already
 	if(apiKey != null && !apiKey.equals("null") && !apiKey.isEmpty()) {
-	    System.out.println("Api key is already stored, going to main screen! Key: " + apiKey);
+	    messageHelper.showMessage("Api key is already stored, going to main screen! Key: " + apiKey);
 	    goToMainScreen();
 	}
 
@@ -74,13 +79,13 @@ public class StartupController implements Initializable, ControlledScreen
 		//UI can't be updated from non-application thread, run this later on the UI thread.
 		//Set API key in properties file, so the user only needs to enter it once.
 		settings.setApiKey(apiKeyTextField.getText());
-		Platform.runLater( () -> entryValidityStatusText.setText("Success! You're being logged in..."));
+		Platform.runLater( () -> messageHelper.showMessage("Success! You're being logged in..."));
 	        goToMainScreen();
 	    }
 
 	    @Override public void failure(final RetrofitError retrofitError) {
 		// -11-
-	        Platform.runLater( () -> entryValidityStatusText.setText("Your API key is incorrect or invalid."));
+	        Platform.runLater( () -> messageHelper.showMessage("Your API key is incorrect or invalid"));
 	    }
 	});
     }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -22,13 +22,13 @@
             <Insets left="175.0" top="20.0" />
          </VBox.margin>
       </ImageView>
-      <ToolBar prefHeight="40.0" prefWidth="200.0">
+      <ToolBar prefHeight="50.0" prefWidth="200.0">
         <items>
             <HBox alignment="CENTER" spacing="20.0">
-                <ChoiceBox fx:id="searchTypeBox" prefWidth="150.0" />
-                <TextField fx:id="searchTextField" promptText="Search for...">
-                </TextField>
-                <Button onAction="#searchButtonPressed" text="Search" />
+                <JFXComboBox fx:id="searchTypeBox" prefWidth="150.0" />
+                <JFXTextField fx:id="searchTextField" promptText="Search for...">
+                </JFXTextField>
+                <JFXButton onAction="#searchButtonPressed" text="Search" />
                <padding>
                   <Insets left="145.0" />
                </padding>
@@ -39,12 +39,9 @@
          </VBox.margin>
       </ToolBar>
        <StackPane fx:id="searchPane">
-           <ListView fx:id="movieListView" minHeight="620.0" />
-           <ListView fx:id="seriesListView" minHeight="620.0" />
-           <ListView fx:id="personListView" minHeight="620.0" />
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
+           <JFXListView fx:id="movieListView" minHeight="620.0" />
+           <JFXListView fx:id="seriesListView" minHeight="620.0" />
+           <JFXListView fx:id="personListView" minHeight="620.0" />
        </StackPane>
    </children>
 </VBox>

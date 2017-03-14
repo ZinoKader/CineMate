@@ -7,11 +7,49 @@
 
 * {
     -fx-font-family: "Raleway";
+    -jfx-focus-color: #000000;
+    -jfx-rippler-fill: #323232;
+}
+
+.jfx-button {
+    -jfx-button-type: RAISED;
+    -fx-font-size: 12px;
+    -fx-background-color: rgb(49, 49, 49);
+    -jfx-rippler-fill: #fafafa;
+    -fx-text-fill: WHITE;
+}
+
+.jfx-button:hover {
+    -fx-background-color: WHITE;
+    -fx-text-fill: rgb(49, 49, 49);
+}
+
+.combo-box-popup > .list-view {
+    -fx-background-color: #fafafa;
+}
+
+.combo-box-popup *.list-cell {
+    -fx-background: #fafafa;
+    -fx-selection-bar: #ababab;
+    -fx-cell-focus-inner-border: rgba(0, 0, 0, 0);
 }
 
 .tool-bar {
     /* We want the toolbar to have the same bg color as the rest of the window */
     -fx-background-color: inherit;
+}
+
+/* Change selected item color */
+.jfx-list-view .jfx-list-cell:selected {
+    -fx-background-color: #323232;
+}
+
+.jfx-list-cell {
+    -fx-background-insets: 0;
+}
+
+.jfx-list-cell .jfx-rippler {
+    -fx-rippler-fill: #121212;
 }
 
 /* Remove focus highlighting of listview */
@@ -24,7 +62,17 @@
     -fx-font: 23px Raleway !important;
 }
 
+/* Styling for our descriptions in the main listview */
 #description {
     -fx-font: 12px Raleway !important;
     -fx-max-height: 100px;
+}
+
+/* styling for message popup (snackbar) throughout the app */
+.jfx-snackbar-content {
+    -fx-background-color: #323232;
+}
+
+.jfx-snackbar-toast {
+    -fx-text-fill: #fafafa;
 }

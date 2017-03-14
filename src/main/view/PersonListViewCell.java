@@ -1,9 +1,9 @@
 package main.view;
 
+import com.jfoenix.controls.JFXListCell;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import main.helpers.ImageHelper;
@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Cell view for people for the main screen listview. Has to extend ListCell.
  */
-public class PersonListViewCell extends ListCell<Person> {
+public class PersonListViewCell extends JFXListCell<Person> {
 
     @FXML
     private Label title;
@@ -35,7 +35,7 @@ public class PersonListViewCell extends ListCell<Person> {
 
 
     @Override
-    protected void updateItem(Person person, boolean empty) {
+    public void updateItem(Person person, boolean empty) {
 	super.updateItem(person, empty);
 
 	if(empty || person == null) {

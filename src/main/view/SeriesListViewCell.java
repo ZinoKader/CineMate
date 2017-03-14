@@ -1,9 +1,9 @@
 package main.view;
 
+import com.jfoenix.controls.JFXListCell;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import main.helpers.ImageHelper;
@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Cell view for series for the main screen listview. Has to extend ListCell.
  */
-public class SeriesListViewCell extends ListCell<Series> {
+public class SeriesListViewCell extends JFXListCell<Series> {
 
     @FXML
     private Label title;
@@ -34,7 +34,7 @@ public class SeriesListViewCell extends ListCell<Series> {
     private ImageHelper imageHelper = new ImageHelper();
 
     @Override
-    protected void updateItem(Series series, boolean empty) {
+    public void updateItem(Series series, boolean empty) {
 	super.updateItem(series, empty);
 
 	if(empty || series == null) {

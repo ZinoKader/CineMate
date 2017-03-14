@@ -28,6 +28,7 @@
         <element id="library" level="project" name="com.squareup.retrofit:retrofit:1.8.0" />
         <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-core:2.0.6" />
         <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-annotations:2.0.4" />
+        <element id="library" level="project" name="com.jfoenix:jfoenix:1.2.0" />
       </element>
     </root>
   </artifact>

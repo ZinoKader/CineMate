@@ -1,5 +1,8 @@
 package main.controllers.screens;
 
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextField;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -7,9 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import main.api.ApiAdapater;
@@ -19,6 +20,7 @@ import main.controllers.ControlledScreen;
 import main.controllers.ScreenController;
 import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
+import main.helpers.MessageHelper;
 import main.model.MediaType;
 import main.model.Movie;
 import main.model.Person;
@@ -39,67 +41,68 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable, ControlledScreen {
 
     @FXML
-    private TextField searchTextField;
+    private JFXTextField searchTextField;
 
     @FXML
-    private ChoiceBox<SEARCHTYPE> searchTypeBox;
-
-    private SEARCHTYPE currentSearchType;
-    private ScreenController screenController;
-    private UserSettings userSettings;
-
-    private ApiAdapater apiAdapter;
-    private ApiService apiService;
-
+    private JFXComboBox<SearchType> searchTypeBox;
 
     @FXML
     private StackPane searchPane;
 
     @FXML
-    private ListView<Movie> movieListView;
+    private JFXListView<Movie> movieListView;
     private static final String MOVIE_LW_FX_ID = "movieListView";
 
     @FXML
-    private ListView<Series> seriesListView;
+    private JFXListView<Series> seriesListView;
     private static final String SERIES_LW_FX_ID = "seriesListView";
 
     @FXML
-    private ListView<Person> personListView;
+    private JFXListView<Person> personListView;
     private static final String PERSON_LW_FX_ID = "personListView";
 
 
     private ObservableList<Movie> movieObservableList = FXCollections.observableArrayList();
-
     private ObservableList<Series> seriesObservableList = FXCollections.observableArrayList();
-
     private ObservableList<Person> personObservableList = FXCollections.observableArrayList();
+
+    private SearchType currentSearchType;
+    private ScreenController screenController;
+    private UserSettings userSettings;
+    private MessageHelper messageHelper;
+    private ApiAdapater apiAdapter;
+    private ApiService apiService;
+
+    private static final Map<Integer, SearchType> SEARCH_TYPE_INDICES = new HashMap<>();
+    private static final Map<MediaType, Integer> LISTVIEW_ORDER = new HashMap<>();
 
     /**
      * Types of objects you can search for in the searchfield
      */
-    public enum SEARCHTYPE {
+    public enum SearchType {
 	MOVIES, SERIES, PEOPLE
     }
 
-    private static final Map<Integer, SEARCHTYPE> SEARCH_TYPE_INDICES = new HashMap<>();
-    private static final Map<MediaType, Integer> LIST_VIEW_ORDER = new HashMap<>();
 
     @Override public void initialize(final URL location, final ResourceBundle resources) {
+
 	//init our choicebox with possible values. We add these items as observables so changes are broadcasted.
-	searchTypeBox.setItems(FXCollections.observableArrayList(SEARCHTYPE.MOVIES, SEARCHTYPE.SERIES, SEARCHTYPE.PEOPLE));
+	searchTypeBox.setItems(FXCollections.observableArrayList(SearchType.MOVIES, SearchType.SERIES, SearchType.PEOPLE));
 
-	SEARCH_TYPE_INDICES.put(0, SEARCHTYPE.MOVIES);
-	SEARCH_TYPE_INDICES.put(1, SEARCHTYPE.SERIES);
-	SEARCH_TYPE_INDICES.put(2, SEARCHTYPE.PEOPLE);
+	SEARCH_TYPE_INDICES.put(0, SearchType.MOVIES);
+	SEARCH_TYPE_INDICES.put(1, SearchType.SERIES);
+	SEARCH_TYPE_INDICES.put(2, SearchType.PEOPLE);
 
-	LIST_VIEW_ORDER.put(MediaType.MOVIE, 0);
-	LIST_VIEW_ORDER.put(MediaType.SERIES, 1);
-	LIST_VIEW_ORDER.put(MediaType.PERSON, 2);
+	LISTVIEW_ORDER.put(MediaType.MOVIE, 0);
+	LISTVIEW_ORDER.put(MediaType.SERIES, 1);
+	LISTVIEW_ORDER.put(MediaType.PERSON, 2);
 
 	listenToSearchTypeChanges();
 	listenToItemClicks(movieListView);
 	listenToItemClicks(seriesListView);
 	listenToItemClicks(personListView);
+
+	messageHelper = new MessageHelper(searchPane);
 
 	try {
 	    userSettings = new UserSettings();
@@ -114,7 +117,7 @@ public class MainController implements Initializable, ControlledScreen {
 	searchTypeBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 	    @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 		currentSearchType = SEARCH_TYPE_INDICES.get(newValue);
-		searchTextField.setPromptText("Search for " + SEARCH_TYPE_INDICES.get(newValue).toString().toLowerCase());
+		searchTextField.setPromptText("Search for " + currentSearchType.toString().toLowerCase());
 	    }
 	});
     }
@@ -150,46 +153,48 @@ public class MainController implements Initializable, ControlledScreen {
 	    apiQueries.put("query", searchQuery);
 
 	    handleSearch(apiQueries);
-
 	} else {
-	    System.out.println("You need to choose a search type and enter a query to search.");
+	    messageHelper.showMessage("You need to choose a search type and enter a query to search");
 	}
     }
 
     private void handleSearch(Map<String, String> apiQueries) {
 
         //All of our search objects implement TmdbObject, "? extends ..." really means "is a subclass of ..."
-	ResultsPager<? extends TmdbObject> searchResults;
+	ResultsPager<? extends TmdbObject> searchResults = null;
 
 	switch(currentSearchType) {
 	    case MOVIES:
-		searchResults = apiService.searchMovies(apiQueries);
-		List<Movie> movies = (List<Movie>) searchResults.getResults();
-		populateList(movies);
+		searchResults = apiService.searchMovies(apiQueries);;
 		break;
 	    case SERIES:
 	        searchResults = apiService.searchSeries(apiQueries);
-		List<Series> series = (List<Series>) searchResults.getResults();
-		populateList(series);
 	        break;
 	    case PEOPLE:
 	        searchResults = apiService.searchPeople(apiQueries);
-		List<Person> people = (List<Person>) searchResults.getResults();
-		populateList(people);
+	        break;
+	}
+
+	if(!searchResults.getResults().isEmpty()) {
+	    populateList(searchResults.getResults());
+	} else {
+	    messageHelper.showMessage("No results for this query");
 	}
 
     }
 
     private void populateList(List<? extends TmdbObject> listObjects) {
-	MediaType mediaType = listObjects.get(0).getMediaType();
+
 	int searchPaneIndex = 0;
+	MediaType mediaType = listObjects.get(0).getMediaType();
+
         switch(mediaType) {
 	    case MOVIE:
 		movieObservableList.clear();
   		movieObservableList.addAll((Collection<? extends Movie>) listObjects);
 		movieListView.setItems(movieObservableList);
 		movieListView.setCellFactory(listView -> new MovieListViewCell());
-		for(int i = 0; i < 3; i++) { //find the index in the stackpane of our desired listview to show
+		for(int i = 0; i < searchPane.getChildren().size() - 1; i++) { //find the index in the stackpane of our desired listview to show
 		    if(searchPane.getChildren().get(i).getId().equals(MOVIE_LW_FX_ID)) {
 			searchPaneIndex = i;
 			break;
@@ -201,7 +206,7 @@ public class MainController implements Initializable, ControlledScreen {
   		seriesObservableList.addAll((Collection<? extends Series>) listObjects);
 		seriesListView.setItems(seriesObservableList);
 		seriesListView.setCellFactory(listView -> new SeriesListViewCell());
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < searchPane.getChildren().size() - 1; i++) {
 		    if(searchPane.getChildren().get(i).getId().equals(SERIES_LW_FX_ID)) {
 			searchPaneIndex = i;
 			break;
@@ -213,7 +218,7 @@ public class MainController implements Initializable, ControlledScreen {
 		personObservableList.addAll((Collection<? extends Person>) listObjects);
 		personListView.setItems(personObservableList);
 		personListView.setCellFactory(listView -> new PersonListViewCell());
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < searchPane.getChildren().size() - 1; i++) {
 		    if(searchPane.getChildren().get(i).getId().equals(PERSON_LW_FX_ID)) {
 			searchPaneIndex = i;
 			break;
