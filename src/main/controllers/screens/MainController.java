@@ -4,11 +4,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import main.api.ApiAdapater;
 import main.api.ApiService;
@@ -85,13 +87,19 @@ public class MainController implements Initializable, ControlledScreen {
     @Override public void initialize(final URL location, final ResourceBundle resources) {
 	//init our choicebox with possible values. We add these items as observables so changes are broadcasted.
 	searchTypeBox.setItems(FXCollections.observableArrayList(SEARCHTYPE.MOVIES, SEARCHTYPE.SERIES, SEARCHTYPE.PEOPLE));
-	listenToSearchTypeChanges();
+
 	SEARCH_TYPE_INDICES.put(0, SEARCHTYPE.MOVIES);
 	SEARCH_TYPE_INDICES.put(1, SEARCHTYPE.SERIES);
 	SEARCH_TYPE_INDICES.put(2, SEARCHTYPE.PEOPLE);
+
 	LIST_VIEW_ORDER.put(MediaType.MOVIE, 0);
 	LIST_VIEW_ORDER.put(MediaType.SERIES, 1);
 	LIST_VIEW_ORDER.put(MediaType.PERSON, 2);
+
+	listenToSearchTypeChanges();
+	listenToItemClicks(movieListView);
+	listenToItemClicks(seriesListView);
+	listenToItemClicks(personListView);
 
 	try {
 	    userSettings = new UserSettings();
@@ -107,6 +115,25 @@ public class MainController implements Initializable, ControlledScreen {
 	    @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 		currentSearchType = SEARCH_TYPE_INDICES.get(newValue);
 		searchTextField.setPromptText("Search for " + SEARCH_TYPE_INDICES.get(newValue).toString().toLowerCase());
+	    }
+	});
+    }
+
+    private void listenToItemClicks(ListView<?> listView) {
+        listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	    @Override public void handle(final MouseEvent event) {
+		if(event.getClickCount() == 2) {
+		    switch(currentSearchType) {
+			case MOVIES:
+			    Movie selectedMovie = movieListView.getSelectionModel().getSelectedItem();
+			    break;
+			case SERIES:
+			    Series selectedSeries = seriesListView.getSelectionModel().getSelectedItem();
+ 			    break;
+			case PEOPLE:
+			    Person selectedPerson = personListView.getSelectionModel().getSelectedItem();
+		    }
+		}
 	    }
 	});
     }
@@ -132,7 +159,7 @@ public class MainController implements Initializable, ControlledScreen {
     private void handleSearch(Map<String, String> apiQueries) {
 
         //All of our search objects implement TmdbObject, "? extends ..." really means "is a subclass of ..."
-	ResultsPager<? extends TmdbObject> searchResults = null;
+	ResultsPager<? extends TmdbObject> searchResults;
 
 	switch(currentSearchType) {
 	    case MOVIES:
@@ -165,6 +192,7 @@ public class MainController implements Initializable, ControlledScreen {
 		for(int i = 0; i < 3; i++) { //find the index in the stackpane of our desired listview to show
 		    if(searchPane.getChildren().get(i).getId().equals(MOVIE_LW_FX_ID)) {
 			searchPaneIndex = i;
+			break;
 		    }
 		}
 	        break;
@@ -176,6 +204,7 @@ public class MainController implements Initializable, ControlledScreen {
 		for(int i = 0; i < 3; i++) {
 		    if(searchPane.getChildren().get(i).getId().equals(SERIES_LW_FX_ID)) {
 			searchPaneIndex = i;
+			break;
 		    }
 		}
 	        break;
@@ -187,6 +216,7 @@ public class MainController implements Initializable, ControlledScreen {
 		for(int i = 0; i < 3; i++) {
 		    if(searchPane.getChildren().get(i).getId().equals(PERSON_LW_FX_ID)) {
 			searchPaneIndex = i;
+			break;
 		    }
 		}
 	        break;

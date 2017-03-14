@@ -9,15 +9,18 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.StackPane?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.screens.MainController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitWidth="450.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@/image/logo.png" />
          </image>
+         <VBox.margin>
+            <Insets left="175.0" top="20.0" />
+         </VBox.margin>
       </ImageView>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
@@ -31,11 +34,17 @@
                </padding>
             </HBox>
         </items>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
       </ToolBar>
        <StackPane fx:id="searchPane">
            <ListView fx:id="movieListView" minHeight="620.0" />
            <ListView fx:id="seriesListView" minHeight="620.0" />
            <ListView fx:id="personListView" minHeight="620.0" />
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
        </StackPane>
    </children>
 </VBox>

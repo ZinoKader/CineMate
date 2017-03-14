@@ -13,3 +13,18 @@
     /* We want the toolbar to have the same bg color as the rest of the window */
     -fx-background-color: inherit;
 }
+
+/* Remove focus highlighting of listview */
+.list-view:focused {
+    -fx-focus-color: transparent;
+}
+
+/* Styling for our titles in the main listview */
+#title {
+    -fx-font: 23px Raleway !important;
+}
+
+#description {
+    -fx-font: 12px Raleway !important;
+    -fx-max-height: 100px;
+}

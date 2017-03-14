@@ -2,10 +2,10 @@ package main.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import main.helpers.ImageHelper;
 import main.helpers.Log;
 import main.model.Movie;
@@ -18,10 +18,10 @@ import java.io.IOException;
 public class MovieListViewCell extends ListCell<Movie> {
 
     @FXML
-    private Text title;
+    private Label title;
 
     @FXML
-    private Text description;
+    private Label description;
 
     @FXML
     private ImageView image;

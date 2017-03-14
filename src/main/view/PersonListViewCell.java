@@ -2,10 +2,10 @@ package main.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import main.helpers.ImageHelper;
 import main.helpers.Log;
 import main.model.Person;
@@ -18,10 +18,10 @@ import java.io.IOException;
 public class PersonListViewCell extends ListCell<Person> {
 
     @FXML
-    private Text title;
+    private Label title;
 
     @FXML
-    private Text description;
+    private Label description;
 
     @FXML
     private ImageView image;
@@ -42,7 +42,6 @@ public class PersonListViewCell extends ListCell<Person> {
 	    setText(null);
 	    setGraphic(null);
 	} else {
-	    
 	    if (fxmlLoader == null) {
 		fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
 		fxmlLoader.setController(this);
