@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 /**
  * Controller for startup screen. Handles implementations of logic.
  */
-public class StartupController implements Initializable, ControlledScreen {
+public class StartupScreenController implements Initializable, ControlledScreen {
 
     private ScreenController screenController;
     private UserSettings settings;

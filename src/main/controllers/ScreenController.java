@@ -9,12 +9,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.CineMateApplication;
+import main.helpers.Log;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Holds screens. Extends StackPane to be able to easily identify and remove screens that are no longer displayed.
@@ -44,7 +48,7 @@ public class ScreenController extends StackPane {
 	    addScreen(screenName, screenToLoad);
 	    return true;
 	} catch (IOException e) {
-	    e.printStackTrace();
+            Log.debug("Crashed while loading screen: " + e.getCause());
 	    return false;
 	}
     }
@@ -53,7 +57,7 @@ public class ScreenController extends StackPane {
         if(screens.remove(screenName) != null) {
             return true;
 	} else {
-	    System.out.println("There was no screen with this name to remove.");
+	    Log.debug("There was no screen with this name to remove.");
 	    return false;
 	}
     }
@@ -85,6 +89,19 @@ public class ScreenController extends StackPane {
 	        playFadeIn(screenOpacity);
 	    }
 
+	}
+    }
+
+    public void setNewPopupWindow(String fxmlFile, List<?> passedData) {
+	try {
+	    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
+	    Stage stage = new Stage();
+	    stage.setScene(new Scene(fxmlLoader.load()));
+	    ControlledWindow windowController = fxmlLoader.getController();
+	    windowController.setPassedData(passedData);
+	    stage.show();
+	} catch (IOException e) {
+	    Log.debug("Crashed while loading popup window: " + e.getCause());
 	}
     }
 

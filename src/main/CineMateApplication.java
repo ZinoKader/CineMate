@@ -15,9 +15,10 @@ import main.helpers.Log;
 public class CineMateApplication extends Application {
 
 
-    private static Stage primaryStage;
+    private static Stage primaryStage = null;
 
     private static final int DEFAULT_FONT_SIZE = 12;
+    private static final String RALEWAY_PATH = "/font/Raleway.ttf";
 
     //made public so we can reach them from controllers
     public static final String STARTUP_SCREEN_ID = "screen1";
@@ -25,16 +26,19 @@ public class CineMateApplication extends Application {
     public static final String MAIN_SCREEN_ID = "screen2";
     public static final String MAIN_SCREEN_FXML = "/fxml/main.fxml";
 
+    public static final String MOVIE_WINDOW_FXML = "/fxml/movie_window.fxml";
+    public static final String PERSON_WINDOW_FXML = "/fxml/person_window.fxml";
+
     public CineMateApplication() {
 
     }
 
-    @Override public void start(Stage primaryStage) throws Exception {
+    @Override public void start(Stage stage) throws Exception {
 
 	Log.DEBUG(); //set logging level to DEBUG as default
 
-	CineMateApplication.primaryStage = primaryStage;
-	Font.loadFont(getClass().getResource("/font/Raleway.ttf").toExternalForm(), DEFAULT_FONT_SIZE);
+	primaryStage = stage;
+	Font.loadFont(getClass().getResource(RALEWAY_PATH).toExternalForm(), DEFAULT_FONT_SIZE);
 
 	ScreenController screenContainer = new ScreenController();
 

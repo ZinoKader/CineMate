@@ -21,6 +21,7 @@ import main.controllers.ScreenController;
 import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
 import main.helpers.MessageHelper;
+import main.helpers.QueryHelper;
 import main.model.MediaType;
 import main.model.Movie;
 import main.model.Person;
@@ -32,13 +33,16 @@ import main.view.PersonListViewCell;
 import main.view.SeriesListViewCell;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class MainController implements Initializable, ControlledScreen {
+import static main.CineMateApplication.MOVIE_WINDOW_FXML;
+
+public class MainScreenController implements Initializable, ControlledScreen {
 
     @FXML
     private JFXTextField searchTextField;
@@ -75,6 +79,7 @@ public class MainController implements Initializable, ControlledScreen {
 
     private static final Map<Integer, SearchType> SEARCH_TYPE_INDICES = new HashMap<>();
     private static final Map<MediaType, Integer> LISTVIEW_ORDER = new HashMap<>();
+    private static final int DOUBLE_CLICK_COUNT = 2;
 
     /**
      * Types of objects you can search for in the searchfield
@@ -86,7 +91,7 @@ public class MainController implements Initializable, ControlledScreen {
 
     @Override public void initialize(final URL location, final ResourceBundle resources) {
 
-	//init our choicebox with possible values. We add these items as observables so changes are broadcasted.
+	//init our choicebox with possible values. We add these items as observables so changes are broadcasted
 	searchTypeBox.setItems(FXCollections.observableArrayList(SearchType.MOVIES, SearchType.SERIES, SearchType.PEOPLE));
 
 	SEARCH_TYPE_INDICES.put(0, SearchType.MOVIES);
@@ -125,10 +130,13 @@ public class MainController implements Initializable, ControlledScreen {
     private void listenToItemClicks(ListView<?> listView) {
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	    @Override public void handle(final MouseEvent event) {
-		if(event.getClickCount() == 2) {
+		if(event.getClickCount() == DOUBLE_CLICK_COUNT) {
 		    switch(currentSearchType) {
 			case MOVIES:
 			    Movie selectedMovie = movieListView.getSelectionModel().getSelectedItem();
+			    List<Movie> movies = new ArrayList<>();
+			    movies.add(selectedMovie);
+			    screenController.setNewPopupWindow(MOVIE_WINDOW_FXML, movies);
 			    break;
 			case SERIES:
 			    Series selectedSeries = seriesListView.getSelectionModel().getSelectedItem();
@@ -143,16 +151,7 @@ public class MainController implements Initializable, ControlledScreen {
 
     public void searchButtonPressed() throws PropertyAccessException {
 	if(!searchTextField.getText().isEmpty() && currentSearchType != null) {
-
-	    String searchQuery = searchTextField.getText();
-	    Map<String, String> apiQueries = new HashMap<>();
-
-	    //TODO: Remove this when compiling
-	    apiQueries.put("api_key", "4b45808a4d1a83471866761a8d7e5325");
-	    //and replace with this: apiQueries.put("api_key", userSettings.getApiKey());
-	    apiQueries.put("query", searchQuery);
-
-	    handleSearch(apiQueries);
+	    handleSearch(QueryHelper.createQueryMap(userSettings.getApiKey(), searchTextField.getText()));
 	} else {
 	    messageHelper.showMessage("You need to choose a search type and enter a query to search");
 	}
@@ -161,32 +160,36 @@ public class MainController implements Initializable, ControlledScreen {
     private void handleSearch(Map<String, String> apiQueries) {
 
         //All of our search objects implement TmdbObject, "? extends ..." really means "is a subclass of ..."
-	ResultsPager<? extends TmdbObject> searchResults = null;
+	ResultsPager<? extends TmdbObject> searchResults = new ResultsPager<>();
+	MediaType mediaType = MediaType.NONE;
 
 	switch(currentSearchType) {
 	    case MOVIES:
-		searchResults = apiService.searchMovies(apiQueries);;
+	        mediaType = MediaType.MOVIE;
+		searchResults = apiService.searchMovies(apiQueries);
 		break;
 	    case SERIES:
+	        mediaType = MediaType.SERIES;
 	        searchResults = apiService.searchSeries(apiQueries);
 	        break;
 	    case PEOPLE:
+	        mediaType = MediaType.PERSON;
 	        searchResults = apiService.searchPeople(apiQueries);
 	        break;
 	}
 
 	if(!searchResults.getResults().isEmpty()) {
-	    populateList(searchResults.getResults());
+	    populateList(searchResults.getResults(), mediaType);
+	    messageHelper.showMessage("Found " + searchResults.getTotalResults() + " results");
 	} else {
 	    messageHelper.showMessage("No results for this query");
 	}
 
     }
 
-    private void populateList(List<? extends TmdbObject> listObjects) {
+    private void populateList(List<? extends TmdbObject> listObjects, MediaType mediaType) {
 
 	int searchPaneIndex = 0;
-	MediaType mediaType = listObjects.get(0).getMediaType();
 
         switch(mediaType) {
 	    case MOVIE:
