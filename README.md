@@ -5,10 +5,7 @@
 <b>Used tools:</b>
 
 * Retrofit
-<br>
 * Gson
-<br>
 * TMDB API
-<br>
 * JavaFX
 
