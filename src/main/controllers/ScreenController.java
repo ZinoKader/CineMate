@@ -102,6 +102,7 @@ public class ScreenController extends StackPane {
 	    stage.show();
 	} catch (IOException e) {
 	    Log.debug("Crashed while loading popup window: " + e.getCause());
+	    e.printStackTrace();
 	}
     }
 

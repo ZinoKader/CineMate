@@ -1,5 +1,6 @@
 package main.api;
 
+import main.model.AppendedQueries;
 import main.model.Movie;
 import main.model.Person;
 import main.model.ResultsPager;
@@ -49,12 +50,14 @@ public interface ApiService {
 
 
     /**
-     * Gets specific objects
+     * Gets specific objects with more details
      * Since these only require one query, we do not need a QueryMap
-     * These work by specifying
+     * These work by specifying the object id and appending/bundling
+     * several calls to the API to get a lot of details in one request
      */
     @GET("/movie/{movie_id}")
-    Movie getMovie(@Path("movie_id") String movieId, @Query("api_key") String apiKey);
+    Movie getMovieDetailed(@Path("movie_id") String movieId,
+	@Query("append_to_response") AppendedQueries queries, @Query("api_key") String apiKey);
 
 
 }
