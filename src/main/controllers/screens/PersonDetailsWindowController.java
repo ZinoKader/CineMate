@@ -1,8 +1,9 @@
 package main.controllers.screens;
 
+import com.esotericsoftware.minlog.Log;
 import javafx.fxml.Initializable;
+import javafx.stage.Stage;
 import main.controllers.ControlledWindow;
-import main.helpers.Log;
 import main.model.Person;
 
 import java.net.URL;
@@ -18,6 +19,10 @@ public class PersonDetailsWindowController implements Initializable, ControlledW
         for(Person person : people) {
 	    Log.debug(person.getName());
 	}
+    }
+
+    @Override public void setStage(Stage stage) {
+
     }
 
     @Override public void setPassedData(final List<?> passedData) {

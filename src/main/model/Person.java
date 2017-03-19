@@ -1,7 +1,7 @@
 package main.model;
 
 import com.google.gson.annotations.SerializedName;
-import main.api.constants.TmdbConstants;
+import main.constants.TmdbConstants;
 
 import java.util.List;
 

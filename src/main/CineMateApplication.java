@@ -1,12 +1,12 @@
 package main;
 
+import com.esotericsoftware.minlog.Log;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import main.controllers.ScreenController;
-import main.helpers.Log;
 
 
 /**

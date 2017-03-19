@@ -128,9 +128,10 @@ public class MainScreenController implements Initializable, ControlledScreen {
     }
 
     private void listenToItemClicks(ListView<?> listView) {
+
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	    @Override public void handle(final MouseEvent event) {
-		if(event.getClickCount() == DOUBLE_CLICK_COUNT) {
+		if(!listView.getSelectionModel().isEmpty() && event.getClickCount() == DOUBLE_CLICK_COUNT) {
 		    switch(currentSearchType) {
 			case MOVIES:
 			    Movie selectedMovie = movieListView.getSelectionModel().getSelectedItem();

@@ -1,5 +1,6 @@
 package main.helpers;
 
+import com.esotericsoftware.minlog.Log;
 import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,9 +33,9 @@ public class ImageHelper {
 
     /**
      * 	This task will ensure we run the downloading of the image in a background thread
-     *	We run each task like this in a new thread to ensure maximum performance.
-     *	When not settings the image in a bg thread, scrolling would lag as the images would not show
-     *	until they were fully loaded, blocking the UI thread and causing low fps
+     *	This will ensure maximum performance, especially when scrolling
+     *	If not loaded in a BG thread, the downloading would be performed on the UI thread, blocking it
+     *	and causing frame drops
      *
      * @param imageUrl url to the image, will be saved as the key in the image cache
      * @param imageView the view which the image should be set on
@@ -47,6 +48,7 @@ public class ImageHelper {
 		    imageView.setImage(downloadedImage);
 		    addImageToCache(imageUrl, downloadedImage);
 		} catch (IOException e) {
+		    Log.debug("Could not download image. Check your connection. " + "Image: " + imageUrl);
 		    e.printStackTrace();
 		}
 		return null;

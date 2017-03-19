@@ -1,5 +1,6 @@
 package main.view;
 
+import com.esotericsoftware.minlog.Log;
 import com.jfoenix.controls.JFXListCell;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import main.helpers.ImageHelper;
-import main.helpers.Log;
 import main.model.Series;
 
 import java.io.IOException;

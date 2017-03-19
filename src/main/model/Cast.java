@@ -20,4 +20,5 @@ public class Cast extends Person {
     public int getOrder() {
 	return order;
     }
+
 }

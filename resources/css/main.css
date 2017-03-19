@@ -9,6 +9,7 @@
     -fx-font-family: "Raleway";
     -jfx-focus-color: #000000;
     -jfx-rippler-fill: #323232;
+
 }
 
 .jfx-button {
@@ -57,15 +58,54 @@
     -fx-focus-color: transparent;
 }
 
-/* Styling for our titles in the main listview */
+/* Styling for our titles*/
 #title {
     -fx-font: 23px Raleway !important;
 }
 
-/* Styling for our descriptions in the main listview */
+/* Styling for our descriptions */
 #description {
     -fx-font: 12px Raleway !important;
     -fx-max-height: 100px;
+}
+
+
+/* Styling for detail windows */
+
+#detailsTitle {
+    -fx-font: 32px Raleway !important;
+    -fx-text-fill: #fafafa;
+}
+
+#detailsDescription {
+    -fx-font: 15px Raleway !important;
+    -fx-text-fill: #fafafa;
+    -fx-max-height: 100px;
+}
+
+#detailsRating {
+    -fx-font: 24px Raleway !important;
+    -fx-text-fill: #fafafa;
+}
+
+#detailsYear {
+    -fx-font: 20px Raleway !important;
+    -fx-text-fill: #fafafa;
+}
+
+#detailsRuntime {
+    -fx-font: 20px Raleway !important;
+    -fx-text-fill: #fafafa;
+}
+
+/* styling for star ratings */
+
+.rating > .container > .button {
+  -fx-background-image: url("../image/unselected-star.png");
+}
+
+.rating > .container > .button.strong {
+  -fx-background-image: url("../image/selected-star.png");
 }
 
 /* styling for message popup (snackbar) throughout the app */

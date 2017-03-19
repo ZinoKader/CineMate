@@ -8,6 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.shape.SVGPath?>
 <VBox fx:id="startupPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.screens.StartupScreenController">
    <children>
       <ImageView fitHeight="120.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
@@ -33,5 +34,13 @@
             <Insets left="268.0" top="20.0" />
          </VBox.margin>
       </JFXButton>
+      <ImageView fitHeight="47.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/image/powered-by-tmdb.png" />
+         </image>
+         <VBox.margin>
+            <Insets left="30.0" top="80.0" />
+         </VBox.margin>
+      </ImageView>
    </children>
 </VBox>

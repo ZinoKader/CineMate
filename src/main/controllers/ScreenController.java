@@ -1,5 +1,6 @@
 package main.controllers;
 
+import com.esotericsoftware.minlog.Log;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -14,7 +15,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.CineMateApplication;
-import main.helpers.Log;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -96,8 +96,10 @@ public class ScreenController extends StackPane {
 	try {
 	    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
 	    Stage stage = new Stage();
+	    stage.setResizable(false);
 	    stage.setScene(new Scene(fxmlLoader.load()));
 	    ControlledWindow windowController = fxmlLoader.getController();
+	    windowController.setStage(stage);
 	    windowController.setPassedData(passedData);
 	    stage.show();
 	} catch (IOException e) {

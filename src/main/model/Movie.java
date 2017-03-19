@@ -2,6 +2,7 @@ package main.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -29,6 +30,12 @@ public class Movie extends MotionPicture implements TmdbObject {
     @SerializedName("credits")
     private Credits credits;
 
+    @SerializedName("budget")
+    private int budget;
+
+    @SerializedName("revenue")
+    private int revenue;
+
 
     public Movie() {
     }
@@ -53,10 +60,10 @@ public class Movie extends MotionPicture implements TmdbObject {
         return runtime;
     }
 
-    public String getRuntime() {
+    public LocalTime getRuntime() {
         int hours = runtime / MINS_IN_HOUR;
         int minutes = runtime % MINS_IN_HOUR;
-	return hours + " hours" + " and " + minutes + " minutes";
+	return LocalTime.of(hours, minutes);
     }
 
     @Override public MediaType getMediaType() {
@@ -71,4 +78,11 @@ public class Movie extends MotionPicture implements TmdbObject {
         return credits.getCrew();
     }
 
+    public int getBudget() {
+	return budget;
+    }
+
+    public int getRevenue() {
+	return revenue;
+    }
 }

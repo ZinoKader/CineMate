@@ -1,19 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.screens.MovieDetailsWindowController">
-   <children>
-      <ImageView fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@/image/logo.png" />
-         </image>
-         <VBox.margin>
-            <Insets left="175.0" top="20.0" />
-         </VBox.margin>
-      </ImageView>
-   </children>
-</VBox>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.screens.MovieDetailsWindowController">
+    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1198">
+        <children>
+            <StackPane>
+                <ImageView fx:id="detailsBackdrop" fitHeight="400" fitWidth="1250" />
+                <Label fx:id="detailsDescription" prefWidth="850" textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="NEVER" />
+                <Label fx:id="detailsRuntime" wrapText="true" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets left="300.0" top="-145.0" />
+                    </StackPane.margin>
+                </Label>
+                <Label fx:id="detailsYear" wrapText="true" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets left="-300.0" top="-145.0" />
+                    </StackPane.margin>
+                </Label>
+                <Label fx:id="detailsTitle" wrapText="true" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets top="-250.0" />
+                    </StackPane.margin>
+                </Label>
+                <HBox fx:id="detailsStarRatings" alignment="CENTER" maxHeight="30.0" maxWidth="250.0" prefHeight="30.0" prefWidth="250.0" scaleX="0.8" scaleY="0.8">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <StackPane.margin>
+                  <Insets right="-900.0" top="-325.0" />
+               </StackPane.margin></HBox>
+            </StackPane>
+        </children>
+    </VBox>
+</ScrollPane>

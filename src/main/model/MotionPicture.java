@@ -2,7 +2,7 @@ package main.model;
 
 
 import com.google.gson.annotations.SerializedName;
-import main.api.constants.TmdbConstants;
+import main.constants.TmdbConstants;
 
 /**
  * This class would be abstract if we didn't need to keep an instance of it in our Person class.
