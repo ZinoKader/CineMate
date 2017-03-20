@@ -9,6 +9,7 @@
     -fx-font-family: "Raleway";
     -jfx-focus-color: #000000;
     -jfx-rippler-fill: #323232;
+    -fx-accent: rgba(0, 0, 0, 0.85);
 
 }
 
@@ -79,8 +80,8 @@
 
 #detailsDescription {
     -fx-font: 15px Raleway !important;
-    -fx-text-fill: #fafafa;
     -fx-max-height: 100px;
+    -fx-text-fill: #fafafa;
 }
 
 #detailsRating {
@@ -98,6 +99,21 @@
     -fx-text-fill: #fafafa;
 }
 
+.detailsJobLabel {
+    -fx-font: 25px Raleway !important;
+    -fx-text-fill: #000000;
+}
+
+.detailsJobName {
+    -fx-font: 22px Raleway !important;
+    -fx-text-fill: #000000;
+}
+
+#crewList .list-cell {
+    -fx-font: 12px Raleway !important;
+    -fx-alignment: center !important;
+}
+
 /* styling for star ratings */
 
 .rating > .container > .button {
@@ -109,6 +125,7 @@
 }
 
 /* styling for message popup (snackbar) throughout the app */
+
 .jfx-snackbar-content {
     -fx-background-color: #323232;
 }

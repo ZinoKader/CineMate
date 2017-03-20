@@ -31,10 +31,10 @@ public class Movie extends MotionPicture implements TmdbObject {
     private Credits credits;
 
     @SerializedName("budget")
-    private int budget;
+    private double budget;
 
     @SerializedName("revenue")
-    private int revenue;
+    private double revenue;
 
 
     public Movie() {
@@ -78,11 +78,11 @@ public class Movie extends MotionPicture implements TmdbObject {
         return credits.getCrew();
     }
 
-    public int getBudget() {
+    public double getBudget() {
 	return budget;
     }
 
-    public int getRevenue() {
+    public double getRevenue() {
 	return revenue;
     }
 }

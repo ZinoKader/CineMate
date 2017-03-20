@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.screens.MovieDetailsWindowController">
-    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1198">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2000.0" prefWidth="1220" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.screens.MovieDetailsWindowController">
+    <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1998" prefWidth="1197">
         <children>
-            <StackPane>
-                <ImageView fx:id="detailsBackdrop" fitHeight="400" fitWidth="1250" />
-                <Label fx:id="detailsDescription" prefWidth="850" textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="NEVER" />
+
+            <StackPane prefHeight="500">
+                <ImageView fx:id="detailsBackdrop" fitHeight="500" fitWidth="1220" />
+                <Label fx:id="detailsDescription" prefWidth="850" textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets top="100" />
+                    </StackPane.margin>
+                </Label>
                 <Label fx:id="detailsRuntime" wrapText="true" VBox.vgrow="NEVER">
                     <StackPane.margin>
-                        <Insets left="300.0" top="-145.0" />
+                        <Insets left="250.0" top="-75.0" />
                     </StackPane.margin>
                 </Label>
                 <Label fx:id="detailsYear" wrapText="true" VBox.vgrow="NEVER">
                     <StackPane.margin>
-                        <Insets left="-300.0" top="-145.0" />
+                        <Insets left="-250.0" top="-75.0" />
                     </StackPane.margin>
                 </Label>
                 <Label fx:id="detailsTitle" wrapText="true" VBox.vgrow="NEVER">
@@ -30,13 +37,51 @@
                     </StackPane.margin>
                 </Label>
                 <HBox fx:id="detailsStarRatings" alignment="CENTER" maxHeight="30.0" maxWidth="250.0" prefHeight="30.0" prefWidth="250.0" scaleX="0.8" scaleY="0.8">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <StackPane.margin>
-                  <Insets right="-900.0" top="-325.0" />
-               </StackPane.margin></HBox>
+                    <StackPane.margin>
+                        <Insets top="-150.0" />
+                    </StackPane.margin>
+                </HBox>
             </StackPane>
+
+            <StackPane maxHeight="400" maxWidth="1197" minHeight="400" minWidth="1197">
+                <Label alignment="CENTER" styleClass="detailsJobLabel" text="Director" wrapText="true" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets top="-250.0" />
+                    </StackPane.margin>
+                </Label>
+                <ImageView fx:id="detailsDirectorImage" fitHeight="180" fitWidth="128">
+                </ImageView>
+                <Label fx:id="detailsDirectorName" alignment="CENTER" styleClass="detailsJobName" wrapText="true" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets top="250.0" />
+                    </StackPane.margin>
+                </Label>
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+            </StackPane>
+
+            <Separator />
+
+            <StackPane maxHeight="400" maxWidth="1197" minHeight="400" minWidth="1197">
+                <Label alignment="TOP_CENTER" styleClass="detailsJobLabel" text="Other crew" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets top="20.0" />
+                    </StackPane.margin>
+                </Label>
+                <JFXListView fx:id="crewList" maxHeight="300.0" maxWidth="1000" minHeight="300.0" minWidth="1000">
+               <StackPane.margin>
+                  <Insets top="100.0" />
+               </StackPane.margin></JFXListView>
+                <VBox.margin>
+                    <Insets top="50.0" />
+                </VBox.margin>
+            </StackPane>
+
+            <Separator />
+
+
+
         </children>
     </VBox>
 </ScrollPane>

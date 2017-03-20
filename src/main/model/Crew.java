@@ -20,4 +20,5 @@ public class Crew extends Person {
     public String getDepartment() {
 	return department;
     }
+
 }

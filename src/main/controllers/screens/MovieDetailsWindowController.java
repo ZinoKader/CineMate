@@ -1,6 +1,9 @@
 package main.controllers.screens;
 
+import com.jfoenix.controls.JFXListView;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -8,13 +11,16 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import main.api.ApiAdapater;
 import main.api.ApiService;
 import main.constants.DetailsWindowConstants;
 import main.constants.TmdbConstants;
 import main.controllers.ControlledWindow;
+import main.helpers.CrewHelper;
 import main.model.AppendedQueries;
+import main.model.Crew;
 import main.model.Movie;
 import main.model.TmdbQuery;
 import org.controlsfx.control.Rating;
@@ -48,6 +54,15 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
     @FXML
     private ImageView detailsBackdrop;
 
+    @FXML
+    private ImageView detailsDirectorImage;
+
+    @FXML
+    private Label detailsDirectorName;
+
+    @FXML
+    private JFXListView<Label> crewList;
+
     private Stage stage;
 
 
@@ -55,32 +70,69 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
     ApiAdapater apiAdapater;
     ApiService apiService;
 
+    @Override public void setStage(Stage stage) {
+	this.stage = stage;
+    }
+
+    @Override public void setPassedData(final List<?> passedData) {
+	for(Object object : passedData) {
+	    if(object instanceof Movie) {
+		movies.add((Movie) object);
+	    }
+	}
+    }
+
     @Override public void initialize(final URL location, final ResourceBundle resources) {
 	apiAdapater = new ApiAdapater();
 	apiService = apiAdapater.getService();
 
 	//Ensures that we get our data when the window has been initialized and setPassedData() has been called
-	Platform.runLater( () -> setDetailedData(movies.get(0).getId()));
+	Platform.runLater( () -> delegateSetData(movies.get(0).getId()));
     }
 
-    private void setDetailedData(String objectId) {
+    private void delegateSetData(String movieId) {
 	//TODO: Remove manual API key
 	List<TmdbQuery> queries = new ArrayList<>();
 	queries.addAll(Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.SIMILAR, TmdbQuery.VIDEOS));
 	AppendedQueries appendedQueries = new AppendedQueries(queries);
 
-	Movie movie = apiService.getMovieDetailed(objectId, appendedQueries, "4b45808a4d1a83471866761a8d7e5325");
+	Movie movie = apiService.getMovieDetailed(movieId, appendedQueries, "4b45808a4d1a83471866761a8d7e5325");
+	stage.setTitle(movie.getTitle());
 
+	setBaseDetails(movie);
+	setRatings(movie.getAverageRating());
+	setDirector(movie);
+	setCrew(movie);
+    }
+
+    private void setBaseDetails(Movie movie) {
 	detailsTitle.setText(movie.getTitle());
 	detailsDescription.setText(movie.getDescription());
 	detailsYear.setText(movie.getReleaseDate());
 	detailsRuntime.setText(movie.getRuntime().format(DateTimeFormatter.ISO_TIME));
 	detailsBackdrop.setImage(new Image(movie.getBackdropPath()));
 	detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT);
+    }
 
-	setRatings(movie.getAverageRating());
-	stage.setTitle(movie.getTitle());
+    private void setDirector(Movie movie) {
+	Crew director = CrewHelper.filterDirector(movie.getCrew());
+	detailsDirectorName.setText(director.getName());
+	detailsDirectorImage.setImage(new Image(director.getProfilePath()));
+	detailsDirectorImage.setClip(new Circle(
+		detailsDirectorImage.getFitWidth() / 2,
+		detailsDirectorImage.getFitHeight() / 2,
+		detailsDirectorImage.getFitWidth() / 2));
+    }
 
+
+    private void setCrew(Movie movie) {
+        ObservableList<Label> crewTexts = FXCollections.observableArrayList();
+	for(Crew crewMember : movie.getCrew()) {
+	    Label crewText = new Label();
+	    crewText.setText("("+crewMember.getDepartment()+")" + " " + crewMember.getJob() + " : " + crewMember.getName());
+	    crewTexts.add(crewText);
+	}
+	crewList.setItems(crewTexts);
     }
 
     //set star ratings, show tooltip on hover
@@ -99,15 +151,4 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	Tooltip.install(detailsStarRatings, ratingToolTip);
     }
 
-    @Override public void setStage(Stage stage) {
-	this.stage = stage;
-    }
-
-    @Override public void setPassedData(final List<?> passedData) {
-	for(Object object : passedData) {
-	    if(object instanceof Movie) {
-		movies.add((Movie) object);
-	    }
-	}
-    }
 }
