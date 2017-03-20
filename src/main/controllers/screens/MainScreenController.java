@@ -1,5 +1,6 @@
 package main.controllers.screens;
 
+import com.esotericsoftware.minlog.Log;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
@@ -10,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -82,7 +84,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
     private static final int DOUBLE_CLICK_COUNT = 2;
 
     /**
-     * Types of objects you can search for in the searchfield
+     * Types you can search for in the searchfield
      */
     public enum SearchType {
 	MOVIES, SERIES, PEOPLE
@@ -116,6 +118,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
 	}
 	apiAdapter = new ApiAdapater();
 	apiService = apiAdapter.getService();
+
+
     }
 
     private void listenToSearchTypeChanges() {
@@ -129,7 +133,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
     private void listenToItemClicks(ListView<?> listView) {
 
-        listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	    @Override public void handle(final MouseEvent event) {
 		if(!listView.getSelectionModel().isEmpty() && event.getClickCount() == DOUBLE_CLICK_COUNT) {
 		    switch(currentSearchType) {
@@ -148,6 +152,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
 		}
 	    }
 	});
+
     }
 
     public void searchButtonPressed() throws PropertyAccessException {
@@ -181,7 +186,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
 	if(!searchResults.getResults().isEmpty()) {
 	    populateList(searchResults.getResults(), mediaType);
-	    messageHelper.showMessage("Found " + searchResults.getTotalResults() + " results");
 	} else {
 	    messageHelper.showMessage("No results for this query");
 	}
@@ -190,16 +194,22 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
     private void populateList(List<? extends TmdbObject> listObjects, MediaType mediaType) {
 
-	int searchPaneIndex = 0;
+	for(Node node : searchPane.getChildren()) {
+	    Log.debug("IDS: " + node.getId());
+	}
 
+	int searchPaneIndex = 0;
+	List<Node> searchResultListView = searchPane.getChildren();
+
+	//find the index in the stackpane of our desired listview to show (they get shuffled around as they're reordered)
         switch(mediaType) {
 	    case MOVIE:
 		movieObservableList.clear();
   		movieObservableList.addAll((Collection<? extends Movie>) listObjects);
 		movieListView.setItems(movieObservableList);
 		movieListView.setCellFactory(listView -> new MovieListViewCell());
-		for(int i = 0; i < searchPane.getChildren().size() - 1; i++) { //find the index in the stackpane of our desired listview to show
-		    if(searchPane.getChildren().get(i).getId().equals(MOVIE_LW_FX_ID)) {
+		for(int i = 0; i < searchResultListView.size(); i++) {
+		    if(searchResultListView.get(i).getId().equals(MOVIE_LW_FX_ID)) {
 			searchPaneIndex = i;
 			break;
 		    }
@@ -210,8 +220,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
   		seriesObservableList.addAll((Collection<? extends Series>) listObjects);
 		seriesListView.setItems(seriesObservableList);
 		seriesListView.setCellFactory(listView -> new SeriesListViewCell());
-		for(int i = 0; i < searchPane.getChildren().size() - 1; i++) {
-		    if(searchPane.getChildren().get(i).getId().equals(SERIES_LW_FX_ID)) {
+		for(int i = 0; i < searchResultListView.size(); i++) {
+		    if(searchResultListView.get(i).getId().equals(SERIES_LW_FX_ID)) {
 			searchPaneIndex = i;
 			break;
 		    }
@@ -222,8 +232,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
 		personObservableList.addAll((Collection<? extends Person>) listObjects);
 		personListView.setItems(personObservableList);
 		personListView.setCellFactory(listView -> new PersonListViewCell());
-		for(int i = 0; i < searchPane.getChildren().size() - 1; i++) {
-		    if(searchPane.getChildren().get(i).getId().equals(PERSON_LW_FX_ID)) {
+		for(int i = 0; i < searchResultListView.size(); i++) {
+		    if(searchResultListView.get(i).getId().equals(PERSON_LW_FX_ID)) {
 			searchPaneIndex = i;
 			break;
 		    }
@@ -231,6 +241,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
 	        break;
 	}
 
+	Log.debug(String.valueOf(searchPaneIndex));
 	searchPane.getChildren().get(searchPaneIndex).toFront();
 
     }
