@@ -9,7 +9,7 @@ public class TmdbConstants {
      */
     public static final String TMDB_IMAGE_ENDPOINT = "http://image.tmdb.org/t/p/w";
 
-    public static final int DEFAULT_POSTER_SIZE = 300;
+    public static final int DEFAULT_POSTER_SIZE = 500;
     public static final String POSTER_PLACEHOLDER = "https://www.zinokader.se/img/poster_placeholder.png";
 
     public static final int DEFAULT_BACKDROP_SIZE = 1280;

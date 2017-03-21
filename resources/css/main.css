@@ -109,9 +109,21 @@
     -fx-text-fill: #000000;
 }
 
-#crewList .list-cell {
+#crewListView .list-cell {
     -fx-font: 12px Raleway !important;
     -fx-alignment: center !important;
+}
+
+#castListView .list-cell {
+    -fx-alignment: center !important;
+}
+
+#castName {
+    -fx-font: 11px Raleway !important;
+}
+
+#castCharacter {
+    -fx-font: 10px Raleway !important;
 }
 
 /* styling for star ratings */

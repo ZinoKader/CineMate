@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2000.0" prefWidth="1220" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.screens.MovieDetailsWindowController">
-    <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1998" prefWidth="1197">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2500.0" prefWidth="1220" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.screens.MovieDetailsWindowController">
+    <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2498" prefWidth="1197">
         <children>
 
             <StackPane prefHeight="500">
-                <ImageView fx:id="detailsBackdrop" fitHeight="500" fitWidth="1220" />
-                <Label fx:id="detailsDescription" prefWidth="850" textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="NEVER">
+                <ImageView fx:id="detailsBackdrop" fitHeight="700" fitWidth="1280" />
+                <Label fx:id="detailsDescription" alignment="CENTER" contentDisplay="CENTER" prefWidth="850" textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="NEVER">
                     <StackPane.margin>
                         <Insets top="100" />
                     </StackPane.margin>
@@ -63,22 +63,47 @@
 
             <Separator />
 
-            <StackPane maxHeight="400" maxWidth="1197" minHeight="400" minWidth="1197">
-                <Label alignment="TOP_CENTER" styleClass="detailsJobLabel" text="Other crew" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
+            <StackPane maxHeight="450" maxWidth="1197" minHeight="450" minWidth="1197">
+                <Label alignment="TOP_CENTER" styleClass="detailsJobLabel" text="Cast" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
                     <StackPane.margin>
                         <Insets top="20.0" />
                     </StackPane.margin>
                 </Label>
-                <JFXListView fx:id="crewList" maxHeight="300.0" maxWidth="1000" minHeight="300.0" minWidth="1000">
-               <StackPane.margin>
-                  <Insets top="100.0" />
-               </StackPane.margin></JFXListView>
+                <JFXListView fx:id="castListView" maxHeight="350.0" maxWidth="1000" minHeight="350.0" minWidth="1000" orientation="HORIZONTAL">
+                    <StackPane.margin>
+                        <Insets top="100.0" />
+                    </StackPane.margin>
+                </JFXListView>
                 <VBox.margin>
                     <Insets top="50.0" />
                 </VBox.margin>
             </StackPane>
 
-            <Separator />
+            <Separator>
+            <VBox.margin>
+               <Insets top="100.0" />
+            </VBox.margin></Separator>
+
+            <StackPane maxHeight="400" maxWidth="1197" minHeight="400" minWidth="1197">
+                <Label alignment="TOP_CENTER" styleClass="detailsJobLabel" text="Crew" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets top="20.0" />
+                    </StackPane.margin>
+                </Label>
+                <JFXListView fx:id="crewListView" maxHeight="300.0" maxWidth="1000" minHeight="300.0" minWidth="1000">
+               <StackPane.margin>
+                  <Insets top="100.0" />
+               </StackPane.margin>
+                </JFXListView>
+                <VBox.margin>
+                    <Insets top="50.0" />
+                </VBox.margin>
+            </StackPane>
+
+            <Separator>
+            <VBox.margin>
+               <Insets top="100.0" />
+            </VBox.margin></Separator>
 
 
 

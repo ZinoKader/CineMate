@@ -6,44 +6,39 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import main.helpers.ImageHelper;
-import main.model.Person;
+import main.model.Cast;
 
 import java.io.IOException;
 
-/**
- * Cell view for people for the main screen listview. Has to extend ListCell.
- */
-public class PersonListViewCell extends JFXListCell<Person> {
+public class CastListViewCell extends JFXListCell<Cast> {
 
     @FXML
-    private Label title;
+    private ImageView castImage;
 
     @FXML
-    private Label description;
+    private Label castName;
 
     @FXML
-    private ImageView image;
+    private Label castCharacter;
 
     @FXML
-    private HBox container;
+    private VBox container;
 
     private FXMLLoader fxmlLoader;
 
     private ImageHelper imageHelper = new ImageHelper();
 
+    @Override public void updateItem(final Cast cast, final boolean empty) {
+	super.updateItem(cast, empty);
 
-    @Override
-    public void updateItem(Person person, boolean empty) {
-	super.updateItem(person, empty);
-
-	if(empty || person == null) {
+	if (empty || cast == null) {
 	    setText(null);
 	    setGraphic(null);
 	} else {
 	    if (fxmlLoader == null) {
-		fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
+		fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/cast_cell.fxml"));
 		fxmlLoader.setController(this);
 		try {
 		    fxmlLoader.load();
@@ -52,18 +47,16 @@ public class PersonListViewCell extends JFXListCell<Person> {
 		}
 	    }
 
-	    title.setText(person.getName());
+	    castName.setText(cast.getName());
+	    castCharacter.setText("Played: " + cast.getCharacter());
 
-
-	    //description.setText(person.getKnownFor());
-
-	    String imageUrl = person.getProfilePath();
+	    String imageUrl = cast.getProfilePath();
 
 	    //We are utilizing caching to minimize network calls
-	    if(imageHelper.isImageCached(imageUrl)) {
-		image.setImage(imageHelper.getCachedImage(imageUrl));
+	    if (imageHelper.isImageCached(imageUrl)) {
+		castImage.setImage(imageHelper.getCachedImage(imageUrl));
 	    } else {
-		imageHelper.downloadAndSetImage(imageUrl, image, false);
+		imageHelper.downloadAndSetImage(imageUrl, castImage, true);
 	    }
 
 	    setText(null);

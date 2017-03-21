@@ -60,7 +60,7 @@ public class SeriesListViewCell extends JFXListCell<Series> {
 	    if(imageHelper.isImageCached(imageUrl)) {
 		image.setImage(imageHelper.getCachedImage(imageUrl));
 	    } else {
-		imageHelper.downloadAndSetImage(imageUrl, image);
+		imageHelper.downloadAndSetImage(imageUrl, image, false);
 	    }
 
 	    setText(null);

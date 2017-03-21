@@ -20,9 +20,11 @@ import main.constants.TmdbConstants;
 import main.controllers.ControlledWindow;
 import main.helpers.CrewHelper;
 import main.model.AppendedQueries;
+import main.model.Cast;
 import main.model.Crew;
 import main.model.Movie;
 import main.model.TmdbQuery;
+import main.view.CastListViewCell;
 import org.controlsfx.control.Rating;
 
 import java.net.URL;
@@ -61,7 +63,10 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
     private Label detailsDirectorName;
 
     @FXML
-    private JFXListView<Label> crewList;
+    private JFXListView<Cast> castListView;
+
+    @FXML
+    private JFXListView<Label> crewListView;
 
     private Stage stage;
 
@@ -102,6 +107,7 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	setBaseDetails(movie);
 	setRatings(movie.getAverageRating());
 	setDirector(movie);
+	setCast(movie);
 	setCrew(movie);
     }
 
@@ -124,6 +130,12 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 		detailsDirectorImage.getFitWidth() / 2));
     }
 
+    private void setCast(Movie movie) {
+        ObservableList<Cast> castList = FXCollections.observableArrayList();
+        castList.setAll(movie.getCast());
+        castListView.setItems(castList);
+        castListView.setCellFactory(listView -> new CastListViewCell());
+    }
 
     private void setCrew(Movie movie) {
         ObservableList<Label> crewTexts = FXCollections.observableArrayList();
@@ -132,7 +144,7 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	    crewText.setText("("+crewMember.getDepartment()+")" + " " + crewMember.getJob() + " : " + crewMember.getName());
 	    crewTexts.add(crewText);
 	}
-	crewList.setItems(crewTexts);
+	crewListView.setItems(crewTexts);
     }
 
     //set star ratings, show tooltip on hover
