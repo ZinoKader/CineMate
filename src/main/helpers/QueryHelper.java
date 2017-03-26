@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * Helps us keep controllers who need to send query maps to the apiservice clean of abstract code.
+ * Also handles
  */
 public final class QueryHelper {
 

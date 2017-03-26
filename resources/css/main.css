@@ -44,6 +44,7 @@
 /* Change selected item color */
 .jfx-list-view .jfx-list-cell:selected {
     -fx-background-color: #323232;
+    -fx-text-fill: #fafafa !important;
 }
 
 .jfx-list-cell {
@@ -58,6 +59,11 @@
 .list-view:focused {
     -fx-focus-color: transparent;
 }
+
+.jfx-list-cell:selected .label {
+    -fx-text-fill: white;
+}
+
 
 /* Styling for our titles*/
 #title {
@@ -99,7 +105,7 @@
     -fx-text-fill: #fafafa;
 }
 
-.detailsJobLabel {
+.detailsSectionTitle {
     -fx-font: 25px Raleway !important;
     -fx-text-fill: #000000;
 }
@@ -107,6 +113,16 @@
 .detailsJobName {
     -fx-font: 22px Raleway !important;
     -fx-text-fill: #000000;
+}
+
+#detailsBudget {
+    -fx-font: 20px Raleway !important;
+    -fx-text-fill: #fafafa;
+}
+
+#detailsRevenue {
+    -fx-font: 20px Raleway !important;
+    -fx-text-fill: #fafafa;
 }
 
 #crewListView .list-cell {
@@ -124,6 +140,14 @@
 
 #castCharacter {
     -fx-font: 10px Raleway !important;
+}
+
+/* hide scrollbars for horizontal listviews */
+.list-view .scroll-bar:horizontal .increment-arrow,
+.list-view .scroll-bar:horizontal .decrement-arrow,
+.list-view .scroll-bar:horizontal .increment-button,
+.list-view .scroll-bar:horizontal .decrement-button {
+    -fx-padding:0;
 }
 
 /* styling for star ratings */

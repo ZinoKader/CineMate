@@ -4,6 +4,8 @@ package main.model;
 import com.google.gson.annotations.SerializedName;
 import main.constants.TmdbConstants;
 
+import java.util.List;
+
 /**
  * This class would be abstract if we didn't need to keep an instance of it in our Person class.
  * Gson needs to be able to create an instance of MotionPicture so it can serialize to a List of MotionPicture in Person
@@ -19,29 +21,37 @@ public class MotionPicture {
     @SerializedName("vote_average")
     private float averageRating;
 
+    @SerializedName("credits")
+    private Credits credits;
+
     @SerializedName("poster_path")
     private String posterPath;
 
     @SerializedName("backdrop_path")
     private String backdropPath;
 
+    @SerializedName("videos")
+    private VideoResults videos;
+
+    @SerializedName("recommendations")
+    private RecommendationResults recommendations;
+
     public String getDescription() {
 	return description;
     }
 
-    public float getAverageRatingRaw() {
-        return averageRating;
-    }
 
     public String getAverageRating() {
-        if(averageRating == 0.0) {
-            //If the rating is 0.0, more than very likely there just aren't any ratings
-	    //with inheritance magic, we can figure out and print out the specific MotionPicture-type for which...
-	    //...no ratings could be found
-            return "No ratings could be found for this " + this.getClass().getSimpleName().toLowerCase() + ".";
-	} else {
-	    return String.valueOf(averageRating);
-	}
+	return String.valueOf(averageRating);
+    }
+
+
+    public List<Cast> getCast() {
+        return credits.getCast();
+    }
+
+    public List<Crew> getCrew() {
+        return credits.getCrew();
     }
 
     public String getPosterPathRaw() {
@@ -66,6 +76,14 @@ public class MotionPicture {
 	} else {
 	    return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_BACKDROP_SIZE + backdropPath;
 	}
+    }
+
+    public VideoResults getVideoResults() {
+        return videos;
+    }
+
+    public RecommendationResults getRecommendationResults() {
+        return recommendations;
     }
 
 

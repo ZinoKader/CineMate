@@ -10,17 +10,29 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2500.0" prefWidth="1220" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.screens.MovieDetailsWindowController">
-    <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2498" prefWidth="1197">
+<?import javafx.scene.web.WebView?>
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1220" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.screens.MovieDetailsWindowController">
+    <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1197">
         <children>
 
             <StackPane prefHeight="500">
                 <ImageView fx:id="detailsBackdrop" fitHeight="700" fitWidth="1280" />
                 <Label fx:id="detailsDescription" alignment="CENTER" contentDisplay="CENTER" prefWidth="850" textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="NEVER">
                     <StackPane.margin>
-                        <Insets top="100" />
+                        <Insets top="230" />
                     </StackPane.margin>
                 </Label>
+                <Label fx:id="detailsRevenue" wrapText="true" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets top="80" />
+                    </StackPane.margin>
+                </Label>
+                <Label fx:id="detailsBudget" wrapText="true" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets top="20" />
+                    </StackPane.margin>
+                </Label>
+
                 <Label fx:id="detailsRuntime" wrapText="true" VBox.vgrow="NEVER">
                     <StackPane.margin>
                         <Insets left="250.0" top="-75.0" />
@@ -43,8 +55,18 @@
                 </HBox>
             </StackPane>
 
+            <StackPane maxHeight="640" maxWidth="1197" minHeight="640" minWidth="1197">
+                <WebView fx:id="detailsTrailerView" maxWidth="951" maxHeight="580" >
+                    <StackPane.margin>
+                        <Insets top="20" />
+                    </StackPane.margin>
+                </WebView>
+            </StackPane>
+
+            <Separator />
+
             <StackPane maxHeight="400" maxWidth="1197" minHeight="400" minWidth="1197">
-                <Label alignment="CENTER" styleClass="detailsJobLabel" text="Director" wrapText="true" VBox.vgrow="NEVER">
+                <Label alignment="CENTER" styleClass="detailsSectionTitle" text="Director" wrapText="true" VBox.vgrow="NEVER">
                     <StackPane.margin>
                         <Insets top="-250.0" />
                     </StackPane.margin>
@@ -64,7 +86,7 @@
             <Separator />
 
             <StackPane maxHeight="450" maxWidth="1197" minHeight="450" minWidth="1197">
-                <Label alignment="TOP_CENTER" styleClass="detailsJobLabel" text="Cast" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
+                <Label alignment="TOP_CENTER" styleClass="detailsSectionTitle" text="Cast" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
                     <StackPane.margin>
                         <Insets top="20.0" />
                     </StackPane.margin>
@@ -80,20 +102,20 @@
             </StackPane>
 
             <Separator>
-            <VBox.margin>
-               <Insets top="100.0" />
-            </VBox.margin></Separator>
+                <VBox.margin>
+                    <Insets top="100.0" />
+                </VBox.margin></Separator>
 
             <StackPane maxHeight="400" maxWidth="1197" minHeight="400" minWidth="1197">
-                <Label alignment="TOP_CENTER" styleClass="detailsJobLabel" text="Crew" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
+                <Label alignment="TOP_CENTER" styleClass="detailsSectionTitle" text="Crew" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
                     <StackPane.margin>
                         <Insets top="20.0" />
                     </StackPane.margin>
                 </Label>
                 <JFXListView fx:id="crewListView" maxHeight="300.0" maxWidth="1000" minHeight="300.0" minWidth="1000">
-               <StackPane.margin>
-                  <Insets top="100.0" />
-               </StackPane.margin>
+                    <StackPane.margin>
+                        <Insets top="100.0" />
+                    </StackPane.margin>
                 </JFXListView>
                 <VBox.margin>
                     <Insets top="50.0" />
@@ -101,10 +123,22 @@
             </StackPane>
 
             <Separator>
-            <VBox.margin>
-               <Insets top="100.0" />
-            </VBox.margin></Separator>
+                <VBox.margin>
+                    <Insets top="100.0" />
+                </VBox.margin></Separator>
 
+            <StackPane maxHeight="550" maxWidth="1197" minHeight="550" minWidth="1197">
+                <Label alignment="TOP_CENTER" styleClass="detailsSectionTitle" text="Related movies" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets top="60.0" />
+                    </StackPane.margin>
+                </Label>
+                <JFXListView fx:id="relatedMoviesListView" orientation="HORIZONTAL" maxHeight="350">
+                    <StackPane.margin>
+                        <Insets top="80.0" />
+                    </StackPane.margin>
+                </JFXListView>
+            </StackPane>
 
 
         </children>

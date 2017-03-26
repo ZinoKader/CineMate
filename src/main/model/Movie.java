@@ -3,7 +3,6 @@ package main.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.LocalTime;
-import java.util.List;
 
 /**
  * Contains Movie-specific fields.
@@ -26,9 +25,6 @@ public class Movie extends MotionPicture implements TmdbObject {
 
     @SerializedName("release_date")
     private String releaseDate;
-
-    @SerializedName("credits")
-    private Credits credits;
 
     @SerializedName("budget")
     private double budget;
@@ -70,19 +66,21 @@ public class Movie extends MotionPicture implements TmdbObject {
 	return MediaType.MOVIE;
     }
 
-    public List<Cast> getCast() {
-        return credits.getCast();
-    }
-
-    public List<Crew> getCrew() {
-        return credits.getCrew();
-    }
-
     public double getBudget() {
 	return budget;
     }
 
     public double getRevenue() {
 	return revenue;
+    }
+
+    //gets the first video from the available ones that is both a youtube video and of the trailer type
+    public String getTrailerUrl() {
+        for(Video video : getVideoResults().getVideos()) {
+            if(video.isTrailer() && video.isYoutube()) {
+                return video.getVideoUrl();
+	    }
+	}
+	return "";
     }
 }

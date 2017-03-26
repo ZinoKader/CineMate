@@ -6,7 +6,6 @@ import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;

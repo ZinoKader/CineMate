@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXListView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -12,7 +13,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import main.api.ApiAdapater;
 import main.api.ApiService;
 import main.constants.DetailsWindowConstants;
@@ -25,9 +28,11 @@ import main.model.Crew;
 import main.model.Movie;
 import main.model.TmdbQuery;
 import main.view.CastListViewCell;
+import main.view.MovieListViewCell;
 import org.controlsfx.control.Rating;
 
 import java.net.URL;
+import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +59,12 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
     private Label detailsDescription;
 
     @FXML
+    private Label detailsBudget;
+
+    @FXML
+    private Label detailsRevenue;
+
+    @FXML
     private ImageView detailsBackdrop;
 
     @FXML
@@ -63,10 +74,16 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
     private Label detailsDirectorName;
 
     @FXML
+    private WebView detailsTrailerView;
+
+    @FXML
     private JFXListView<Cast> castListView;
 
     @FXML
     private JFXListView<Label> crewListView;
+
+    @FXML
+    private JFXListView<Movie> relatedMoviesListView;
 
     private Stage stage;
 
@@ -74,6 +91,8 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
     private List<Movie> movies = new ArrayList<>();
     ApiAdapater apiAdapater;
     ApiService apiService;
+
+    private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 
     @Override public void setStage(Stage stage) {
 	this.stage = stage;
@@ -93,22 +112,35 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 
 	//Ensures that we get our data when the window has been initialized and setPassedData() has been called
 	Platform.runLater( () -> delegateSetData(movies.get(0).getId()));
+
+	//As JavaFX only hides windows instead of killing them completely
+	//We'll "close" the video/webview by navigating the WebView elsewhere
+	//Ugly solution, but there currently is no other way
+	Platform.runLater(new Runnable() {
+	    @Override public void run() {
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		    @Override public void handle(final WindowEvent event) {
+		        detailsTrailerView.getEngine().loadContent("");
+		    }
+		});
+	    }
+	});
     }
 
     private void delegateSetData(String movieId) {
 	//TODO: Remove manual API key
-	List<TmdbQuery> queries = new ArrayList<>();
-	queries.addAll(Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.SIMILAR, TmdbQuery.VIDEOS));
-	AppendedQueries appendedQueries = new AppendedQueries(queries);
+	AppendedQueries appendedQueries = new AppendedQueries(Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.RECOMMENDATIONS, TmdbQuery.VIDEOS));
 
 	Movie movie = apiService.getMovieDetailed(movieId, appendedQueries, "4b45808a4d1a83471866761a8d7e5325");
 	stage.setTitle(movie.getTitle());
 
 	setBaseDetails(movie);
+	setTrailer(movie);
 	setRatings(movie.getAverageRating());
 	setDirector(movie);
 	setCast(movie);
 	setCrew(movie);
+	setRelatedMovies(movie);
     }
 
     private void setBaseDetails(Movie movie) {
@@ -116,8 +148,14 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	detailsDescription.setText(movie.getDescription());
 	detailsYear.setText(movie.getReleaseDate());
 	detailsRuntime.setText(movie.getRuntime().format(DateTimeFormatter.ISO_TIME));
+	detailsBudget.setText("Budget: " + currencyFormat.format(movie.getBudget()));
+	detailsRevenue.setText("Revenue: " + currencyFormat.format(movie.getRevenue()));
 	detailsBackdrop.setImage(new Image(movie.getBackdropPath()));
 	detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT);
+    }
+
+    private void setTrailer(Movie movie) {
+        detailsTrailerView.getEngine().load(movie.getTrailerUrl());
     }
 
     private void setDirector(Movie movie) {
@@ -145,6 +183,13 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	    crewTexts.add(crewText);
 	}
 	crewListView.setItems(crewTexts);
+    }
+
+    private void setRelatedMovies(Movie movie) {
+        ObservableList<Movie> movieList = FXCollections.observableArrayList();
+        movieList.addAll(movie.getRecommendationResults().getMovies());
+        relatedMoviesListView.setItems(movieList);
+        relatedMoviesListView.setCellFactory(listView -> new MovieListViewCell());
     }
 
     //set star ratings, show tooltip on hover
