@@ -18,7 +18,7 @@ public class ResultsPager<T> implements Iterable<T> {
 
     @SerializedName("total_results")
     private int totalResults;
-    
+
     public ResultsPager() {
     }
 

@@ -18,10 +18,9 @@ import main.CineMateApplication;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 /**
- * Holds screens. Extends StackPane to be able to easily identify and remove screens that are no longer displayed.
+ * Holds screens. Creates new windows. Extends StackPane to be able to easily identify and remove screens that are no longer displayed.
  */
 public class ScreenController extends StackPane {
 
@@ -33,10 +32,6 @@ public class ScreenController extends StackPane {
 
     public void addScreen(String screenName, Node screen) {
         screens.put(screenName, screen);
-    }
-
-    public void getScreen(String screenName) {
-        screens.get(screenName);
     }
 
     public boolean loadScreen(String screenName, String fxmlFile) {
@@ -52,13 +47,23 @@ public class ScreenController extends StackPane {
 	    return false;
 	}
     }
+    
+    public void loadWindow(String fxmlFile, Object passedData) {
+	try {
+	    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
+	    Stage stage = new Stage();
+	    stage.setResizable(false);
+	    stage.setScene(new Scene(fxmlLoader.load()));
 
-    public boolean unloadScreen(String screenName) {
-        if(screens.remove(screenName) != null) {
-            return true;
-	} else {
-	    Log.debug("There was no screen with this name to remove.");
-	    return false;
+	    ControlledWindow windowController = fxmlLoader.getController();
+
+	    windowController.setStage(stage);
+	    windowController.setScreenParent(this);
+	    windowController.setPassedData(passedData);
+	    stage.show();
+	} catch (IOException e) {
+	    Log.debug("Crashed while loading popup window: " + e.getCause());
+	    e.printStackTrace();
 	}
     }
 
@@ -89,22 +94,6 @@ public class ScreenController extends StackPane {
 	        playFadeIn(screenOpacity);
 	    }
 
-	}
-    }
-
-    public void setNewPopupWindow(String fxmlFile, List<?> passedData) {
-	try {
-	    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
-	    Stage stage = new Stage();
-	    stage.setResizable(false);
-	    stage.setScene(new Scene(fxmlLoader.load()));
-	    ControlledWindow windowController = fxmlLoader.getController();
-	    windowController.setStage(stage);
-	    windowController.setPassedData(passedData);
-	    stage.show();
-	} catch (IOException e) {
-	    Log.debug("Crashed while loading popup window: " + e.getCause());
-	    e.printStackTrace();
 	}
     }
 

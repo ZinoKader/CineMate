@@ -11,16 +11,20 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import main.CineMateApplication;
 import main.api.ApiAdapater;
 import main.api.ApiService;
 import main.constants.DetailsWindowConstants;
+import main.constants.FXConstants;
 import main.constants.TmdbConstants;
 import main.controllers.ControlledWindow;
+import main.controllers.ScreenController;
 import main.helpers.CrewHelper;
 import main.model.AppendedQueries;
 import main.model.Cast;
@@ -34,9 +38,7 @@ import org.controlsfx.control.Rating;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class MovieDetailsWindowController implements Initializable, ControlledWindow {
@@ -85,24 +87,30 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
     @FXML
     private JFXListView<Movie> relatedMoviesListView;
 
+    private ScreenController screenController;
     private Stage stage;
 
-
-    private List<Movie> movies = new ArrayList<>();
-    ApiAdapater apiAdapater;
-    ApiService apiService;
+    private ApiAdapater apiAdapater;
+    private ApiService apiService;
 
     private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 
-    @Override public void setStage(Stage stage) {
+    private Movie movie;
+
+    @Override
+    public void setStage(Stage stage) {
 	this.stage = stage;
     }
 
-    @Override public void setPassedData(final List<?> passedData) {
-	for(Object object : passedData) {
-	    if(object instanceof Movie) {
-		movies.add((Movie) object);
-	    }
+    @Override
+    public void setScreenParent(ScreenController screenController) {
+	this.screenController = screenController;
+    }
+
+    @Override
+    public void setPassedData(Object passedData) {
+	if(passedData instanceof Movie) {
+	   movie = (Movie) passedData;
 	}
     }
 
@@ -111,13 +119,16 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	apiService = apiAdapater.getService();
 
 	//Ensures that we get our data when the window has been initialized and setPassedData() has been called
-	Platform.runLater( () -> delegateSetData(movies.get(0).getId()));
+	Platform.runLater( () -> delegateSetData(movie.getId()));
 
-	//As JavaFX only hides windows instead of killing them completely
-	//We'll "close" the video/webview by navigating the WebView elsewhere
-	//Ugly solution, but there currently is no other way
+	/*
+	As JavaFX only hides windows instead of killing them completely, on closing, to pause the potentially playing video
+	we'll "close" the video/webview by navigating the WebView elsewhere, ugly solution, but there currently is no other way
+	because the JavaFX developers thought killing off windows isn't of importance
+	*/
 	Platform.runLater(new Runnable() {
 	    @Override public void run() {
+	        //on closing, do this!
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 		    @Override public void handle(final WindowEvent event) {
 		        detailsTrailerView.getEngine().loadContent("");
@@ -169,10 +180,18 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
     }
 
     private void setCast(Movie movie) {
-        ObservableList<Cast> castList = FXCollections.observableArrayList();
+	ObservableList<Cast> castList = FXCollections.observableArrayList();
         castList.setAll(movie.getCast());
         castListView.setItems(castList);
         castListView.setCellFactory(listView -> new CastListViewCell());
+    }
+
+    @FXML
+    public void handleCastClicked(MouseEvent mouseEvent) {
+        if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
+            Cast selectedCast = castListView.getSelectionModel().getSelectedItem();
+            screenController.loadWindow(CineMateApplication.PERSON_WINDOW_FXML, selectedCast);
+	}
     }
 
     private void setCrew(Movie movie) {
@@ -190,6 +209,14 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
         movieList.addAll(movie.getRecommendationResults().getMovies());
         relatedMoviesListView.setItems(movieList);
         relatedMoviesListView.setCellFactory(listView -> new MovieListViewCell());
+    }
+
+    @FXML
+    public void handleRelatedMovieClicked(MouseEvent mouseEvent) {
+        if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
+            Movie selectedMovie = relatedMoviesListView.getSelectionModel().getSelectedItem();
+	    screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
+	}
     }
 
     //set star ratings, show tooltip on hover

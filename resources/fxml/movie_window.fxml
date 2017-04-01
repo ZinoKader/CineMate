@@ -91,7 +91,7 @@
                         <Insets top="20.0" />
                     </StackPane.margin>
                 </Label>
-                <JFXListView fx:id="castListView" maxHeight="350.0" maxWidth="1000" minHeight="350.0" minWidth="1000" orientation="HORIZONTAL">
+                <JFXListView fx:id="castListView" onMouseClicked="#handleCastClicked" maxHeight="350.0" maxWidth="1000" minHeight="350.0" minWidth="1000" orientation="HORIZONTAL">
                     <StackPane.margin>
                         <Insets top="100.0" />
                     </StackPane.margin>
@@ -133,7 +133,7 @@
                         <Insets top="60.0" />
                     </StackPane.margin>
                 </Label>
-                <JFXListView fx:id="relatedMoviesListView" orientation="HORIZONTAL" maxHeight="350">
+                <JFXListView fx:id="relatedMoviesListView" orientation="HORIZONTAL" maxHeight="350" onMouseClicked="#handleRelatedMovieClicked">
                     <StackPane.margin>
                         <Insets top="80.0" />
                     </StackPane.margin>

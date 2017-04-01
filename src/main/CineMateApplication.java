@@ -21,11 +21,14 @@ public class CineMateApplication extends Application {
     private static final String RALEWAY_PATH = "/font/Raleway.ttf";
 
     //made public so we can reach them from controllers
-    public static final String STARTUP_SCREEN_ID = "screen1";
+
+    //screens
+    public static final String STARTUP_SCREEN_ID = "startup_screen";
     public static final String STARTUP_SCREEN_FXML = "/fxml/startup.fxml";
-    public static final String MAIN_SCREEN_ID = "screen2";
+    public static final String MAIN_SCREEN_ID = "main_screen";
     public static final String MAIN_SCREEN_FXML = "/fxml/main.fxml";
 
+    //windows
     public static final String MOVIE_WINDOW_FXML = "/fxml/movie_window.fxml";
     public static final String PERSON_WINDOW_FXML = "/fxml/person_window.fxml";
 

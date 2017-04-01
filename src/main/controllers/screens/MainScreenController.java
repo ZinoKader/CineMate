@@ -1,6 +1,5 @@
 package main.controllers.screens;
 
-import com.esotericsoftware.minlog.Log;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
@@ -15,9 +14,11 @@ import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import main.CineMateApplication;
 import main.api.ApiAdapater;
 import main.api.ApiService;
 import main.config.UserSettings;
+import main.constants.FXConstants;
 import main.controllers.ControlledScreen;
 import main.controllers.ScreenController;
 import main.exceptions.PropertyAccessException;
@@ -35,14 +36,10 @@ import main.view.PersonListViewCell;
 import main.view.SeriesListViewCell;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import static main.CineMateApplication.MOVIE_WINDOW_FXML;
 
 public class MainScreenController implements Initializable, ControlledScreen {
 
@@ -81,7 +78,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
     private static final Map<Integer, SearchType> SEARCH_TYPE_INDICES = new HashMap<>();
     private static final Map<MediaType, Integer> LISTVIEW_ORDER = new HashMap<>();
-    private static final int DOUBLE_CLICK_COUNT = 2;
 
     /**
      * Types you can search for in the searchfield
@@ -135,13 +131,11 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
 	listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	    @Override public void handle(final MouseEvent event) {
-		if(!listView.getSelectionModel().isEmpty() && event.getClickCount() == DOUBLE_CLICK_COUNT) {
+		if(!listView.getSelectionModel().isEmpty() && event.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
 		    switch(currentSearchType) {
 			case MOVIES:
 			    Movie selectedMovie = movieListView.getSelectionModel().getSelectedItem();
-			    List<Movie> movies = new ArrayList<>();
-			    movies.add(selectedMovie);
-			    screenController.setNewPopupWindow(MOVIE_WINDOW_FXML, movies);
+			    screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
 			    break;
 			case SERIES:
 			    Series selectedSeries = seriesListView.getSelectionModel().getSelectedItem();
@@ -194,10 +188,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
     private void populateList(List<? extends TmdbObject> listObjects, MediaType mediaType) {
 
-	for(Node node : searchPane.getChildren()) {
-	    Log.debug("IDS: " + node.getId());
-	}
-
 	int searchPaneIndex = 0;
 	List<Node> searchResultListView = searchPane.getChildren();
 
@@ -205,7 +195,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
         switch(mediaType) {
 	    case MOVIE:
 		movieObservableList.clear();
-  		movieObservableList.addAll((Collection<? extends Movie>) listObjects);
+  		movieObservableList.addAll((List<? extends Movie>) listObjects);
 		movieListView.setItems(movieObservableList);
 		movieListView.setCellFactory(listView -> new MovieListViewCell());
 		for(int i = 0; i < searchResultListView.size(); i++) {
@@ -217,7 +207,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
 	        break;
 	    case SERIES:
 		seriesObservableList.clear();
-  		seriesObservableList.addAll((Collection<? extends Series>) listObjects);
+  		seriesObservableList.addAll((List<? extends Series>) listObjects);
 		seriesListView.setItems(seriesObservableList);
 		seriesListView.setCellFactory(listView -> new SeriesListViewCell());
 		for(int i = 0; i < searchResultListView.size(); i++) {
@@ -229,7 +219,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
 	        break;
 	    case PERSON:
 		personObservableList.clear();
-		personObservableList.addAll((Collection<? extends Person>) listObjects);
+		personObservableList.addAll((List<? extends Person>) listObjects);
 		personListView.setItems(personObservableList);
 		personListView.setCellFactory(listView -> new PersonListViewCell());
 		for(int i = 0; i < searchResultListView.size(); i++) {
@@ -241,7 +231,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
 	        break;
 	}
 
-	Log.debug(String.valueOf(searchPaneIndex));
 	searchPane.getChildren().get(searchPaneIndex).toFront();
 
     }

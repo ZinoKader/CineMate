@@ -1,36 +1,34 @@
 package main.controllers.screens;
 
-import com.esotericsoftware.minlog.Log;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 import main.controllers.ControlledWindow;
+import main.controllers.ScreenController;
 import main.model.Person;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class PersonDetailsWindowController implements Initializable, ControlledWindow {
 
-    private List<Person> people = new ArrayList<>();
+    private Stage stage;
+    private ScreenController screenController;
+    private Person person;
 
     @Override public void initialize(final URL location, final ResourceBundle resources) {
-        for(Person person : people) {
-	    Log.debug(person.getName());
-	}
     }
 
     @Override public void setStage(Stage stage) {
-
+	this.stage = stage;
     }
 
-    @Override public void setPassedData(final List<?> passedData) {
-        //If people were passed on window creation, add person object to the appropriate field
-	for(Object object : passedData) {
-	    if(object instanceof Person) {
-		people.add((Person) object);
-	    }
+    @Override public void setScreenParent(ScreenController screenController) {
+	this.screenController = screenController;
+    }
+
+    @Override public void setPassedData(Object passedData) {
+	if(passedData instanceof Person) {
+	    person = (Person) passedData;
 	}
     }
 }
