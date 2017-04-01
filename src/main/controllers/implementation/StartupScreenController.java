@@ -1,4 +1,4 @@
-package main.controllers.screens;
+package main.controllers.implementation;
 
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -10,22 +10,22 @@ import main.CineMateApplication;
 import main.api.ApiAdapater;
 import main.api.ApiService;
 import main.config.UserSettings;
-import main.controllers.ControlledScreen;
 import main.controllers.ScreenController;
+import main.controllers.contract.ControlledScreen;
 import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
 import main.helpers.MessageHelper;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
  * Controller for startup screen. Handles implementations of logic.
  */
-public class StartupScreenController implements Initializable, ControlledScreen {
+public class StartupScreenController implements Initializable, ControlledScreen
+{
 
     private ScreenController screenController;
     private UserSettings settings;

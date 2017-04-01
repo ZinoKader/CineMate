@@ -1,9 +1,11 @@
-package main.controllers;
+package main.controllers.contract;
 
+
+import main.controllers.ScreenController;
 
 /**
  * Helps us keep a common superclass between all controllers for easy switching between
- * screens and controllers.
+ * contract and controllers.
  */
 public interface ControlledScreen {
 

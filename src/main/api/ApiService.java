@@ -5,7 +5,6 @@ import main.model.Movie;
 import main.model.Person;
 import main.model.ResultsPager;
 import main.model.Series;
-import main.model.TmdbObject;
 import retrofit.Callback;
 import retrofit.client.Response;
 import retrofit.http.GET;
@@ -34,11 +33,6 @@ public interface ApiService {
      * Since all parameters here are queries, we put them in a map
      */
 
-
-    //This is hard to get working...
-    @GET("/search/multi")
-    ResultsPager<TmdbObject> searchMulti(@QueryMap Map<String, String> queries);
-
     @GET("/search/movie")
     ResultsPager<Movie> searchMovies(@QueryMap Map<String, String> queries);
 
@@ -59,5 +53,8 @@ public interface ApiService {
     Movie getMovieDetailed(@Path("movie_id") String movieId,
 	@Query("append_to_response") AppendedQueries queries, @Query("api_key") String apiKey);
 
+    @GET("/person/{person_id}")
+    Person getPersonDetailed(@Path("person_id") String personId,
+        @Query("append_to_response") AppendedQueries queries, @Query("api_key") String apiKey);
 
 }

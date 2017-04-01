@@ -11,6 +11,9 @@ import java.util.List;
 
 public class Person implements TmdbObject {
 
+    @SerializedName("id")
+    private String id;
+
     @SerializedName("name")
     private String name;
 
@@ -19,6 +22,21 @@ public class Person implements TmdbObject {
 
     @SerializedName("known_for")
     private List<MotionPicture> knownFor;
+
+    @SerializedName("biography")
+    private String biograhy;
+
+    @SerializedName("birthday")
+    private String birthday;
+
+    @SerializedName("deathday")
+    private String deathday;
+
+    @SerializedName("place_of_birth")
+    private String birthplace;
+
+    @SerializedName("cast")
+    private List<Cast> castIn;
 
     public Person() {
 
@@ -42,5 +60,9 @@ public class Person implements TmdbObject {
 
     public List<MotionPicture> getKnownFor() {
 	return knownFor;
+    }
+
+    public String getId() {
+	return id;
     }
 }

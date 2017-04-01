@@ -1,6 +1,7 @@
-package main.controllers;
+package main.controllers.contract;
 
 import javafx.stage.Stage;
+import main.controllers.ScreenController;
 
 public interface ControlledWindow {
 

@@ -1,4 +1,4 @@
-package main.controllers.screens;
+package main.controllers.implementation;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
@@ -19,8 +19,8 @@ import main.api.ApiAdapater;
 import main.api.ApiService;
 import main.config.UserSettings;
 import main.constants.FXConstants;
-import main.controllers.ControlledScreen;
 import main.controllers.ScreenController;
+import main.controllers.contract.ControlledScreen;
 import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
 import main.helpers.MessageHelper;

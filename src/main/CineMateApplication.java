@@ -22,7 +22,7 @@ public class CineMateApplication extends Application {
 
     //made public so we can reach them from controllers
 
-    //screens
+    //contract
     public static final String STARTUP_SCREEN_ID = "startup_screen";
     public static final String STARTUP_SCREEN_FXML = "/fxml/startup.fxml";
     public static final String MAIN_SCREEN_ID = "main_screen";
@@ -45,14 +45,14 @@ public class CineMateApplication extends Application {
 
 	ScreenController screenContainer = new ScreenController();
 
-	//load up all of our screens that will be used throughout the application
+	//load up all of our contract that will be used throughout the application
 	screenContainer.loadScreen(STARTUP_SCREEN_ID, STARTUP_SCREEN_FXML);
 	screenContainer.loadScreen(MAIN_SCREEN_ID, MAIN_SCREEN_FXML);
 
 	//set the first screen to start up in
 	screenContainer.setScreen(STARTUP_SCREEN_ID);
 
-	//create a stage/scene for us to switch screens in
+	//create a stage/scene for us to switch contract in
 	Group root = new Group();
 	root.getChildren().addAll(screenContainer); //works because controller is a subclass of Parent which is a Node
 	Scene scene = new Scene(root);

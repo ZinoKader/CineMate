@@ -1,4 +1,4 @@
-package main.controllers.screens;
+package main.controllers.implementation;
 
 import com.jfoenix.controls.JFXListView;
 import javafx.application.Platform;
@@ -23,8 +23,9 @@ import main.api.ApiService;
 import main.constants.DetailsWindowConstants;
 import main.constants.FXConstants;
 import main.constants.TmdbConstants;
-import main.controllers.ControlledWindow;
 import main.controllers.ScreenController;
+import main.controllers.contract.ControlledWindow;
+import main.controllers.contract.DetailedView;
 import main.helpers.CrewHelper;
 import main.model.AppendedQueries;
 import main.model.Cast;
@@ -41,7 +42,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class MovieDetailsWindowController implements Initializable, ControlledWindow {
+/**
+ * Controller implementation for detailed movie information window
+ */
+public class MovieDetailsWindowController implements Initializable, ControlledWindow, DetailedView {
 
     @FXML
     private HBox detailsStarRatings;
@@ -118,8 +122,12 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	apiAdapater = new ApiAdapater();
 	apiService = apiAdapater.getService();
 
-	//Ensures that we get our data when the window has been initialized and setPassedData() has been called
-	Platform.runLater( () -> delegateSetData(movie.getId()));
+	/*
+	Ensures that we get our data when the window has been initialized and setPassedData() has been called
+	Pretty cool Java 8 thing here, we can directly reference the method if it has no parameters instead of creating
+	a lambda expression with empty parameters
+	 */
+	Platform.runLater(this::delegateSetData);
 
 	/*
 	As JavaFX only hides windows instead of killing them completely, on closing, to pause the potentially playing video
@@ -138,23 +146,25 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	});
     }
 
-    private void delegateSetData(String movieId) {
+    @Override
+    public void delegateSetData() {
 	//TODO: Remove manual API key
 	AppendedQueries appendedQueries = new AppendedQueries(Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.RECOMMENDATIONS, TmdbQuery.VIDEOS));
 
-	Movie movie = apiService.getMovieDetailed(movieId, appendedQueries, "4b45808a4d1a83471866761a8d7e5325");
+	movie = apiService.getMovieDetailed(movie.getId(), appendedQueries, "4b45808a4d1a83471866761a8d7e5325");
 	stage.setTitle(movie.getTitle());
 
-	setBaseDetails(movie);
-	setTrailer(movie);
-	setRatings(movie.getAverageRating());
-	setDirector(movie);
-	setCast(movie);
-	setCrew(movie);
-	setRelatedMovies(movie);
+	setBaseDetails();
+	setTrailer();
+	setRatings();
+	setDirector();
+	setCast();
+	setCrew();
+	setRelatedMovies();
     }
 
-    private void setBaseDetails(Movie movie) {
+    @Override
+    public void setBaseDetails() {
 	detailsTitle.setText(movie.getTitle());
 	detailsDescription.setText(movie.getDescription());
 	detailsYear.setText(movie.getReleaseDate());
@@ -165,11 +175,11 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT);
     }
 
-    private void setTrailer(Movie movie) {
+    private void setTrailer() {
         detailsTrailerView.getEngine().load(movie.getTrailerUrl());
     }
 
-    private void setDirector(Movie movie) {
+    private void setDirector() {
 	Crew director = CrewHelper.filterDirector(movie.getCrew());
 	detailsDirectorName.setText(director.getName());
 	detailsDirectorImage.setImage(new Image(director.getProfilePath()));
@@ -179,7 +189,7 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 		detailsDirectorImage.getFitWidth() / 2));
     }
 
-    private void setCast(Movie movie) {
+    private void setCast() {
 	ObservableList<Cast> castList = FXCollections.observableArrayList();
         castList.setAll(movie.getCast());
         castListView.setItems(castList);
@@ -194,7 +204,7 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	}
     }
 
-    private void setCrew(Movie movie) {
+    private void setCrew() {
         ObservableList<Label> crewTexts = FXCollections.observableArrayList();
 	for(Crew crewMember : movie.getCrew()) {
 	    Label crewText = new Label();
@@ -204,7 +214,7 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	crewListView.setItems(crewTexts);
     }
 
-    private void setRelatedMovies(Movie movie) {
+    private void setRelatedMovies() {
         ObservableList<Movie> movieList = FXCollections.observableArrayList();
         movieList.addAll(movie.getRecommendationResults().getMovies());
         relatedMoviesListView.setItems(movieList);
@@ -220,7 +230,9 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
     }
 
     //set star ratings, show tooltip on hover
-    private void setRatings(String rating) {
+    private void setRatings() {
+
+        String rating = movie.getAverageRating();
 
 	Rating ratingsElement = new Rating();
 	ratingsElement.setPartialRating(true);

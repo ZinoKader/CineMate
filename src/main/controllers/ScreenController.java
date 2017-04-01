@@ -15,12 +15,14 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.CineMateApplication;
+import main.controllers.contract.ControlledScreen;
+import main.controllers.contract.ControlledWindow;
 
 import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * Holds screens. Creates new windows. Extends StackPane to be able to easily identify and remove screens that are no longer displayed.
+ * Holds contract. Creates new windows. Extends StackPane to be able to easily identify and remove contract that are no longer displayed.
  */
 public class ScreenController extends StackPane {
 
@@ -72,7 +74,7 @@ public class ScreenController extends StackPane {
 
 	    DoubleProperty screenOpacity = opacityProperty();
 
-	    //if there are screens shown already, we have to handle removing and adding the old and new ones
+	    //if there are contract shown already, we have to handle removing and adding the old and new ones
 	    if(!getChildren().isEmpty()) {
 	        //Play fade out animation, go from full opacity with the current screen to no opacity
 		//All the while, go from no opacity on the screen to be added to full opacity
@@ -88,7 +90,7 @@ public class ScreenController extends StackPane {
 			    }
 			}, new KeyValue(screenOpacity, 0)));
 	        fadeOut.play();
-	    } else { //if there aren't any screens shown already, we just need to add our new screen
+	    } else { //if there aren't any contract shown already, we just need to add our new screen
 	        setOpacity(0);
 	        getChildren().add(screens.get(screenName));
 	        playFadeIn(screenOpacity);
