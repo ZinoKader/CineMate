@@ -3,16 +3,12 @@ package main.controllers.implementation;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import main.CineMateApplication;
 import main.api.ApiAdapater;
@@ -76,7 +72,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
     private ApiAdapater apiAdapter;
     private ApiService apiService;
 
-    private static final Map<Integer, SearchType> SEARCH_TYPE_INDICES = new HashMap<>();
     private static final Map<MediaType, Integer> LISTVIEW_ORDER = new HashMap<>();
 
     /**
@@ -91,10 +86,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
 	//init our choicebox with possible values. We add these items as observables so changes are broadcasted
 	searchTypeBox.setItems(FXCollections.observableArrayList(SearchType.MOVIES, SearchType.SERIES, SearchType.PEOPLE));
-
-	SEARCH_TYPE_INDICES.put(0, SearchType.MOVIES);
-	SEARCH_TYPE_INDICES.put(1, SearchType.SERIES);
-	SEARCH_TYPE_INDICES.put(2, SearchType.PEOPLE);
 
 	LISTVIEW_ORDER.put(MediaType.MOVIE, 0);
 	LISTVIEW_ORDER.put(MediaType.SERIES, 1);
@@ -119,30 +110,26 @@ public class MainScreenController implements Initializable, ControlledScreen {
     }
 
     private void listenToSearchTypeChanges() {
-	searchTypeBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-	    @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-		currentSearchType = SEARCH_TYPE_INDICES.get(newValue);
-		searchTextField.setPromptText("Search for " + currentSearchType.toString().toLowerCase());
-	    }
+        searchTypeBox.getSelectionModel().selectedItemProperty().addListener( (observable, oldSearchType, newSearchType) ->  {
+            currentSearchType = newSearchType;
+	    searchTextField.setPromptText("Search for " + currentSearchType.toString().toLowerCase());
 	});
     }
 
     private void listenToItemClicks(ListView<?> listView) {
 
-	listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-	    @Override public void handle(final MouseEvent event) {
-		if(!listView.getSelectionModel().isEmpty() && event.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
-		    switch(currentSearchType) {
-			case MOVIES:
-			    Movie selectedMovie = movieListView.getSelectionModel().getSelectedItem();
-			    screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
-			    break;
-			case SERIES:
-			    Series selectedSeries = seriesListView.getSelectionModel().getSelectedItem();
- 			    break;
-			case PEOPLE:
-			    Person selectedPerson = personListView.getSelectionModel().getSelectedItem();
-		    }
+	listView.setOnMouseClicked( clickEvent -> {
+	    if(!listView.getSelectionModel().isEmpty() && clickEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
+		switch(currentSearchType) {
+		    case MOVIES:
+			Movie selectedMovie = movieListView.getSelectionModel().getSelectedItem();
+			screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
+			break;
+		    case SERIES:
+			Series selectedSeries = seriesListView.getSelectionModel().getSelectedItem();
+			break;
+		    case PEOPLE:
+			Person selectedPerson = personListView.getSelectionModel().getSelectedItem();
 		}
 	    }
 	});
@@ -186,6 +173,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
     }
 
+    @SuppressWarnings("unchecked")
     private void populateList(List<? extends TmdbObject> listObjects, MediaType mediaType) {
 
 	int searchPaneIndex = 0;
