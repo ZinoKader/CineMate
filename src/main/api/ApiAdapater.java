@@ -46,7 +46,7 @@ public class ApiAdapater {
     /**
      * @return The ApiAdapater instance
      */
-    public ApiService getService() {
+    public ApiService getApiService() {
         return apiService;
     }
 }

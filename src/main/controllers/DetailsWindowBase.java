@@ -19,7 +19,7 @@ public abstract class DetailsWindowBase implements DetailedView {
 
     protected void initialize() {
         apiAdapater = new ApiAdapater();
-        apiService = apiAdapater.getService();
+        apiService = apiAdapater.getApiService();
 	/*
 	Ensures that we get our data when the window has been initialized and setPassedData() has been called
 	Pretty cool Java 8 thing here, we can directly reference the method if it has no parameters instead of creating

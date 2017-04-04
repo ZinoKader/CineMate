@@ -31,7 +31,7 @@ public class StartupScreenController implements Initializable, ControlledScreen
     private UserSettings settings;
     private MessageHelper messageHelper;
     private ApiAdapater apiAdapater = new ApiAdapater();
-    private ApiService apiService = apiAdapater.getService();
+    private ApiService apiService = apiAdapater.getApiService();
 
     //@FXML exposes the fields to the fxml file while keeping the fields private, nice!
 

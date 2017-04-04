@@ -66,8 +66,8 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
 
     }
 
-    public void handleKnownForClicked(MouseEvent mouseEvent) {
-        if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
+    public void handleKnownForClicked(MouseEvent clickEvent) {
+        if(clickEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
 	    Movie selectedMovie = knownForListView.getSelectionModel().getSelectedItem();
 	    screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
 	}

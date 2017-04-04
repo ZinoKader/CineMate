@@ -32,7 +32,6 @@ import main.view.PersonListViewCell;
 import main.view.SeriesListViewCell;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -72,8 +71,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
     private ApiAdapater apiAdapter;
     private ApiService apiService;
 
-    private static final Map<MediaType, Integer> LISTVIEW_ORDER = new HashMap<>();
-
     /**
      * Types you can search for in the searchfield
      */
@@ -86,10 +83,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
 	//init our choicebox with possible values. We add these items as observables so changes are broadcasted
 	searchTypeBox.setItems(FXCollections.observableArrayList(SearchType.MOVIES, SearchType.SERIES, SearchType.PEOPLE));
-
-	LISTVIEW_ORDER.put(MediaType.MOVIE, 0);
-	LISTVIEW_ORDER.put(MediaType.SERIES, 1);
-	LISTVIEW_ORDER.put(MediaType.PERSON, 2);
 
 	listenToSearchTypeChanges();
 	listenToItemClicks(movieListView);
@@ -104,7 +97,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
 	    e.printStackTrace();
 	}
 	apiAdapter = new ApiAdapater();
-	apiService = apiAdapter.getService();
+	apiService = apiAdapter.getApiService();
 
 
     }
@@ -224,8 +217,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
     }
 
 
-    @Override public void setScreenParent(final ScreenController screenParent) {
-	this.screenController = screenParent;
+    @Override public void setScreenParent(final ScreenController screenController) {
+	this.screenController = screenController;
     }
 
 
