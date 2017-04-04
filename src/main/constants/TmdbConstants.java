@@ -1,7 +1,9 @@
 package main.constants;
 
 
-public class TmdbConstants {
+public final class TmdbConstants {
+
+    private TmdbConstants() {}
 
     /** IMAGE RELATED CONSTANTS
      * Appending an integer to this URL creates a complete path to an image.
