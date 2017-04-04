@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXListView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -16,16 +15,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import main.CineMateApplication;
-import main.api.ApiAdapater;
-import main.api.ApiService;
 import main.constants.DetailsWindowConstants;
 import main.constants.FXConstants;
 import main.constants.TmdbConstants;
+import main.controllers.DetailsWindowBase;
 import main.controllers.ScreenController;
 import main.controllers.contract.ControlledWindow;
-import main.controllers.contract.DetailedView;
 import main.helpers.CrewHelper;
 import main.model.AppendedQueries;
 import main.model.Cast;
@@ -45,7 +41,7 @@ import java.util.ResourceBundle;
 /**
  * Controller implementation for detailed movie information window
  */
-public class MovieDetailsWindowController implements Initializable, ControlledWindow, DetailedView {
+public class MovieDetailsWindowController extends DetailsWindowBase implements Initializable, ControlledWindow {
 
     @FXML
     private HBox detailsStarRatings;
@@ -91,12 +87,6 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
     @FXML
     private JFXListView<Movie> relatedMoviesListView;
 
-    private ScreenController screenController;
-    private Stage stage;
-
-    private ApiAdapater apiAdapater;
-    private ApiService apiService;
-
     private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 
     private Movie movie;
@@ -119,31 +109,10 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
     }
 
     @Override public void initialize(final URL location, final ResourceBundle resources) {
-	apiAdapater = new ApiAdapater();
-	apiService = apiAdapater.getService();
+        super.initialize();
 
-	/*
-	Ensures that we get our data when the window has been initialized and setPassedData() has been called
-	Pretty cool Java 8 thing here, we can directly reference the method if it has no parameters instead of creating
-	a lambda expression with empty parameters
-	 */
-	Platform.runLater(this::delegateSetData);
-
-	/*
-	As JavaFX only hides windows instead of killing them completely, on closing, to pause the potentially playing video
-	we'll "close" the video/webview by navigating the WebView elsewhere, ugly solution, but there currently is no other way
-	because the JavaFX developers thought killing off windows isn't of importance
-	*/
-	Platform.runLater(new Runnable() {
-	    @Override public void run() {
-	        //on closing, do this!
-		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-		    @Override public void handle(final WindowEvent event) {
-		        detailsTrailerView.getEngine().loadContent("");
-		    }
-		});
-	    }
-	});
+	//Listen to window closing events, on closing, pause the potentially playing video
+	Platform.runLater(() -> stage.setOnCloseRequest(closeEvent -> pauseVideo()) );
     }
 
     @Override
@@ -201,6 +170,7 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
         if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             Cast selectedCast = castListView.getSelectionModel().getSelectedItem();
             screenController.loadWindow(CineMateApplication.PERSON_WINDOW_FXML, selectedCast);
+            closeWindow();
 	}
     }
 
@@ -226,6 +196,7 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
         if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             Movie selectedMovie = relatedMoviesListView.getSelectionModel().getSelectedItem();
 	    screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
+	    closeWindow();
 	}
     }
 
@@ -245,6 +216,20 @@ public class MovieDetailsWindowController implements Initializable, ControlledWi
 	double adjustedRating = Double.parseDouble(rating) / 2;
 	ratingToolTip.setText(String.valueOf(adjustedRating));
 	Tooltip.install(detailsStarRatings, ratingToolTip);
+    }
+
+    private void closeWindow() {
+	pauseVideo();
+	stage.close();
+    }
+
+    /*
+    As JavaFX only hides windows instead of killing them completely, on closing, to pause the potentially playing video
+    we'll "close" the video/webview by navigating the WebView elsewhere. Ugly solution, but there currently is no other way
+    because the JavaFX developers thought killing off windows/stages and its related threads isn't important.
+    */
+    private void pauseVideo() {
+	detailsTrailerView.getEngine().loadContent("");
     }
 
 }

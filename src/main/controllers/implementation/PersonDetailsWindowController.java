@@ -1,13 +1,17 @@
 package main.controllers.implementation;
 
+import com.jfoenix.controls.JFXListView;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import main.api.ApiAdapater;
-import main.api.ApiService;
+import main.CineMateApplication;
+import main.constants.FXConstants;
+import main.controllers.DetailsWindowBase;
 import main.controllers.ScreenController;
 import main.controllers.contract.ControlledWindow;
-import main.controllers.contract.DetailedView;
 import main.model.AppendedQueries;
+import main.model.Movie;
 import main.model.Person;
 import main.model.TmdbQuery;
 
@@ -18,34 +22,33 @@ import java.util.ResourceBundle;
 /**
  * Controller implementation for detailed person information window
  */
-public class PersonDetailsWindowController implements Initializable, ControlledWindow, DetailedView {
+public class PersonDetailsWindowController extends DetailsWindowBase implements Initializable, ControlledWindow {
 
-    private ScreenController screenController;
-    private Stage stage;
-
-    private ApiAdapater apiAdapater;
-    private ApiService apiService;
+    @FXML
+    private JFXListView<Movie> knownForListView;
 
     private Person person;
 
-    @Override public void setStage(Stage stage) {
+    @Override
+    public void setStage(Stage stage) {
 	this.stage = stage;
     }
 
-    @Override public void setScreenParent(ScreenController screenController) {
+    @Override
+    public void setScreenParent(ScreenController screenController) {
 	this.screenController = screenController;
     }
 
-    @Override public void setPassedData(Object passedData) {
+    @Override
+    public void setPassedData(Object passedData) {
 	if(passedData instanceof Person) {
 	    person = (Person) passedData;
 	}
     }
 
     @Override
-    public void initialize(final URL location, final ResourceBundle resources) {
-	apiAdapater = new ApiAdapater();
-	apiService = apiAdapater.getService();
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize();
     }
 
     @Override
@@ -61,5 +64,12 @@ public class PersonDetailsWindowController implements Initializable, ControlledW
 
     @Override public void setBaseDetails() {
 
+    }
+
+    public void handleKnownForClicked(MouseEvent mouseEvent) {
+        if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
+	    Movie selectedMovie = knownForListView.getSelectionModel().getSelectedItem();
+	    screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
+	}
     }
 }
