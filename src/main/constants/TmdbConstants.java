@@ -22,4 +22,5 @@ public final class TmdbConstants {
      */
 
     public static final int MAX_AVERAGE_RATING = 10;
+
 }

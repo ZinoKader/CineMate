@@ -14,11 +14,11 @@ public class Cast extends Person {
     }
 
     public String getCharacter() {
-	return character;
+        return character;
     }
 
     public int getOrder() {
-	return order;
+        return order;
     }
 
 }

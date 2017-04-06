@@ -43,26 +43,26 @@ public class Person implements TmdbObject {
     }
 
     @Override public MediaType getMediaType() {
-	return MediaType.PERSON;
+        return MediaType.PERSON;
     }
 
     public String getName() {
-	return name;
+        return name;
     }
 
     public String getProfilePath() {
-	if(profilePath == null) {
-	    return TmdbConstants.POSTER_PLACEHOLDER;
-	} else {
-	    return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_POSTER_SIZE + profilePath;
-	}
+        if(profilePath == null) {
+            return TmdbConstants.POSTER_PLACEHOLDER;
+        } else {
+            return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_POSTER_SIZE + profilePath;
+        }
     }
 
     public List<MotionPicture> getKnownFor() {
-	return knownFor;
+        return knownFor;
     }
 
     public String getId() {
-	return id;
+        return id;
     }
 }

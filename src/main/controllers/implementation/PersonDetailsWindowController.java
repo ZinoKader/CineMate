@@ -31,19 +31,19 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
 
     @Override
     public void setStage(Stage stage) {
-	this.stage = stage;
+        this.stage = stage;
     }
 
     @Override
     public void setScreenParent(ScreenController screenController) {
-	this.screenController = screenController;
+        this.screenController = screenController;
     }
 
     @Override
     public void setPassedData(Object passedData) {
-	if(passedData instanceof Person) {
-	    person = (Person) passedData;
-	}
+        if(passedData instanceof Person) {
+            person = (Person) passedData;
+        }
     }
 
     @Override
@@ -53,13 +53,13 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
 
     @Override
     public void delegateSetData() {
-	//TODO: Remove manual API key
-	AppendedQueries appendedQueries = new AppendedQueries(Arrays.asList(TmdbQuery.MOVIE_CREDITS, TmdbQuery.TV_CREDITS, TmdbQuery.IMAGES));
+        //TODO: Remove manual API key
+        AppendedQueries appendedQueries = new AppendedQueries(Arrays.asList(TmdbQuery.MOVIE_CREDITS, TmdbQuery.TV_CREDITS, TmdbQuery.IMAGES));
 
-	person = apiService.getPersonDetailed(person.getId(), appendedQueries, "4b45808a4d1a83471866761a8d7e5325");
-	stage.setTitle(person.getName());
+        person = apiService.getPersonDetailed(person.getId(), appendedQueries, "4b45808a4d1a83471866761a8d7e5325");
+        stage.setTitle(person.getName());
 
-	setBaseDetails();
+        setBaseDetails();
     }
 
     @Override public void setBaseDetails() {
@@ -68,8 +68,8 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
 
     public void handleKnownForClicked(MouseEvent clickEvent) {
         if(clickEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
-	    Movie selectedMovie = knownForListView.getSelectionModel().getSelectedItem();
-	    screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
-	}
+            Movie selectedMovie = knownForListView.getSelectionModel().getSelectedItem();
+            screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
+        }
     }
 }

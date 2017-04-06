@@ -3,6 +3,7 @@
     <properties maven-id="com.fasterxml.jackson.core:jackson-annotations:2.0.4" />
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.0.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -14,11 +14,11 @@ public class Crew extends Person {
     }
 
     public String getJob() {
-	return job;
+        return job;
     }
 
     public String getDepartment() {
-	return department;
+        return department;
     }
 
 }

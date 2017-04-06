@@ -12,4 +12,5 @@ public final class DetailsWindowConstants {
     //We override our constructor as private, to disallow creating instances of this class
     //This can also be acheived with an abstract class, but that's ill-fitting since no classes are going to extend this class
     private DetailsWindowConstants() {}
+
 }

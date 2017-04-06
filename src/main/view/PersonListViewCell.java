@@ -17,59 +17,59 @@ import java.io.IOException;
  */
 public class PersonListViewCell extends JFXListCell<Person> {
 
-    @FXML
-    private Label title;
+	@FXML
+	private Label title;
 
-    @FXML
-    private Label description;
+	@FXML
+	private Label description;
 
-    @FXML
-    private ImageView image;
+	@FXML
+	private ImageView image;
 
-    @FXML
-    private HBox container;
+	@FXML
+	private HBox container;
 
-    private FXMLLoader fxmlLoader;
+	private FXMLLoader fxmlLoader;
 
-    private ImageHelper imageHelper = new ImageHelper();
+	private ImageHelper imageHelper = new ImageHelper();
 
 
-    @Override
-    public void updateItem(Person person, boolean empty) {
-	super.updateItem(person, empty);
+	@Override
+	public void updateItem(Person person, boolean empty) {
+		super.updateItem(person, empty);
 
-	if(empty || person == null) {
-	    setText(null);
-	    setGraphic(null);
-	} else {
-	    if (fxmlLoader == null) {
-		fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
-		fxmlLoader.setController(this);
-		try {
-		    fxmlLoader.load();
-		} catch (IOException e) {
-		    Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
+		if(empty || person == null) {
+			setText(null);
+			setGraphic(null);
+		} else {
+			if (fxmlLoader == null) {
+				fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
+				fxmlLoader.setController(this);
+				try {
+					fxmlLoader.load();
+				} catch (IOException e) {
+					Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
+				}
+			}
+
+			title.setText(person.getName());
+
+
+			//description.setText(person.getKnownFor());
+
+			String imageUrl = person.getProfilePath();
+
+			//We are utilizing caching to minimize network calls
+			if(imageHelper.isImageCached(imageUrl)) {
+				image.setImage(imageHelper.getCachedImage(imageUrl));
+			} else {
+				imageHelper.downloadAndSetImage(imageUrl, image, false);
+			}
+
+			setText(null);
+			setGraphic(container);
 		}
-	    }
 
-	    title.setText(person.getName());
-
-
-	    //description.setText(person.getKnownFor());
-
-	    String imageUrl = person.getProfilePath();
-
-	    //We are utilizing caching to minimize network calls
-	    if(imageHelper.isImageCached(imageUrl)) {
-		image.setImage(imageHelper.getCachedImage(imageUrl));
-	    } else {
-		imageHelper.downloadAndSetImage(imageUrl, image, false);
-	    }
-
-	    setText(null);
-	    setGraphic(container);
 	}
-
-    }
 
 }

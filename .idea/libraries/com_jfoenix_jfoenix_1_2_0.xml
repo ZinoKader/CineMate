@@ -3,6 +3,7 @@
     <properties maven-id="com.jfoenix:jfoenix:1.2.0" />
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/jfoenix-1.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jfoenix-1.2.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

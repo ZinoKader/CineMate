@@ -41,15 +41,15 @@ public class Movie extends MotionPicture implements TmdbObject {
     }
 
     public String getId() {
-	return id;
+        return id;
     }
 
     public boolean isAdult() {
-	return adult;
+        return adult;
     }
 
     public String getReleaseDate() {
-	return releaseDate;
+        return releaseDate;
     }
 
     public int getRunTimeRaw() {
@@ -59,19 +59,19 @@ public class Movie extends MotionPicture implements TmdbObject {
     public LocalTime getRuntime() {
         int hours = runtime / MINS_IN_HOUR;
         int minutes = runtime % MINS_IN_HOUR;
-	return LocalTime.of(hours, minutes);
+        return LocalTime.of(hours, minutes);
     }
 
     @Override public MediaType getMediaType() {
-	return MediaType.MOVIE;
+        return MediaType.MOVIE;
     }
 
     public double getBudget() {
-	return budget;
+        return budget;
     }
 
     public double getRevenue() {
-	return revenue;
+        return revenue;
     }
 
     //gets the first video from the available ones that is both a youtube video and of the trailer type
@@ -79,8 +79,8 @@ public class Movie extends MotionPicture implements TmdbObject {
         for(Video video : getVideoResults().getVideos()) {
             if(video.isTrailer() && video.isYoutube()) {
                 return video.getVideoUrl();
-	    }
-	}
-	return "";
+            }
+        }
+        return "";
     }
 }

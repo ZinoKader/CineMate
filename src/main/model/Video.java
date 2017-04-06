@@ -18,7 +18,6 @@ public class Video {
     @SerializedName("site")
     private String videoSite;
 
-
     public Video() {
     }
 
@@ -27,7 +26,7 @@ public class Video {
     }
 
     public boolean isTrailer() {
-	return videoType.equals(VIDEO_TYPE_TRAILER);
+        return videoType.equals(VIDEO_TYPE_TRAILER);
     }
 
     public String getVideoUrl() {

@@ -19,6 +19,7 @@ public class Series extends MotionPicture implements TmdbObject {
     }
 
     public String getTitle() {
-	return title;
+        return title;
     }
+
 }

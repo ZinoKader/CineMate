@@ -17,55 +17,55 @@ import java.io.IOException;
  */
 public class MovieListViewCell extends JFXListCell<Movie> {
 
-    @FXML
-    private Label title;
+	@FXML
+	private Label title;
 
-    @FXML
-    private Label description;
+	@FXML
+	private Label description;
 
-    @FXML
-    private ImageView image;
+	@FXML
+	private ImageView image;
 
-    @FXML
-    private HBox container;
+	@FXML
+	private HBox container;
 
-    private FXMLLoader fxmlLoader;
+	private FXMLLoader fxmlLoader;
 
-    private ImageHelper imageHelper = new ImageHelper();
+	private ImageHelper imageHelper = new ImageHelper();
 
-    @Override
-    public void updateItem(Movie movie, boolean empty) {
-	super.updateItem(movie, empty);
+	@Override
+	public void updateItem(Movie movie, boolean empty) {
+		super.updateItem(movie, empty);
 
-	if(empty || movie == null) {
-	    setText(null);
-	    setGraphic(null);
-	} else {
-	    if (fxmlLoader == null) {
-		fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/movie_cell.fxml"));
-		fxmlLoader.setController(this);
-		try {
-		    fxmlLoader.load();
-		} catch (IOException e) {
-		    Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
+		if(empty || movie == null) {
+			setText(null);
+			setGraphic(null);
+		} else {
+			if (fxmlLoader == null) {
+				fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/movie_cell.fxml"));
+				fxmlLoader.setController(this);
+				try {
+					fxmlLoader.load();
+				} catch (IOException e) {
+					Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
+				}
+			}
+
+			title.setText(movie.getTitle());
+			description.setText(movie.getDescription());
+
+			String imageUrl = movie.getPosterPath();
+
+			//We are utilizing caching to minimize network calls
+			if(imageHelper.isImageCached(imageUrl)) {
+				image.setImage(imageHelper.getCachedImage(imageUrl));
+			} else {
+				imageHelper.downloadAndSetImage(imageUrl, image, false);
+			}
+
+			setText(null);
+			setGraphic(container);
 		}
-	    }
 
-	    title.setText(movie.getTitle());
-	    description.setText(movie.getDescription());
-
-	    String imageUrl = movie.getPosterPath();
-
-	    //We are utilizing caching to minimize network calls
-	    if(imageHelper.isImageCached(imageUrl)) {
-		image.setImage(imageHelper.getCachedImage(imageUrl));
-	    } else {
-		imageHelper.downloadAndSetImage(imageUrl, image, false);
-	    }
-
-	    setText(null);
-	    setGraphic(container);
 	}
-
-    }
 }

@@ -21,13 +21,13 @@ public class MessageHelper {
     }
 
     public void showMessage(String message, int duration) {
-	JFXSnackbar snackbar = new JFXSnackbar(targetPane);
- 	snackbar.show(message, duration);
+        JFXSnackbar snackbar = new JFXSnackbar(targetPane);
+        snackbar.show(message, duration);
     }
 
     public void showMessage(String message) {
-	JFXSnackbar snackbar = new JFXSnackbar(targetPane);
- 	snackbar.show(message, MESSAGE_DEFAULT_DURATION);
+        JFXSnackbar snackbar = new JFXSnackbar(targetPane);
+        snackbar.show(message, MESSAGE_DEFAULT_DURATION);
     }
 
 }

@@ -93,55 +93,55 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
 
     @Override
     public void setStage(Stage stage) {
-	this.stage = stage;
+        this.stage = stage;
     }
 
     @Override
     public void setScreenParent(ScreenController screenController) {
-	this.screenController = screenController;
+        this.screenController = screenController;
     }
 
     @Override
     public void setPassedData(Object passedData) {
-	if(passedData instanceof Movie) {
-	   movie = (Movie) passedData;
-	}
+        if(passedData instanceof Movie) {
+            movie = (Movie) passedData;
+        }
     }
 
     @Override public void initialize(final URL location, final ResourceBundle resources) {
         super.initialize();
 
-	//Listen to window closing events, on closing, pause the potentially playing video
-	Platform.runLater(() -> stage.setOnCloseRequest(closeEvent -> pauseVideo()) );
+        //Listen to window closing events, on closing, pause the potentially playing video
+        Platform.runLater(() -> stage.setOnCloseRequest(closeEvent -> pauseVideo()) );
     }
 
     @Override
     public void delegateSetData() {
-	//TODO: Remove manual API key
-	AppendedQueries appendedQueries = new AppendedQueries(Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.RECOMMENDATIONS, TmdbQuery.VIDEOS));
+        //TODO: Remove manual API key
+        AppendedQueries appendedQueries = new AppendedQueries(Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.RECOMMENDATIONS, TmdbQuery.VIDEOS));
 
-	movie = apiService.getMovieDetailed(movie.getId(), appendedQueries, "4b45808a4d1a83471866761a8d7e5325");
-	stage.setTitle(movie.getTitle());
+        movie = apiService.getMovieDetailed(movie.getId(), appendedQueries, "4b45808a4d1a83471866761a8d7e5325");
+        stage.setTitle(movie.getTitle());
 
-	setBaseDetails();
-	setTrailer();
-	setRatings();
-	setDirector();
-	setCast();
-	setCrew();
-	setRelatedMovies();
+        setBaseDetails();
+        setTrailer();
+        setRatings();
+        setDirector();
+        setCast();
+        setCrew();
+        setRelatedMovies();
     }
 
     @Override
     public void setBaseDetails() {
-	detailsTitle.setText(movie.getTitle());
-	detailsDescription.setText(movie.getDescription());
-	detailsYear.setText(movie.getReleaseDate());
-	detailsRuntime.setText(movie.getRuntime().format(DateTimeFormatter.ISO_TIME));
-	detailsBudget.setText("Budget: " + currencyFormat.format(movie.getBudget()));
-	detailsRevenue.setText("Revenue: " + currencyFormat.format(movie.getRevenue()));
-	detailsBackdrop.setImage(new Image(movie.getBackdropPath()));
-	detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT);
+        detailsTitle.setText(movie.getTitle());
+        detailsDescription.setText(movie.getDescription());
+        detailsYear.setText(movie.getReleaseDate());
+        detailsRuntime.setText(movie.getRuntime().format(DateTimeFormatter.ISO_TIME));
+        detailsBudget.setText("Budget: " + currencyFormat.format(movie.getBudget()));
+        detailsRevenue.setText("Revenue: " + currencyFormat.format(movie.getRevenue()));
+        detailsBackdrop.setImage(new Image(movie.getBackdropPath()));
+        detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT);
     }
 
     private void setTrailer() {
@@ -149,17 +149,17 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
     }
 
     private void setDirector() {
-	Crew director = CrewHelper.filterDirector(movie.getCrew());
-	detailsDirectorName.setText(director.getName());
-	detailsDirectorImage.setImage(new Image(director.getProfilePath()));
-	detailsDirectorImage.setClip(new Circle(
-		detailsDirectorImage.getFitWidth() / 2,
-		detailsDirectorImage.getFitHeight() / 2,
-		detailsDirectorImage.getFitWidth() / 2));
+        Crew director = CrewHelper.filterDirector(movie.getCrew());
+        detailsDirectorName.setText(director.getName());
+        detailsDirectorImage.setImage(new Image(director.getProfilePath()));
+        detailsDirectorImage.setClip(new Circle(
+                detailsDirectorImage.getFitWidth() / 2,
+                detailsDirectorImage.getFitHeight() / 2,
+                detailsDirectorImage.getFitWidth() / 2));
     }
 
     private void setCast() {
-	ObservableList<Cast> castList = FXCollections.observableArrayList();
+        ObservableList<Cast> castList = FXCollections.observableArrayList();
         castList.setAll(movie.getCast());
         castListView.setItems(castList);
         castListView.setCellFactory(listView -> new CastListViewCell());
@@ -171,17 +171,17 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
             Cast selectedCast = castListView.getSelectionModel().getSelectedItem();
             screenController.loadWindow(CineMateApplication.PERSON_WINDOW_FXML, selectedCast);
             closeWindow();
-	}
+        }
     }
 
     private void setCrew() {
         ObservableList<Label> crewTexts = FXCollections.observableArrayList();
-	for(Crew crewMember : movie.getCrew()) {
-	    Label crewText = new Label();
-	    crewText.setText("("+crewMember.getDepartment()+")" + " " + crewMember.getJob() + " : " + crewMember.getName());
-	    crewTexts.add(crewText);
-	}
-	crewListView.setItems(crewTexts);
+        for(Crew crewMember : movie.getCrew()) {
+            Label crewText = new Label();
+            crewText.setText("("+crewMember.getDepartment()+")" + " " + crewMember.getJob() + " : " + crewMember.getName());
+            crewTexts.add(crewText);
+        }
+        crewListView.setItems(crewTexts);
     }
 
     private void setRelatedMovies() {
@@ -195,9 +195,9 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
     public void handleRelatedMovieClicked(MouseEvent mouseEvent) {
         if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             Movie selectedMovie = relatedMoviesListView.getSelectionModel().getSelectedItem();
-	    screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
-	    closeWindow();
-	}
+            screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
+            closeWindow();
+        }
     }
 
     //set star ratings, show tooltip on hover
@@ -205,22 +205,22 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
 
         String rating = movie.getAverageRating();
 
-	Rating ratingsElement = new Rating();
-	ratingsElement.setPartialRating(true);
-	ratingsElement.setMouseTransparent(true); //disable clicking/rating
-	ratingsElement.setUpdateOnHover(false);
-	ratingsElement.setRating(Double.parseDouble(rating) / 2);
-	ratingsElement.setMax(TmdbConstants.MAX_AVERAGE_RATING / 2);
-	detailsStarRatings.getChildren().add(ratingsElement);
+        Rating ratingsElement = new Rating();
+        ratingsElement.setPartialRating(true);
+        ratingsElement.setMouseTransparent(true); //disable clicking/rating
+        ratingsElement.setUpdateOnHover(false);
+        ratingsElement.setRating(Double.parseDouble(rating) / 2);
+        ratingsElement.setMax(TmdbConstants.MAX_AVERAGE_RATING / 2);
+        detailsStarRatings.getChildren().add(ratingsElement);
 
-	double adjustedRating = Double.parseDouble(rating) / 2;
-	ratingToolTip.setText(String.valueOf(adjustedRating));
-	Tooltip.install(detailsStarRatings, ratingToolTip);
+        double adjustedRating = Double.parseDouble(rating) / 2;
+        ratingToolTip.setText(String.valueOf(adjustedRating));
+        Tooltip.install(detailsStarRatings, ratingToolTip);
     }
 
     private void closeWindow() {
-	pauseVideo();
-	stage.close();
+        pauseVideo();
+        stage.close();
     }
 
     /*
@@ -229,7 +229,7 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
     because the JavaFX developers thought killing off windows/stages and its related threads isn't important.
     */
     private void pauseVideo() {
-	detailsTrailerView.getEngine().loadContent("");
+        detailsTrailerView.getEngine().loadContent("");
     }
 
 }

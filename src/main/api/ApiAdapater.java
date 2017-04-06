@@ -17,7 +17,7 @@ public class ApiAdapater {
     /**
      * Movie WEB API base URL/endpoint
      */
-    public static final String MOVIE_WEB_API_ENDPOINT = "https://api.themoviedb.org/3";
+    private static final String MOVIE_WEB_API_ENDPOINT = "https://api.themoviedb.org/3";
     private final ApiService apiService;
     private String apiKey;
 

@@ -19,25 +19,25 @@ public abstract class PropertyLoader {
     }
 
     protected void initializeProperties() throws PropertyLoadException {
-	try {
-	    properties.load((getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)));
-	} catch (IOException exception) {
-	    throw new PropertyLoadException(exception);
-	}
+        try {
+            properties.load((getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)));
+        } catch (IOException exception) {
+            throw new PropertyLoadException(exception);
+        }
     }
 
 
     protected void store(SettingsKey key, String value) {
-	properties.put(key, value);
+        properties.put(key, value);
     }
 
     protected String get(SettingsKey key) throws PropertyAccessException {
         String value = String.valueOf(properties.get(key));
         if(value != null) {
-	    return String.valueOf(properties.get(key));
-	} else {
+            return String.valueOf(properties.get(key));
+        } else {
             throw new PropertyAccessException();
-	}
+        }
     }
 
 

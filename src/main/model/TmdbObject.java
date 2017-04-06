@@ -21,5 +21,4 @@ public interface TmdbObject {
      */
     public MediaType getMediaType();
 
-
 }

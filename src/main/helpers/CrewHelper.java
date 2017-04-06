@@ -12,20 +12,20 @@ public class CrewHelper {
         for(Crew crewMember : crew) {
             if(crewMember.getJob().equals(CrewJobs.DIRECTOR)) {
                 return crewMember;
-	    }
-	}
-	//TODO: LOL BETTER SOLUTION PLS
-	return new Crew();
+            }
+        }
+        //TODO: LOL BETTER SOLUTION PLS
+        return new Crew();
     }
 
     public static List<Crew> filterWriters(List<Crew> crew) {
         List<Crew> writers = new ArrayList<>();
         for(Crew crewMember: crew) {
-	    if(crewMember.getJob().equals(CrewJobs.WRITER)) {
+            if(crewMember.getJob().equals(CrewJobs.WRITER)) {
                 writers.add(crewMember);
-	    }
-	}
-	return writers;
+            }
+        }
+        return writers;
     }
 
 }

@@ -7,7 +7,7 @@ package main.exceptions;
 public class PropertyLoadException extends Exception {
 
     public PropertyLoadException(Throwable cause) {
-	super("The properties file was not loaded correctly.", cause);
+        super("The properties file was not loaded correctly.", cause);
     }
 
 }

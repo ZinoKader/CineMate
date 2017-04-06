@@ -37,12 +37,12 @@ public class MotionPicture {
     private RecommendationResults recommendations;
 
     public String getDescription() {
-	return description;
+        return description;
     }
 
 
     public String getAverageRating() {
-	return String.valueOf(averageRating);
+        return String.valueOf(averageRating);
     }
 
 
@@ -60,10 +60,10 @@ public class MotionPicture {
 
     public String getPosterPath() {
         if(posterPath == null) {
-	    return TmdbConstants.POSTER_PLACEHOLDER;
-	} else {
-	    return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_POSTER_SIZE + posterPath;
-	}
+            return TmdbConstants.POSTER_PLACEHOLDER;
+        } else {
+            return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_POSTER_SIZE + posterPath;
+        }
     }
 
     public String getBackdropPathRaw() {
@@ -72,10 +72,10 @@ public class MotionPicture {
 
     public String getBackdropPath() {
         if(backdropPath == null) {
-	    return TmdbConstants.BACKDROP_PLACEHOLDER;
-	} else {
-	    return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_BACKDROP_SIZE + backdropPath;
-	}
+            return TmdbConstants.BACKDROP_PLACEHOLDER;
+        } else {
+            return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_BACKDROP_SIZE + backdropPath;
+        }
     }
 
     public VideoResults getVideoResults() {

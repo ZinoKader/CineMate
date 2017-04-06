@@ -17,56 +17,56 @@ import java.io.IOException;
  */
 public class SeriesListViewCell extends JFXListCell<Series> {
 
-    @FXML
-    private Label title;
+	@FXML
+	private Label title;
 
-    @FXML
-    private Label description;
+	@FXML
+	private Label description;
 
-    @FXML
-    private ImageView image;
+	@FXML
+	private ImageView image;
 
-    @FXML
-    private HBox container;
+	@FXML
+	private HBox container;
 
-    private FXMLLoader fxmlLoader;
+	private FXMLLoader fxmlLoader;
 
-    private ImageHelper imageHelper = new ImageHelper();
+	private ImageHelper imageHelper = new ImageHelper();
 
-    @Override
-    public void updateItem(Series series, boolean empty) {
-	super.updateItem(series, empty);
+	@Override
+	public void updateItem(Series series, boolean empty) {
+		super.updateItem(series, empty);
 
-	if(empty || series == null) {
-	    setText(null);
-	    setGraphic(null);
-	} else {
-	    if (fxmlLoader == null) {
-		fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/series_cell.fxml"));
-		fxmlLoader.setController(this);
-		try {
-		    fxmlLoader.load();
-		} catch (IOException e) {
-		    Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
+		if(empty || series == null) {
+			setText(null);
+			setGraphic(null);
+		} else {
+			if (fxmlLoader == null) {
+				fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/series_cell.fxml"));
+				fxmlLoader.setController(this);
+				try {
+					fxmlLoader.load();
+				} catch (IOException e) {
+					Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
+				}
+			}
+
+			title.setText(series.getTitle());
+			description.setText(series.getDescription());
+
+			String imageUrl = series.getPosterPath();
+
+			//We are utilizing caching to minimize network calls
+			if(imageHelper.isImageCached(imageUrl)) {
+				image.setImage(imageHelper.getCachedImage(imageUrl));
+			} else {
+				imageHelper.downloadAndSetImage(imageUrl, image, false);
+			}
+
+			setText(null);
+			setGraphic(container);
 		}
-	    }
 
-	    title.setText(series.getTitle());
-	    description.setText(series.getDescription());
-
-	    String imageUrl = series.getPosterPath();
-
-	    //We are utilizing caching to minimize network calls
-	    if(imageHelper.isImageCached(imageUrl)) {
-		image.setImage(imageHelper.getCachedImage(imageUrl));
-	    } else {
-		imageHelper.downloadAndSetImage(imageUrl, image, false);
-	    }
-
-	    setText(null);
-	    setGraphic(container);
 	}
-
-    }
 
 }

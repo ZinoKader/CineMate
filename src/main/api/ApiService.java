@@ -51,10 +51,10 @@ public interface ApiService {
      */
     @GET("/movie/{movie_id}")
     Movie getMovieDetailed(@Path("movie_id") String movieId,
-	@Query("append_to_response") AppendedQueries queries, @Query("api_key") String apiKey);
+                           @Query("append_to_response") AppendedQueries queries, @Query("api_key") String apiKey);
 
     @GET("/person/{person_id}")
     Person getPersonDetailed(@Path("person_id") String personId,
-        @Query("append_to_response") AppendedQueries queries, @Query("api_key") String apiKey);
+                             @Query("append_to_response") AppendedQueries queries, @Query("api_key") String apiKey);
 
 }

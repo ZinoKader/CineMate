@@ -19,12 +19,12 @@ public class UserSettings extends PropertyLoader implements Settings {
 
     @Override
     public void setApiKey(String apiKey) {
-	store(SettingsKey.API_KEY, apiKey);
+        store(SettingsKey.API_KEY, apiKey);
     }
 
     @Override
     public String getApiKey() throws PropertyAccessException {
-	return get(SettingsKey.API_KEY);
+        return get(SettingsKey.API_KEY);
     }
 
 
