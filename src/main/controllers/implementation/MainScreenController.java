@@ -79,8 +79,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
 	}
 
 
-	@Override public void initialize(final URL location, final ResourceBundle resources) {
-
+	@Override
+	public void initialize(final URL location, final ResourceBundle resources) {
 		//init our choicebox with possible values. We add these items as observables so changes are broadcasted
 		searchTypeBox.setItems(FXCollections.observableArrayList(SearchType.MOVIES, SearchType.SERIES, SearchType.PEOPLE));
 
@@ -141,7 +141,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
 	}
 
 	private void handleSearch(Map<String, String> apiQueries) {
-
 		//All of our search objects implement TmdbObject, "? extends ..." really means "is a subclass of ..."
 		ResultsPager<? extends TmdbObject> searchResults = new ResultsPager<>();
 		MediaType mediaType = MediaType.NONE;
@@ -171,7 +170,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
 	@SuppressWarnings("unchecked")
 	private void populateList(List<? extends TmdbObject> listObjects, MediaType mediaType) {
-
 		int searchPaneIndex = 0;
 		List<Node> searchResultListView = searchPane.getChildren();
 
@@ -220,7 +218,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
 	}
 
 
-	@Override public void setScreenParent(final ScreenController screenController) {
+	@Override
+	public void setScreenParent(final ScreenController screenController) {
 		this.screenController = screenController;
 	}
 
