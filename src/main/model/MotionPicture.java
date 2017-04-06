@@ -7,13 +7,16 @@ import main.constants.TmdbConstants;
 import java.util.List;
 
 /**
- * This class would be abstract if we didn't need to keep an instance of it in our Person class.
+ * Abstraction for Movie and Series, holding common fields for these classes.
+ * This class would be abstract if we didn't need to keep an instance of it in our Person class for castIn and knownFor.
  * Gson needs to be able to create an instance of MotionPicture so it can serialize to a List of MotionPicture in Person
  */
 public class MotionPicture {
 
     public MotionPicture() {
     }
+
+    private MediaType mediaType;
 
     @SerializedName("overview")
     private String description;
@@ -40,11 +43,9 @@ public class MotionPicture {
         return description;
     }
 
-
     public String getAverageRating() {
         return String.valueOf(averageRating);
     }
-
 
     public List<Cast> getCast() {
         return credits.getCast();
@@ -84,6 +85,10 @@ public class MotionPicture {
 
     public RecommendationResults getRecommendationResults() {
         return recommendations;
+    }
+
+    public MediaType getMediaType() {
+        return mediaType;
     }
 
 

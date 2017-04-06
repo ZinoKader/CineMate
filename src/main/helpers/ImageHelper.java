@@ -3,6 +3,7 @@ package main.helpers;
 import com.esotericsoftware.minlog.Log;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
@@ -18,7 +19,6 @@ public class ImageHelper {
 	private Map<String, SoftReference> imageCache = new HashMap<>();
 
 	public ImageHelper() {
-
 	}
 
 	public void addImageToCache(String url, Image image) {

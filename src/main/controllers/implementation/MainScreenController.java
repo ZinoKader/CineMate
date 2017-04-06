@@ -120,9 +120,12 @@ public class MainScreenController implements Initializable, ControlledScreen {
 						break;
 					case SERIES:
 						Series selectedSeries = seriesListView.getSelectionModel().getSelectedItem();
+						screenController.loadWindow(CineMateApplication.SERIES_WINDOW_FXML, selectedSeries);
 						break;
 					case PEOPLE:
 						Person selectedPerson = personListView.getSelectionModel().getSelectedItem();
+						screenController.loadWindow(CineMateApplication.PERSON_WINDOW_FXML, selectedPerson);
+						break;
 				}
 			}
 		});

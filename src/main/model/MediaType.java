@@ -1,5 +1,5 @@
 package main.model;
 
 public enum MediaType {
-    MOVIE, PERSON, SERIES, NONE
+    MOVIE, ACCREDITED_MOVIE, PERSON, SERIES, ACCREDITED_SERIES, NONE
 }

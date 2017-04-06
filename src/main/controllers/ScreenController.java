@@ -32,21 +32,19 @@ public class ScreenController extends StackPane {
 		super(); //create a StackPane instance
 	}
 
-	public void addScreen(String screenName, Node screen) {
+	private void addScreen(String screenName, Node screen) {
 		screens.put(screenName, screen);
 	}
 
-	public boolean loadScreen(String screenName, String fxmlFile) {
+	public void loadScreen(String screenName, String fxmlFile) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
 			Parent screenToLoad = fxmlLoader.load();
 			ControlledScreen screenController = fxmlLoader.getController();
 			screenController.setScreenParent(this);
 			addScreen(screenName, screenToLoad);
-			return true;
 		} catch (IOException e) {
 			Log.debug("Crashed while loading screen: " + e.getCause());
-			return false;
 		}
 	}
 
@@ -99,7 +97,7 @@ public class ScreenController extends StackPane {
 		}
 	}
 
-	public void playFadeIn(DoubleProperty screenOpacity) {
+	private void playFadeIn(DoubleProperty screenOpacity) {
 		Timeline fadeIn = new Timeline(
 				new KeyFrame(Duration.ZERO, new KeyValue(screenOpacity, 0)),
 				new KeyFrame(Duration.seconds(1), new KeyValue(screenOpacity, 1)));

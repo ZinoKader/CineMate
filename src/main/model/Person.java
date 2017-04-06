@@ -20,9 +20,6 @@ public class Person implements TmdbObject {
     @SerializedName("profile_path")
     private String profilePath;
 
-    @SerializedName("known_for")
-    private List<MotionPicture> knownFor;
-
     @SerializedName("biography")
     private String biograhy;
 
@@ -35,8 +32,11 @@ public class Person implements TmdbObject {
     @SerializedName("place_of_birth")
     private String birthplace;
 
-    @SerializedName("cast")
-    private List<Cast> castIn;
+    @SerializedName("movie_credits")
+    private MovieCredits movieCredits;
+
+    @SerializedName("tv_credits")
+    private SeriesCredits seriesCredits;
 
     public Person() {
 
@@ -58,11 +58,31 @@ public class Person implements TmdbObject {
         }
     }
 
-    public List<MotionPicture> getKnownFor() {
-        return knownFor;
-    }
-
     public String getId() {
         return id;
+    }
+
+    public String getBiograhy() {
+        return biograhy;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public String getDeathday() {
+        return deathday;
+    }
+
+    public String getBirthplace() {
+        return birthplace;
+    }
+
+    public MovieCredits getMovieCredits() {
+        return movieCredits;
+    }
+
+    public SeriesCredits getSeriesCredits() {
+        return seriesCredits;
     }
 }

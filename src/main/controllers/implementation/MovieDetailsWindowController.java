@@ -8,11 +8,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Circle;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import main.CineMateApplication;
@@ -31,7 +29,6 @@ import main.model.TmdbQuery;
 import main.view.CastListViewCell;
 import main.view.MovieListViewCell;
 import org.controlsfx.control.Rating;
-
 import java.net.URL;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
@@ -140,8 +137,8 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
         detailsRuntime.setText(movie.getRuntime().format(DateTimeFormatter.ISO_TIME));
         detailsBudget.setText("Budget: " + currencyFormat.format(movie.getBudget()));
         detailsRevenue.setText("Revenue: " + currencyFormat.format(movie.getRevenue()));
-        detailsBackdrop.setImage(new Image(movie.getBackdropPath()));
-        detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT);
+        imageHelper.downloadAndSetImage(movie.getBackdropPath(), detailsBackdrop, false);
+        detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT_NORMAL);
     }
 
     private void setTrailer() {
@@ -151,11 +148,7 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
     private void setDirector() {
         Crew director = CrewHelper.filterDirector(movie.getCrew());
         detailsDirectorName.setText(director.getName());
-        detailsDirectorImage.setImage(new Image(director.getProfilePath()));
-        detailsDirectorImage.setClip(new Circle(
-                detailsDirectorImage.getFitWidth() / 2,
-                detailsDirectorImage.getFitHeight() / 2,
-                detailsDirectorImage.getFitWidth() / 2));
+        imageHelper.downloadAndSetImage(director.getProfilePath(), detailsDirectorImage, true);
     }
 
     private void setCast() {
