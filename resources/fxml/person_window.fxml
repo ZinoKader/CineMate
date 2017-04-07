@@ -4,7 +4,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -13,21 +12,26 @@
     <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1197">
         <children>
 
-            <StackPane prefHeight="500">
-                <ImageView fx:id="detailsBackdrop" fitHeight="700" fitWidth="1280" />
+            <StackPane prefHeight="800">
+                <ImageView fx:id="detailsBackdrop" fitHeight="800" fitWidth="1280" />
                 <Label fx:id="detailsBiography" alignment="CENTER" contentDisplay="CENTER" prefWidth="850" textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="NEVER">
                     <StackPane.margin>
-                        <Insets top="230" />
-                    </StackPane.margin>
-                </Label>
-                <Label fx:id="detailsBorn" wrapText="true" VBox.vgrow="NEVER">
-                    <StackPane.margin>
-                        <Insets top="-75.0" />
+                        <Insets top="540" />
                     </StackPane.margin>
                 </Label>
                 <Label fx:id="detailsDead" wrapText="true" VBox.vgrow="NEVER">
                     <StackPane.margin>
-                        <Insets top="-40.0" />
+                        <Insets top="360" />
+                    </StackPane.margin>
+                </Label>
+                <Label fx:id="detailsBorn" wrapText="true" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets top="290" />
+                    </StackPane.margin>
+                </Label>
+                <Label fx:id="detailsAge" wrapText="true" VBox.vgrow="NEVER">
+                    <StackPane.margin>
+                        <Insets top="220" />
                     </StackPane.margin>
                 </Label>
                 <ImageView fx:id="detailsPersonProfile" fitHeight="180" fitWidth="128" />
@@ -38,41 +42,31 @@
                 </Label>
             </StackPane>
 
-            <Separator />
-
             <StackPane maxHeight="550" maxWidth="1197" minHeight="550" minWidth="1197">
-                <Label alignment="TOP_CENTER" styleClass="detailsSectionTitle" text="Known for" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
+                <Label alignment="TOP_CENTER" styleClass="detailsSectionTitle" text="Movie appearances" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
                     <StackPane.margin>
                         <Insets top="60.0" />
                     </StackPane.margin>
                 </Label>
-                <JFXListView fx:id="knownForListView" orientation="HORIZONTAL" maxHeight="350" onMouseClicked="#handleKnownForClicked">
+                <JFXListView fx:id="movieAppearanceListView" orientation="HORIZONTAL" maxHeight="350" onMouseClicked="#handleMovieAppearanceClicked">
                     <StackPane.margin>
                         <Insets top="80.0" />
                     </StackPane.margin>
                 </JFXListView>
             </StackPane>
 
-            <Separator>
-                <VBox.margin>
-                    <Insets top="100.0" />
-                </VBox.margin>
-            </Separator>
 
-            <StackPane maxHeight="400" maxWidth="1197" minHeight="400" minWidth="1197">
-                <Label alignment="TOP_CENTER" styleClass="detailsSectionTitle" text="Also involved in" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
+            <StackPane maxHeight="550" maxWidth="1197" minHeight="550" minWidth="1197">
+                <Label alignment="TOP_CENTER" styleClass="detailsSectionTitle" text="Series appearances" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
                     <StackPane.margin>
-                        <Insets top="20.0" />
+                        <Insets top="60.0" />
                     </StackPane.margin>
                 </Label>
-                <JFXListView fx:id="castInListView" orientation="HORIZONTAL" maxHeight="350" onMouseClicked="#handleCastInClicked">
+                <JFXListView fx:id="seriesAppearanceListView" orientation="HORIZONTAL" maxHeight="350" onMouseClicked="#handleSeriesAppearanceClicked">
                     <StackPane.margin>
                         <Insets top="80.0" />
                     </StackPane.margin>
                 </JFXListView>
-                <VBox.margin>
-                    <Insets top="50.0" />
-                </VBox.margin>
             </StackPane>
 
         </children>

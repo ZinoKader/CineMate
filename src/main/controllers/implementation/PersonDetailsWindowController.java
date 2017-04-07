@@ -20,7 +20,6 @@ import main.view.MotionPictureListViewCell;
 
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 
 /**
@@ -44,13 +43,16 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
     private Label detailsDead;
 
     @FXML
+    private Label detailsAge;
+
+    @FXML
     private Label detailsName;
 
     @FXML
-    private JFXListView<MotionPicture> knownForListView;
+    private JFXListView<MotionPicture> movieAppearanceListView;
 
     @FXML
-    private JFXListView<MotionPicture> castInListView;
+    private JFXListView<MotionPicture> seriesAppearanceListView;
 
     private Person person;
 
@@ -85,46 +87,45 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
         stage.setTitle(person.getName());
 
         setBaseDetails();
+        setAppearances();
     }
 
     @Override public void setBaseDetails() {
         detailsName.setText(person.getName());
         detailsBiography.setText(person.getBiograhy());
-        detailsBorn.setText(person.getBirthday());
-        if(!person.getDeathday().isEmpty()) {
-            detailsDead.setText(person.getDeathday());
+        detailsBorn.setText("Born: " + person.getBirthday() + " in " + person.getBirthplace());
+        if(person.isDead()) {
+            detailsDead.setText("Dead: " + person.getDeathday());
+            detailsAge.setText("Died aged at " + person.getAge());
         } else {
             detailsDead.setVisible(false);
+            detailsAge.setText("Age " + person.getAge());
         }
         imageHelper.downloadAndSetImage(person.getProfilePath(), detailsPersonProfile, true);
         imageHelper.downloadAndSetImage(person.getProfilePath(), detailsBackdrop, false);
         detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT_HIGH);
-
-        setKnownFor();
     }
 
-    private void setKnownFor() {
-        ObservableList<MotionPicture> knownForList = FXCollections.observableArrayList();
+    private void setAppearances() {
+        ObservableList<MotionPicture> movieAppearanceList = FXCollections.observableArrayList();
+        ObservableList<MotionPicture> seriesAppearanceList = FXCollections.observableArrayList();
 
-        Iterator<AccreditedMovie> movieIterator = person.getMovieCredits().getMovies().iterator();
-        Iterator<AccreditedSeries> seriesIterator = person.getSeriesCredits().getSeries().iterator();
+        movieAppearanceList.addAll(person.getMovieCredits().getMovies());
+        seriesAppearanceList.addAll(person.getSeriesCredits().getSeries());
 
-        //sort our knownForList to show every other movie/series based on the original order (which is based on popularity)
-        while(movieIterator.hasNext() || seriesIterator.hasNext()) {
-            if(movieIterator.hasNext()) knownForList.add(movieIterator.next());
-            if(seriesIterator.hasNext()) knownForList.add(seriesIterator.next());
-        }
+        movieAppearanceListView.setItems(movieAppearanceList);
+        movieAppearanceListView.setCellFactory(listView -> new MotionPictureListViewCell());
 
-        knownForListView.setItems(knownForList);
-        knownForListView.setCellFactory(listView -> new MotionPictureListViewCell());
+        seriesAppearanceListView.setItems(seriesAppearanceList);
+        seriesAppearanceListView.setCellFactory(listView -> new MotionPictureListViewCell());
     }
 
-    public void handleKnownForClicked(MouseEvent clickEvent) {
-        handleMotionPictureClicked(knownForListView, clickEvent);
+    public void handleMovieAppearanceClicked(MouseEvent clickEvent) {
+        handleMotionPictureClicked(movieAppearanceListView, clickEvent);
     }
 
-    public void handleCastInClicked(MouseEvent clickEvent) {
-        handleMotionPictureClicked(castInListView, clickEvent);
+    public void handleSeriesAppearanceClicked(MouseEvent clickEvent) {
+        handleMotionPictureClicked(seriesAppearanceListView, clickEvent);
     }
 
     private void handleMotionPictureClicked(JFXListView<? extends MotionPicture> targetListView, MouseEvent clickEvent) {

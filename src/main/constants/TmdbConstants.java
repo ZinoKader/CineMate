@@ -17,6 +17,8 @@ public final class TmdbConstants {
     public static final int DEFAULT_BACKDROP_SIZE = 1280;
     public static final String BACKDROP_PLACEHOLDER = "https://www.zinokader.se/img/backdrop_placeholder.png";
 
+    public static final String TRAILER_PLACEHOLDER = "https://www.zinokader.se/img/trailer_placeholder.png";
+
     /**
      * GENERAL CONSTANTS
      */

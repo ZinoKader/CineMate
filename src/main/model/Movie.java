@@ -1,15 +1,18 @@
 package main.model;
 
 import com.google.gson.annotations.SerializedName;
+import main.constants.TimeConstants;
+import main.constants.TmdbConstants;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Contains Movie-specific fields.
  */
 public class Movie extends MotionPicture implements TmdbObject {
-
-    private static final int MINS_IN_HOUR = 60;
 
     @SerializedName("id")
     private String id;
@@ -57,8 +60,8 @@ public class Movie extends MotionPicture implements TmdbObject {
     }
 
     public LocalTime getRuntime() {
-        int hours = runtime / MINS_IN_HOUR;
-        int minutes = runtime % MINS_IN_HOUR;
+        int hours = runtime / TimeConstants.MINUTES_IN_HOUR;
+        int minutes = runtime % TimeConstants.MINUTES_IN_HOUR;
         return LocalTime.of(hours, minutes);
     }
 
@@ -81,7 +84,7 @@ public class Movie extends MotionPicture implements TmdbObject {
                 return video.getVideoUrl();
             }
         }
-        return "";
+        return TmdbConstants.TRAILER_PLACEHOLDER;
     }
 
 }

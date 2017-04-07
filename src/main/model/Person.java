@@ -1,8 +1,13 @@
 package main.model;
 
 import com.google.gson.annotations.SerializedName;
+import main.constants.TimeConstants;
 import main.constants.TmdbConstants;
 
+import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -78,6 +83,20 @@ public class Person implements TmdbObject {
         return birthplace;
     }
 
+    public boolean isDead() {
+        return !deathday.isEmpty();
+    }
+
+    public int getAge() {
+        LocalDate birthdayDate = LocalDate.parse(birthday, TimeConstants.YEAR_MONTH_DAY_FORMAT);
+        if(isDead()) {
+            LocalDate deathdayDate = LocalDate.parse(deathday, TimeConstants.YEAR_MONTH_DAY_FORMAT);
+            return (int) (Duration.between(birthdayDate.atStartOfDay(), deathdayDate.atStartOfDay()).toDays() / TimeConstants.DAYS_IN_YEAR);
+        } else {
+            return (int) (Duration.between(birthdayDate.atStartOfDay(), LocalDate.now().atStartOfDay()).toDays() / TimeConstants.DAYS_IN_YEAR);
+        }
+    }
+
     public MovieCredits getMovieCredits() {
         return movieCredits;
     }
@@ -85,4 +104,5 @@ public class Person implements TmdbObject {
     public SeriesCredits getSeriesCredits() {
         return seriesCredits;
     }
+
 }

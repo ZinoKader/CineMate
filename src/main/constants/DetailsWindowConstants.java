@@ -6,7 +6,7 @@ import javafx.scene.effect.Effect;
 public final class DetailsWindowConstants {
 
     private static final double BLUR_AMOUNT_NORMAL = 25;
-    private static final double BLUR_AMOUNT_HIGH = 100;
+    private static final double BLUR_AMOUNT_HIGH = 200;
     private static final int BLUR_FINENESS_NORMAL = 3;
 
     public static final Effect FROSTED_GLASS_EFFECT_NORMAL = new BoxBlur(BLUR_AMOUNT_NORMAL, BLUR_AMOUNT_NORMAL, BLUR_FINENESS_NORMAL);

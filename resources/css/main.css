@@ -84,7 +84,18 @@
     -fx-text-fill: #fafafa;
 }
 
+#detailsName {
+    -fx-font: 32px Raleway !important;
+    -fx-text-fill: #fafafa;
+}
+
 #detailsDescription {
+    -fx-font: 15px Raleway !important;
+    -fx-max-height: 100px;
+    -fx-text-fill: #fafafa;
+}
+
+#detailsBiography {
     -fx-font: 15px Raleway !important;
     -fx-max-height: 100px;
     -fx-text-fill: #fafafa;
@@ -96,6 +107,11 @@
 }
 
 #detailsYear {
+    -fx-font: 20px Raleway !important;
+    -fx-text-fill: #fafafa;
+}
+
+#detailsBorn, #detailsDead, #detailsAge {
     -fx-font: 20px Raleway !important;
     -fx-text-fill: #fafafa;
 }
