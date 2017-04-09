@@ -5,8 +5,8 @@ import main.controllers.ScreenController;
 
 public interface ControlledWindow {
 
-    public void setStage(Stage stage);
-    public void setScreenParent(ScreenController screenController);
-    public void setPassedData(Object passedData);
+    void setStage(Stage stage);
+    void setScreenParent(ScreenController screenParent);
+    void setPassedData(Object passedData);
 
 }
