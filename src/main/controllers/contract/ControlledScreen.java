@@ -1,6 +1,7 @@
 package main.controllers.contract;
 
 
+import javafx.stage.Stage;
 import main.controllers.ScreenController;
 
 /**
@@ -9,6 +10,7 @@ import main.controllers.ScreenController;
  */
 public interface ControlledScreen {
 
-    public void setScreenParent(ScreenController screenController);
+    void listenToWindowShown();
+    void setScreenParent(ScreenController screenController);
 
 }
