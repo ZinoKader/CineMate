@@ -8,7 +8,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.Pane?>
+
 <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1220" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.implementation.PersonDetailsWindowController">
+    <Pane>
     <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1197">
         <children>
 
@@ -43,6 +47,11 @@
             </StackPane>
 
             <StackPane maxHeight="550" maxWidth="1197" minHeight="550" minWidth="1197">
+                <JFXTextField fx:id="filterMoviesTextField" promptText="Filter...">
+                    <StackPane.margin>
+                        <Insets top="30.0" />
+                    </StackPane.margin>
+                </JFXTextField>
                 <Label alignment="TOP_CENTER" styleClass="detailsSectionTitle" text="Movie appearances" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
                     <StackPane.margin>
                         <Insets top="60.0" />
@@ -62,6 +71,8 @@
                         <Insets top="60.0" />
                     </StackPane.margin>
                 </Label>
+                <JFXTextField fx:id="filterSeriesTextField" promptText="Search for...">
+                </JFXTextField>
                 <JFXListView fx:id="seriesAppearanceListView" orientation="HORIZONTAL" maxHeight="350" onMouseClicked="#handleSeriesAppearanceClicked">
                     <StackPane.margin>
                         <Insets top="80.0" />
@@ -71,4 +82,5 @@
 
         </children>
     </VBox>
+    </Pane>
 </ScrollPane>
