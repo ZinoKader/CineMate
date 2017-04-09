@@ -43,24 +43,25 @@ public class ImageHelper {
 	 * @param imageView the view which the image should be set on
 	 */
 	public void downloadAndSetImage(String imageUrl, ImageView imageView, boolean shouldClipCircular) {
-		new Thread(new Task<Void>() {
-			@Override protected Void call() throws Exception {
-				try(InputStream in = new URL(imageUrl).openStream()) {
-					Image downloadedImage = new Image(in);
-					imageView.setImage(downloadedImage);
-					addImageToCache(imageUrl, downloadedImage);
 
-					if(shouldClipCircular) {
-						Platform.runLater( () -> imageView.setClip(
-								new Circle(imageView.getFitWidth() / 2, imageView.getFitHeight() / 2, imageView.getFitWidth() / 2)));
-					}
-				} catch (IOException e) {
-					Log.debug("Could not download image. Check your connection. " + "Image: " + imageUrl);
-					e.printStackTrace();
-				}
-				return null;
-			}}
-		).start();
+	    new Thread( () -> {
+
+            try(InputStream in = new URL(imageUrl).openStream()) {
+                Image downloadedImage = new Image(in);
+                imageView.setImage(downloadedImage);
+                addImageToCache(imageUrl, downloadedImage);
+
+                if(shouldClipCircular) {
+                    Platform.runLater( () -> imageView.setClip(new Circle(
+                            imageView.getFitWidth() / 2, imageView.getFitHeight() / 2, imageView.getFitWidth() / 2)));
+                }
+            } catch (IOException e) {
+                Log.debug("Could not download image. Check your connection or the source. " + "Attempted image URL: " + imageUrl);
+                e.printStackTrace();
+            }
+
+        }).start();
+
 	}
 
 }
