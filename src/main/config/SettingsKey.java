@@ -3,6 +3,6 @@ package main.config;
 /**
  *
  */
-public enum SettingsKey {
+public enum SettingsKey implements PropertyKey {
     API_KEY
 }
