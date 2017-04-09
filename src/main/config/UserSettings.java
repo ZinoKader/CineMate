@@ -1,7 +1,9 @@
 package main.config;
 
-import main.exceptions.PropertyAccessException;
+import main.exceptions.EmptyValueException;
 import main.exceptions.PropertyLoadException;
+
+import java.io.IOException;
 
 /**
  * UserSettings expose simplified methods that it inherits from PropertyLoader.
@@ -18,12 +20,12 @@ public class UserSettings extends PropertyLoader implements Settings {
     }
 
     @Override
-    public void setApiKey(String apiKey) {
-        store(SettingsKey.API_KEY, apiKey);
+    public void setApiKey(String apiKey) throws IOException {
+        put(SettingsKey.API_KEY, apiKey);
     }
 
     @Override
-    public String getApiKey() throws PropertyAccessException {
+    public String getApiKey() throws EmptyValueException {
         return get(SettingsKey.API_KEY);
     }
 
