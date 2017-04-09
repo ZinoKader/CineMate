@@ -1,18 +1,13 @@
 package main.api;
 
+import main.constants.TmdbConstants;
 import main.model.AppendedQueries;
 import main.model.Movie;
 import main.model.Person;
 import main.model.ResultsPager;
 import main.model.Series;
-import retrofit.Callback;
-import retrofit.client.Response;
-import retrofit.http.GET;
-import retrofit.http.Path;
-import retrofit.http.Query;
-import retrofit.http.QueryMap;
-
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.http.*;
 
 
 /**
@@ -23,38 +18,36 @@ public interface ApiService {
 
     /**
      * API key validation
+     * Anything that isn't a HTTP 200 will count as a bad validation
      */
 
-    @GET("/authentication/token/new")
-    void getResponse(@Query("api_key") String apiKey, Callback<Response> responseCallback);
+    @GET("authentication/token/new")
+    Call<Void> getResponse();
 
     /**
-     * Searches for several objects
-     * Since all parameters here are queries, we put them in a map
+     * Searches for specific objects
      */
 
-    @GET("/search/movie")
-    ResultsPager<Movie> searchMovies(@QueryMap Map<String, String> queries);
+    @GET("search/movie")
+    Call<ResultsPager<Movie>> searchMovies(@Query(TmdbConstants.API_QUERY_PARAM) String query);
 
-    @GET("/search/tv")
-    ResultsPager<Series> searchSeries(@QueryMap Map<String, String> queries);
+    @GET("search/tv")
+    Call<ResultsPager<Series>> searchSeries(@Query(TmdbConstants.API_QUERY_PARAM) String query);
 
-    @GET("/search/person")
-    ResultsPager<Person> searchPeople(@QueryMap Map<String, String> queries);
+    @GET("search/person")
+    Call<ResultsPager<Person>> searchPeople(@Query(TmdbConstants.API_QUERY_PARAM) String query);
 
 
     /**
      * Gets specific objects with more details
-     * Since these only require one query, we do not need a QueryMap
      * These work by specifying the object id and appending/bundling
      * several calls to the API to get a lot of details in one request
      */
-    @GET("/movie/{movie_id}")
-    Movie getMovieDetailed(@Path("movie_id") String movieId,
-                           @Query("append_to_response") AppendedQueries queries, @Query("api_key") String apiKey);
 
-    @GET("/person/{person_id}")
-    Person getPersonDetailed(@Path("person_id") String personId,
-                             @Query("append_to_response") AppendedQueries queries, @Query("api_key") String apiKey);
+    @GET("movie/{movie_id}")
+    Call<Movie> getMovieDetailed(@Path("movie_id") String movieId, @Query(TmdbConstants.API_APPEND_PARAM) AppendedQueries queries);
+
+    @GET("person/{person_id}")
+    Call<Person> getPersonDetailed(@Path("person_id") String personId, @Query(TmdbConstants.API_APPEND_PARAM) AppendedQueries queries);
 
 }
