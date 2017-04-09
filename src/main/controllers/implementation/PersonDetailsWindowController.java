@@ -1,6 +1,9 @@
 package main.controllers.implementation;
 
+import com.esotericsoftware.minlog.Log;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextField;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,7 +20,11 @@ import main.controllers.ScreenController;
 import main.controllers.contract.ControlledWindow;
 import main.model.*;
 import main.view.MotionPictureListViewCell;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -52,9 +59,19 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
     private JFXListView<MotionPicture> movieAppearanceListView;
 
     @FXML
+    private JFXTextField filterMoviesTextField;
+
+    @FXML
     private JFXListView<MotionPicture> seriesAppearanceListView;
 
+    @FXML
+    private JFXTextField filterSeriesTextField;
+
+    private ObservableList<MotionPicture> movieAppearanceList = FXCollections.observableArrayList();
+    private ObservableList<MotionPicture> seriesAppearanceList = FXCollections.observableArrayList();
+
     private Person person;
+
 
     @Override
     public void setStage(Stage stage) {
@@ -62,8 +79,8 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
     }
 
     @Override
-    public void setScreenParent(ScreenController screenController) {
-        this.screenController = screenController;
+    public void setScreenParent(ScreenController screenParent) {
+        this.screenParent = screenParent;
     }
 
     @Override
@@ -76,21 +93,60 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize();
+
+        filterMoviesTextField.textProperty().addListener((observable, oldText, filterText) -> {
+            movieAppearanceList.filtered(motionPicture -> {
+                Movie movie = (Movie) motionPicture;
+                return movie.getTitle().toLowerCase().contains(filterText.toLowerCase());
+            });
+        });
+
+        filterSeriesTextField.textProperty().addListener((observable, oldText, filterText) -> {
+            movieAppearanceList.filtered(motionPicture -> {
+                Series series = (Series) motionPicture;
+                return series.getTitle().toLowerCase().contains(filterText.toLowerCase());
+            });
+        });
     }
 
     @Override
     public void delegateSetData() {
-        //TODO: Remove manual API key
         AppendedQueries appendedQueries = new AppendedQueries(Arrays.asList(TmdbQuery.MOVIE_CREDITS, TmdbQuery.TV_CREDITS, TmdbQuery.IMAGES));
 
-        person = apiService.getPersonDetailed(person.getId(), appendedQueries, "4b45808a4d1a83471866761a8d7e5325");
-        stage.setTitle(person.getName());
+        apiService.getPersonDetailed(person.getId(), appendedQueries).enqueue(new Callback<Person>() {
+            @Override
+            public void onResponse(Call<Person> call, Response<Person> response) {
+                person = response.body();
+                if(response.isSuccessful()) {
+                    Platform.runLater( () -> {
+                        stage.setTitle(person.getName());
+                        setBaseDetails();
+                        setAppearances();
+                    });
+                } else {
+                    Platform.runLater( () -> {
+                        messageHelper.showMessage("Could not fetch person details, closing...");
+                        delayedTaskHelper.delayedClose(stage, FXConstants.DEFAULT_DELAYED_CLOSE_TIME);
+                        Log.debug("Failed to fetch person details");
+                    });
+                }
+            }
 
-        setBaseDetails();
-        setAppearances();
+            @Override
+            public void onFailure(Call<Person> call, Throwable throwable) {
+                Platform.runLater( () -> {
+                    messageHelper.showMessage("Something went wrong when requesting data, closing...");
+                    delayedTaskHelper.delayedClose(stage, FXConstants.DEFAULT_DELAYED_CLOSE_TIME);
+                    Log.debug("Failed to fetch person details: " + throwable.getMessage());
+                    throwable.printStackTrace();
+                });
+            }
+        });
+
     }
 
-    @Override public void setBaseDetails() {
+    @Override
+    public void setBaseDetails() {
         detailsName.setText(person.getName());
         detailsBiography.setText(person.getBiograhy());
         detailsBorn.setText("Born: " + person.getBirthday() + " in " + person.getBirthplace());
@@ -107,9 +163,6 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
     }
 
     private void setAppearances() {
-        ObservableList<MotionPicture> movieAppearanceList = FXCollections.observableArrayList();
-        ObservableList<MotionPicture> seriesAppearanceList = FXCollections.observableArrayList();
-
         movieAppearanceList.addAll(person.getMovieCredits().getMovies());
         seriesAppearanceList.addAll(person.getSeriesCredits().getSeries());
 
@@ -133,11 +186,11 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
             switch(targetListView.getSelectionModel().getSelectedItem().getMediaType()) {
                 case MOVIE:
                     Movie selectedMovie = (Movie) targetListView.getSelectionModel().getSelectedItem();
-                    screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
+                    screenParent.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
                     break;
                 case SERIES:
                     Series selectedSeries = (Series) targetListView.getSelectionModel().getSelectedItem();
-                    screenController.loadWindow(CineMateApplication.SERIES_WINDOW_FXML, selectedSeries);
+                    screenParent.loadWindow(CineMateApplication.SERIES_WINDOW_FXML, selectedSeries);
                     break;
             }
         }

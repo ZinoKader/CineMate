@@ -1,5 +1,6 @@
 package main.controllers.implementation;
 
+import com.esotericsoftware.minlog.Log;
 import com.jfoenix.controls.JFXListView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -7,10 +8,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import main.CineMateApplication;
@@ -21,14 +24,15 @@ import main.controllers.DetailsWindowBase;
 import main.controllers.ScreenController;
 import main.controllers.contract.ControlledWindow;
 import main.helpers.CrewHelper;
-import main.model.AppendedQueries;
-import main.model.Cast;
-import main.model.Crew;
-import main.model.Movie;
-import main.model.TmdbQuery;
+import main.model.*;
 import main.view.CastListViewCell;
 import main.view.MovieListViewCell;
 import org.controlsfx.control.Rating;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
@@ -94,8 +98,8 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
     }
 
     @Override
-    public void setScreenParent(ScreenController screenController) {
-        this.screenController = screenController;
+    public void setScreenParent(ScreenController screenParent) {
+        this.screenParent = screenParent;
     }
 
     @Override
@@ -114,19 +118,43 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
 
     @Override
     public void delegateSetData() {
-        //TODO: Remove manual API key
         AppendedQueries appendedQueries = new AppendedQueries(Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.RECOMMENDATIONS, TmdbQuery.VIDEOS));
 
-        movie = apiService.getMovieDetailed(movie.getId(), appendedQueries, "4b45808a4d1a83471866761a8d7e5325");
-        stage.setTitle(movie.getTitle());
+        apiService.getMovieDetailed(movie.getId(), appendedQueries).enqueue(new Callback<Movie>() {
+            @Override
+            public void onResponse(Call<Movie> call, Response<Movie> response) {
+                if(response.isSuccessful()) {
+                    movie = response.body();
+                    Platform.runLater( () -> {
+                        stage.setTitle(movie.getTitle());
+                        setBaseDetails();
+                        setTrailer();
+                        setRatings();
+                        setDirector();
+                        setCast();
+                        setCrew();
+                        setRelatedMovies();
+                    });
+                } else {
+                    Platform.runLater(() -> {
+                        messageHelper.showMessage("Could not fetch movie details, closing...");
+                        delayedTaskHelper.delayedClose(stage, FXConstants.DEFAULT_DELAYED_CLOSE_TIME);
+                        Log.debug("Failed to fetch movie details");
+                    });
+                }
+            }
 
-        setBaseDetails();
-        setTrailer();
-        setRatings();
-        setDirector();
-        setCast();
-        setCrew();
-        setRelatedMovies();
+            @Override
+            public void onFailure(Call<Movie> call, Throwable throwable) {
+                Platform.runLater( () -> {
+                    messageHelper.showMessage("Something went wrong when requesting data, closing...");
+                    delayedTaskHelper.delayedClose(stage, FXConstants.DEFAULT_DELAYED_CLOSE_TIME);
+                    Log.debug("Failed to fetch movie details: " + throwable.getMessage());
+                    throwable.printStackTrace();
+                });
+            }
+        });
+
     }
 
     @Override
@@ -162,7 +190,7 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
     public void handleCastClicked(MouseEvent mouseEvent) {
         if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             Cast selectedCast = castListView.getSelectionModel().getSelectedItem();
-            screenController.loadWindow(CineMateApplication.PERSON_WINDOW_FXML, selectedCast);
+            screenParent.loadWindow(CineMateApplication.PERSON_WINDOW_FXML, selectedCast);
             closeWindow();
         }
     }
@@ -188,7 +216,7 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
     public void handleRelatedMovieClicked(MouseEvent mouseEvent) {
         if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             Movie selectedMovie = relatedMoviesListView.getSelectionModel().getSelectedItem();
-            screenController.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
+            screenParent.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
             closeWindow();
         }
     }
