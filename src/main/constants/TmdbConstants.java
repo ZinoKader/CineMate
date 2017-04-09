@@ -23,6 +23,10 @@ public final class TmdbConstants {
      * GENERAL CONSTANTS
      */
 
+    public static final String API_KEY_PARAM = "api_key";
+    public static final String API_APPEND_PARAM = "append_to_response";
+    public static final String API_QUERY_PARAM = "query";
+
     public static final int MAX_AVERAGE_RATING = 10;
 
 }
