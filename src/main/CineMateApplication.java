@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import main.controllers.ScreenController;
 
 
@@ -37,7 +38,8 @@ public class CineMateApplication extends Application {
 
     }
 
-    @Override public void start(Stage stage) throws Exception {
+    @Override
+    public void start(Stage stage) throws Exception {
 
         Log.DEBUG(); //set logging level to DEBUG as default
 
