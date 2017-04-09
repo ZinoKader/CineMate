@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import main.CineMateApplication;
 import main.controllers.contract.ControlledScreen;
@@ -40,11 +41,17 @@ public class ScreenController extends StackPane {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
 			Parent screenToLoad = fxmlLoader.load();
+
+			Stage stage = new Stage();
+			stage.setScene(new Scene(screenToLoad));
+
 			ControlledScreen screenController = fxmlLoader.getController();
+
 			screenController.setScreenParent(this);
 			addScreen(screenName, screenToLoad);
 		} catch (IOException e) {
-			Log.debug("Crashed while loading screen: " + e.getCause());
+			Log.debug("Crashed while loading screen: " + screenName);
+            e.printStackTrace();
 		}
 	}
 
@@ -78,15 +85,13 @@ public class ScreenController extends StackPane {
 				//All the while, go from no opacity on the screen to be added to full opacity
 				Timeline fadeOut = new Timeline(
 						new KeyFrame(Duration.ZERO, new KeyValue(screenOpacity, 1)),
-						new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-							@Override public void handle(final ActionEvent event) {
-								//remove current screen and add new screen with fade in animation
-								getChildren().remove(0);
-								getChildren().add(0, screens.get(screenName));
-								CineMateApplication.resizeScreen(); //resize screen normally instead of inheriting size from parent
-								playFadeIn(screenOpacity);
-							}
-						}, new KeyValue(screenOpacity, 0)));
+						new KeyFrame(Duration.seconds(1), event -> {
+                            //remove current screen and add new screen with fade in animation
+                            getChildren().remove(0);
+                            getChildren().add(0, screens.get(screenName));
+                            CineMateApplication.resizeScreen(); //resize screen normally instead of inheriting size from parent
+                            playFadeIn(screenOpacity);
+                        }, new KeyValue(screenOpacity, 0)));
 				fadeOut.play();
 			} else { //if there aren't any contract shown already, we just need to add our new screen
 				setOpacity(0);
