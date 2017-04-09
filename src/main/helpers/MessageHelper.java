@@ -1,6 +1,7 @@
 package main.helpers;
 
 import com.jfoenix.controls.JFXSnackbar;
+import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -8,25 +9,26 @@ import javafx.scene.layout.Pane;
  */
 public class MessageHelper {
 
-    Pane targetPane;
+    private Parent targetParent;
 
     private static final int MESSAGE_DEFAULT_DURATION = 2500;
 
     /**
-     *
-     * @param targetPane the pane which the message should be shown in
+     * We use the fact that a pane has a parent to broaden the possible scope of parameters a user can provide
+     * when passing in a target object for the message to be shown in
+     * @param targetParent the parent to the pane which the message should be shown in
      */
-    public MessageHelper(Pane targetPane) {
-        this.targetPane = targetPane;
+    public MessageHelper(Parent targetParent) {
+        this.targetParent = targetParent;
     }
 
     public void showMessage(String message, int duration) {
-        JFXSnackbar snackbar = new JFXSnackbar(targetPane);
+        JFXSnackbar snackbar = new JFXSnackbar((Pane) targetParent);
         snackbar.show(message, duration);
     }
 
     public void showMessage(String message) {
-        JFXSnackbar snackbar = new JFXSnackbar(targetPane);
+        JFXSnackbar snackbar = new JFXSnackbar((Pane) targetParent);
         snackbar.show(message, MESSAGE_DEFAULT_DURATION);
     }
 
