@@ -88,7 +88,11 @@ public class Person implements TmdbObject {
     }
 
     public int getAge() {
+
+        if(birthday == null || deathday == null && !birthday.isEmpty()) return -1;
+
         LocalDate birthdayDate = LocalDate.parse(birthday, TimeConstants.YEAR_MONTH_DAY_FORMAT);
+
         if(isDead()) {
             LocalDate deathdayDate = LocalDate.parse(deathday, TimeConstants.YEAR_MONTH_DAY_FORMAT);
             return (int) (Duration.between(birthdayDate.atStartOfDay(), deathdayDate.atStartOfDay()).toDays() / TimeConstants.DAYS_IN_YEAR);
