@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.implementation.MainScreenController">
+<VBox fx:id="rootParent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.implementation.MainScreenController">
    <children>
       <ImageView fitWidth="450.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -38,7 +38,7 @@
             <Insets top="20.0" />
          </VBox.margin>
       </ToolBar>
-       <StackPane fx:id="searchPane">
+       <StackPane fx:id="rootPane">
            <JFXListView fx:id="movieListView" minHeight="620.0" />
            <JFXListView fx:id="seriesListView" minHeight="620.0" />
            <JFXListView fx:id="personListView" minHeight="620.0" />
