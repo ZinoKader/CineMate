@@ -1,6 +1,5 @@
 package main.controllers.implementation;
 
-import com.esotericsoftware.minlog.Log;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
@@ -24,12 +23,7 @@ import main.exceptions.EmptyValueException;
 import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
 import main.helpers.MessageHelper;
-import main.model.MediaType;
-import main.model.Movie;
-import main.model.Person;
-import main.model.ResultsPager;
-import main.model.Series;
-import main.model.TmdbObject;
+import main.model.*;
 import main.view.MovieListViewCell;
 import main.view.PersonListViewCell;
 import main.view.SeriesListViewCell;

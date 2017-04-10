@@ -2,11 +2,10 @@ package main.helpers;
 
 import com.esotericsoftware.minlog.Log;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;

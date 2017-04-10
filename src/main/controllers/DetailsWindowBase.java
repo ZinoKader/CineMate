@@ -11,7 +11,6 @@ import main.api.ApiService;
 import main.config.UserSettings;
 import main.controllers.contract.DetailedView;
 import main.exceptions.EmptyValueException;
-import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
 import main.helpers.DelayedTaskHelper;
 import main.helpers.ImageHelper;

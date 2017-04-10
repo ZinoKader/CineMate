@@ -5,15 +5,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import main.CineMateApplication;
 import main.controllers.contract.ControlledScreen;
@@ -23,7 +20,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * Holds contract. Creates new windows. Extends StackPane to be able to easily identify and remove contract that are no longer displayed.
+ * Holds screens. Creates new windows. Extends StackPane to be able to easily identify and remove screens that are no longer displayed.
  */
 public class ScreenController extends StackPane {
 

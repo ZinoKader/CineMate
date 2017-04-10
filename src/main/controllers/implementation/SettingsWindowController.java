@@ -1,35 +1,19 @@
 package main.controllers.implementation;
 
 import com.esotericsoftware.minlog.Log;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXTextField;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import main.CineMateApplication;
-import main.constants.DetailsWindowConstants;
 import main.constants.FXConstants;
 import main.controllers.DetailsWindowBase;
 import main.controllers.ScreenController;
 import main.controllers.contract.ControlledWindow;
 import main.exceptions.EmptyValueException;
-import main.model.*;
-import main.view.MotionPictureListViewCell;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**

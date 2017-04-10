@@ -1,7 +1,6 @@
 package main.controllers.contract;
 
 
-import javafx.stage.Stage;
 import main.controllers.ScreenController;
 
 /**

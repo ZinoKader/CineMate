@@ -24,13 +24,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
- * Controller implementation for detailed person information window
+ * Controller implementation for detailed person informaton window
  */
 public class PersonDetailsWindowController extends DetailsWindowBase implements Initializable, ControlledWindow {
 

@@ -1,6 +1,5 @@
 package main.controllers.implementation;
 
-import com.esotericsoftware.minlog.Log;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.concurrent.Task;

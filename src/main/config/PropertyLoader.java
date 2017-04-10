@@ -1,13 +1,13 @@
 package main.config;
 
 import com.esotericsoftware.minlog.Log;
-import main.CineMateApplication;
-import main.constants.TmdbConstants;
 import main.exceptions.EmptyValueException;
-import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 /**

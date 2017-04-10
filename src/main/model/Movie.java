@@ -4,10 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import main.constants.TimeConstants;
 import main.constants.TmdbConstants;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Contains Movie-specific fields.

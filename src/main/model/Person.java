@@ -4,11 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import main.constants.TimeConstants;
 import main.constants.TmdbConstants;
 
-import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  *
