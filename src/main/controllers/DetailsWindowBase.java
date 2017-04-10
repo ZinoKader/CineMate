@@ -26,6 +26,7 @@ public abstract class DetailsWindowBase implements DetailedView {
     protected ApiService apiService;
     protected Stage stage;
     protected ScreenController screenParent;
+    protected UserSettings userSettings;
     protected ImageHelper imageHelper;
     protected DelayedTaskHelper delayedTaskHelper;
     protected MessageHelper messageHelper;
@@ -35,14 +36,14 @@ public abstract class DetailsWindowBase implements DetailedView {
         String apiKey = "";
 
         try {
-            UserSettings userSettings = new UserSettings();
+            userSettings = new UserSettings();
             apiKey = userSettings.getApiKey();
         } catch (PropertyLoadException e) {
-            stage.close();
+            Platform.runLater( () -> stage.close());
             Log.debug("Error while loading UserSettings for details window");
             e.printStackTrace();
         } catch (EmptyValueException e) {
-            stage.close();
+            Platform.runLater( () -> stage.close());
             Log.debug("Error while fetching api key from properties");
             e.printStackTrace();
         }
