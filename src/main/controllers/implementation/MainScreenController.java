@@ -98,12 +98,17 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
 		messageHelper = new MessageHelper(rootPane);
 
-	}
+    }
 
 	@Override
 	public void listenToWindowShown() {
 	    //Because of JavaFX tomfoolery, we have to observe the parent node to know when the window is shown
-        Platform.runLater( () -> rootParent.sceneProperty().addListener((sceneObservable, oldScene, newScene) -> loadUserSettings()));
+        Platform.runLater( () -> rootParent.sceneProperty().addListener((sceneObservable, oldScene, newScene) -> {
+            //Reload user settings on window reload
+            loadUserSettings();
+            //Clear all search results on window reload
+            clearAllSearchResults();
+        }));
     }
 
     private void loadUserSettings() {
@@ -122,7 +127,13 @@ public class MainScreenController implements Initializable, ControlledScreen {
         apiService = apiAdapter.getApiService();
     }
 
-	private void listenToSearchTypeChanges() {
+    @FXML
+    private void settingsButtonPressed() {
+	    screenParent.loadWindow(CineMateApplication.SETTINGS_WINDOW_FXML, null);
+    }
+
+
+    private void listenToSearchTypeChanges() {
 		searchTypeBox.getSelectionModel().selectedItemProperty().addListener( (observable, oldSearchType, newSearchType) ->  {
 			currentSearchType = newSearchType;
 			searchTextField.setPromptText("Search for " + currentSearchType.toString().toLowerCase());
@@ -151,7 +162,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
 	}
 
-	public void searchButtonPressed() throws PropertyAccessException {
+	@FXML
+	private void searchButtonPressed() throws PropertyAccessException {
 		if(!searchTextField.getText().isEmpty() && currentSearchType != null) {
             try {
                 handleSearch(searchTextField.getText());
@@ -184,11 +196,16 @@ public class MainScreenController implements Initializable, ControlledScreen {
 				break;
 		}
 
-		if(!searchResults.getResults().isEmpty()) {
-			populateList(searchResults.getResults(), mediaType);
-		} else {
-			messageHelper.showMessage("No results for this query");
-		}
+		if(searchResults != null) {
+            if(!searchResults.getResults().isEmpty()) {
+                populateList(searchResults.getResults(), mediaType);
+            } else {
+                messageHelper.showMessage("No results for this query");
+            }
+        } else {
+		    messageHelper.showMessage("Something went wrong when searching, check your API key");
+		    clearAllSearchResults();
+        }
 
 	}
 
@@ -240,6 +257,12 @@ public class MainScreenController implements Initializable, ControlledScreen {
 		rootPane.getChildren().get(searchPaneIndex).toFront();
 
 	}
+
+	private void clearAllSearchResults() {
+	    movieObservableList.clear();
+	    seriesObservableList.clear();
+	    personObservableList.clear();
+    }
 
     @Override
 	public void setScreenParent(ScreenController screenParent) {
