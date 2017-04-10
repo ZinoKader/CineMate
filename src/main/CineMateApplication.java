@@ -33,6 +33,7 @@ public class CineMateApplication extends Application {
     public static final String MOVIE_WINDOW_FXML = "/fxml/movie_window.fxml";
     public static final String SERIES_WINDOW_FXML = "/fxml/series_window.fxml";
     public static final String PERSON_WINDOW_FXML = "/fxml/person_window.fxml";
+    public static final String SETTINGS_WINDOW_FXML = "/fxml/settings_window.fxml";
 
     public CineMateApplication() {
 
