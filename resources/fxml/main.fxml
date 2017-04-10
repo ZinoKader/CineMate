@@ -14,12 +14,21 @@
 
 <VBox fx:id="rootParent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.implementation.MainScreenController">
    <children>
+
+       <ImageView fitWidth="30" onMouseClicked="#settingsButtonPressed" pickOnBounds="true" preserveRatio="true">
+           <image>
+               <Image url="@/image/icon_settings.png" />
+           </image>
+           <VBox.margin>
+               <Insets left="760.0" top="10.0" />
+           </VBox.margin>
+       </ImageView>
       <ImageView fitWidth="450.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@/image/logo.png" />
          </image>
          <VBox.margin>
-            <Insets left="175.0" top="20.0" />
+            <Insets left="175.0" top="-10" />
          </VBox.margin>
       </ImageView>
       <ToolBar prefHeight="50.0" prefWidth="200.0">

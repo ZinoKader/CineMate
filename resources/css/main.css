@@ -43,7 +43,7 @@
 
 /* Change selected item color */
 .jfx-list-view .jfx-list-cell:selected {
-    -fx-background-color: #323232;
+    -fx-background-color: #222222 !important;
     -fx-text-fill: #fafafa !important;
 }
 
@@ -184,4 +184,18 @@
 
 .jfx-snackbar-toast {
     -fx-text-fill: #fafafa;
+}
+
+.settingsLabel {
+    -fx-font: 15px Raleway !important;
+    -fx-text-fill: #000000;
+}
+
+.settingsTitle {
+    -fx-font: 30px Raleway !important;
+    -fx-text-fill: #000000;
+}
+
+.settingsTextField {
+    width: 280px;
 }
