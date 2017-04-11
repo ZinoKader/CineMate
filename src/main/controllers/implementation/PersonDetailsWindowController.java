@@ -150,7 +150,7 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
         detailsBiography.setText(person.getBiograhy());
         detailsBorn.setText("Born: " + person.getBirthday() + " in " + person.getBirthplace());
         if(person.isDead()) {
-            detailsDead.setText("Dead: " + person.getDeathday());
+            detailsDead.setText("Died: " + person.getDeathday());
             detailsAge.setText("Died aged at " + person.getAge());
         } else {
             detailsDead.setVisible(false);
@@ -172,22 +172,24 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
         seriesAppearanceListView.setCellFactory(listView -> new MotionPictureListViewCell());
     }
 
-    public void handleMovieAppearanceClicked(MouseEvent clickEvent) {
+    @FXML
+    private void handleMovieAppearanceClicked(MouseEvent clickEvent) {
         handleMotionPictureClicked(movieAppearanceListView, clickEvent);
     }
 
-    public void handleSeriesAppearanceClicked(MouseEvent clickEvent) {
+    @FXML
+    private void handleSeriesAppearanceClicked(MouseEvent clickEvent) {
         handleMotionPictureClicked(seriesAppearanceListView, clickEvent);
     }
 
     private void handleMotionPictureClicked(JFXListView<? extends MotionPicture> targetListView, MouseEvent clickEvent) {
         if(clickEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             switch(targetListView.getSelectionModel().getSelectedItem().getMediaType()) {
-                case MOVIE:
+                case ACCREDITED_MOVIE:
                     Movie selectedMovie = (Movie) targetListView.getSelectionModel().getSelectedItem();
                     screenParent.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
                     break;
-                case SERIES:
+                case ACCREDITED_SERIES:
                     Series selectedSeries = (Series) targetListView.getSelectionModel().getSelectedItem();
                     screenParent.loadWindow(CineMateApplication.SERIES_WINDOW_FXML, selectedSeries);
                     break;

@@ -32,6 +32,9 @@ public class Movie extends MotionPicture implements TmdbObject {
     @SerializedName("revenue")
     private double revenue;
 
+    @SerializedName("reviews")
+    private ResultsPager<MovieReview> reviews;
+
 
     public Movie() {
     }
@@ -84,4 +87,7 @@ public class Movie extends MotionPicture implements TmdbObject {
         return TmdbConstants.TRAILER_PLACEHOLDER;
     }
 
+    public ResultsPager<MovieReview> getReviews() {
+        return reviews;
+    }
 }

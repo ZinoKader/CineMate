@@ -12,6 +12,8 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import main.CineMateApplication;
@@ -25,6 +27,7 @@ import main.helpers.CrewHelper;
 import main.model.*;
 import main.view.CastListViewCell;
 import main.view.MovieListViewCell;
+import main.view.MovieReviewListViewCell;
 import org.controlsfx.control.Rating;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +43,9 @@ import java.util.ResourceBundle;
  * Controller implementation for detailed movie information window
  */
 public class MovieDetailsWindowController extends DetailsWindowBase implements Initializable, ControlledWindow {
+
+    @FXML
+    private VBox contentHolder;
 
     @FXML
     private HBox detailsStarRatings;
@@ -85,6 +91,12 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
     @FXML
     private JFXListView<Movie> relatedMoviesListView;
 
+    @FXML
+    private JFXListView<MovieReview> reviewsListView;
+
+    @FXML
+    private StackPane reviewsSection;
+
     private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 
     private Movie movie;
@@ -115,7 +127,8 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
 
     @Override
     public void delegateSetData() {
-        AppendedQueries appendedQueries = new AppendedQueries(Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.RECOMMENDATIONS, TmdbQuery.VIDEOS));
+        AppendedQueries appendedQueries = new AppendedQueries(
+                Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.RECOMMENDATIONS, TmdbQuery.VIDEOS, TmdbQuery.REVIEWS));
 
         apiService.getMovieDetailed(movie.getId(), appendedQueries).enqueue(new Callback<Movie>() {
             @Override
@@ -131,6 +144,7 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
                         setCast();
                         setCrew();
                         setRelatedMovies();
+                        setReviews();
                     });
                 } else {
                     Platform.runLater(() -> {
@@ -234,6 +248,18 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
         double adjustedRating = Double.parseDouble(rating) / 2;
         ratingToolTip.setText(String.valueOf(adjustedRating));
         Tooltip.install(detailsStarRatings, ratingToolTip);
+    }
+
+    private void setReviews() {
+        ObservableList<MovieReview> reviewsList = FXCollections.observableArrayList();
+        if(movie.getReviews().getResults().isEmpty()) {
+            //remove reviews section if there are no reviews to display
+            contentHolder.getChildren().remove(reviewsSection);
+        } else {
+            reviewsList.addAll(movie.getReviews().getResults());
+            reviewsListView.setItems(reviewsList);
+            reviewsListView.setCellFactory(listView -> new MovieReviewListViewCell());
+        }
     }
 
     private void closeWindow() {
