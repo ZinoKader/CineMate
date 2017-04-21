@@ -3,24 +3,30 @@ package main.controllers;
 import com.esotericsoftware.minlog.Log;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import main.api.ApiAdapater;
 import main.api.ApiService;
 import main.config.UserSettings;
+import main.controllers.contract.ControlledWindow;
 import main.controllers.contract.DetailedView;
 import main.exceptions.EmptyValueException;
 import main.exceptions.PropertyLoadException;
 import main.helpers.DelayedTaskHelper;
 import main.helpers.ImageHelper;
 import main.helpers.MessageHelper;
+import main.model.TmdbObject;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Making this class abstract allows us to "know" that all of our subclasses definitely implement the interfaces in DetailedView.
  * As such, we can call these methods from our abstract class because we're certain that our subclasses have an implementation of these methods.
  */
-public abstract class DetailsWindowBase implements DetailedView {
+public abstract class DetailsWindowBase implements Initializable, DetailedView, ControlledWindow {
 
     protected ApiService apiService;
     protected Stage stage;
@@ -30,7 +36,10 @@ public abstract class DetailsWindowBase implements DetailedView {
     protected DelayedTaskHelper delayedTaskHelper;
     protected MessageHelper messageHelper;
 
-    protected void initialize() {
+    protected TmdbObject passedInTmdbObject;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
         String apiKey = "";
 
@@ -64,7 +73,26 @@ public abstract class DetailsWindowBase implements DetailedView {
 	    a lambda expression with empty parameters
 	     */
         Platform.runLater(this::delegateSetData);
+    }
 
+    @Override
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    @Override
+    public void setScreenParent(ScreenController screenParent) {
+        this.screenParent = screenParent;
+    }
+
+    @Override
+    public void setPassedData(Object passedData) {
+        passedInTmdbObject = (TmdbObject) passedData;
+    }
+
+    @Override
+    public void closeWindow() {
+        stage.close();
     }
 
 }

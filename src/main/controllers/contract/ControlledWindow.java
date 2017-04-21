@@ -8,5 +8,6 @@ public interface ControlledWindow {
     void setStage(Stage stage);
     void setScreenParent(ScreenController screenParent);
     void setPassedData(Object passedData);
+    void closeWindow();
 
 }

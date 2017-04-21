@@ -7,17 +7,13 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import main.CineMateApplication;
 import main.constants.DetailsWindowConstants;
 import main.constants.FXConstants;
 import main.controllers.DetailsWindowBase;
-import main.controllers.ScreenController;
-import main.controllers.contract.ControlledWindow;
 import main.model.*;
 import main.view.MotionPictureListViewCell;
 import retrofit2.Call;
@@ -31,7 +27,7 @@ import java.util.ResourceBundle;
 /**
  * Controller implementation for detailed person informaton window
  */
-public class PersonDetailsWindowController extends DetailsWindowBase implements Initializable, ControlledWindow {
+public class PersonDetailsWindowController extends DetailsWindowBase {
 
     @FXML
     private ImageView detailsPersonProfile;
@@ -71,27 +67,9 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
 
     private Person person;
 
-
-    @Override
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    @Override
-    public void setScreenParent(ScreenController screenParent) {
-        this.screenParent = screenParent;
-    }
-
-    @Override
-    public void setPassedData(Object passedData) {
-        if(passedData instanceof Person) {
-            person = (Person) passedData;
-        }
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize();
+        super.initialize(location, resources);
 
         filterMoviesTextField.textProperty().addListener((observable, oldText, filterText) -> {
             movieAppearanceList.filtered(motionPicture -> {
@@ -110,6 +88,9 @@ public class PersonDetailsWindowController extends DetailsWindowBase implements 
 
     @Override
     public void delegateSetData() {
+
+        person = (Person) passedInTmdbObject;
+
         AppendedQueries appendedQueries = new AppendedQueries(Arrays.asList(TmdbQuery.MOVIE_CREDITS, TmdbQuery.TV_CREDITS, TmdbQuery.IMAGES));
 
         apiService.getPersonDetailed(person.getId(), appendedQueries).enqueue(new Callback<Person>() {

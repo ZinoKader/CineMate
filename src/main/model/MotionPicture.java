@@ -36,9 +36,6 @@ public class MotionPicture {
     @SerializedName("videos")
     private VideoResults videos;
 
-    @SerializedName("recommendations")
-    private RecommendationResults recommendations;
-
     public String getDescription() {
         return description;
     }
@@ -79,12 +76,14 @@ public class MotionPicture {
         }
     }
 
-    public VideoResults getVideoResults() {
-        return videos;
-    }
-
-    public RecommendationResults getRecommendationResults() {
-        return recommendations;
+    //gets the first video from the available ones that is both a youtube video and of the trailer type
+    public String getTrailerUrl() {
+        for(Video video : videos.getVideos()) {
+            if(video.isTrailer() && video.isYoutube()) {
+                return video.getVideoUrl();
+            }
+        }
+        return TmdbConstants.TRAILER_PLACEHOLDER;
     }
 
     public MediaType getMediaType() {

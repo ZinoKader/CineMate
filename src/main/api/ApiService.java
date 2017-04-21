@@ -1,13 +1,11 @@
 package main.api;
 
 import main.constants.TmdbConstants;
-import main.model.AppendedQueries;
-import main.model.Movie;
-import main.model.Person;
-import main.model.ResultsPager;
-import main.model.Series;
+import main.model.*;
 import retrofit2.Call;
-import retrofit2.http.*;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 /**
@@ -49,5 +47,8 @@ public interface ApiService {
 
     @GET("person/{person_id}")
     Call<Person> getPersonDetailed(@Path("person_id") String personId, @Query(TmdbConstants.API_APPEND_PARAM) AppendedQueries queries);
+
+    @GET("tv/{tv_id}")
+    Call<Series> getSeriesDetailed(@Path("tv_id") String seriesId, @Query(TmdbConstants.API_APPEND_PARAM) AppendedQueries queries);
 
 }

@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
@@ -15,34 +14,27 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 import main.CineMateApplication;
 import main.constants.DetailsWindowConstants;
 import main.constants.FXConstants;
-import main.constants.TmdbConstants;
-import main.controllers.DetailsWindowBase;
-import main.controllers.ScreenController;
-import main.controllers.contract.ControlledWindow;
+import main.controllers.DetailsMotionPictureWindowBase;
 import main.helpers.CrewHelper;
 import main.model.*;
 import main.view.CastListViewCell;
 import main.view.MovieListViewCell;
 import main.view.MovieReviewListViewCell;
-import org.controlsfx.control.Rating;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.net.URL;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.ResourceBundle;
 
 /**
  * Controller implementation for detailed movie information window
  */
-public class MovieDetailsWindowController extends DetailsWindowBase implements Initializable, ControlledWindow {
+public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase {
 
     @FXML
     private VBox contentHolder;
@@ -102,35 +94,14 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
     private Movie movie;
 
     @Override
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    @Override
-    public void setScreenParent(ScreenController screenParent) {
-        this.screenParent = screenParent;
-    }
-
-    @Override
-    public void setPassedData(Object passedData) {
-        if(passedData instanceof Movie) {
-            movie = (Movie) passedData;
-        }
-    }
-
-    @Override public void initialize(final URL location, final ResourceBundle resources) {
-        super.initialize();
-
-        //Listen to window closing events, on closing, pause the potentially playing video
-        Platform.runLater(() -> stage.setOnCloseRequest(closeEvent -> pauseVideo()) );
-    }
-
-    @Override
     public void delegateSetData() {
+
+        movie = (Movie) passedInTmdbObject;
+
         AppendedQueries appendedQueries = new AppendedQueries(
                 Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.RECOMMENDATIONS, TmdbQuery.VIDEOS, TmdbQuery.REVIEWS));
 
-        apiService.getMovieDetailed(movie.getId(), appendedQueries).enqueue(new Callback<Movie>() {
+        apiService.getMovieDetailed(passedInTmdbObject.getId(), appendedQueries).enqueue(new Callback<Movie>() {
             @Override
             public void onResponse(Call<Movie> call, Response<Movie> response) {
                 if(response.isSuccessful()) {
@@ -138,8 +109,8 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
                     Platform.runLater( () -> {
                         stage.setTitle(movie.getTitle());
                         setBaseDetails();
-                        setTrailer();
-                        setRatings();
+                        setTrailer(movie);
+                        setRatings(movie, detailsStarRatings, ratingToolTip);
                         setDirector();
                         setCast();
                         setCrew();
@@ -178,10 +149,6 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
         detailsRevenue.setText("Revenue: " + currencyFormat.format(movie.getRevenue()));
         imageHelper.downloadAndSetImage(movie.getBackdropPath(), detailsBackdrop, false);
         detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT_NORMAL);
-    }
-
-    private void setTrailer() {
-        detailsTrailerView.getEngine().load(movie.getTrailerUrl());
     }
 
     private void setDirector() {
@@ -232,24 +199,6 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
         }
     }
 
-    //set star ratings, show tooltip on hover
-    private void setRatings() {
-
-        String rating = movie.getAverageRating();
-
-        Rating ratingsElement = new Rating();
-        ratingsElement.setPartialRating(true);
-        ratingsElement.setMouseTransparent(true); //disable clicking/rating
-        ratingsElement.setUpdateOnHover(false);
-        ratingsElement.setRating(Double.parseDouble(rating) / 2);
-        ratingsElement.setMax(TmdbConstants.MAX_AVERAGE_RATING / 2);
-        detailsStarRatings.getChildren().add(ratingsElement);
-
-        double adjustedRating = Double.parseDouble(rating) / 2;
-        ratingToolTip.setText(String.valueOf(adjustedRating));
-        Tooltip.install(detailsStarRatings, ratingToolTip);
-    }
-
     private void setReviews() {
         ObservableList<MovieReview> reviewsList = FXCollections.observableArrayList();
         if(movie.getReviews().getResults().isEmpty()) {
@@ -262,18 +211,8 @@ public class MovieDetailsWindowController extends DetailsWindowBase implements I
         }
     }
 
-    private void closeWindow() {
-        pauseVideo();
-        stage.close();
+    @Override
+    public WebView getTrailerView() {
+        return detailsTrailerView;
     }
-
-    /*
-    As JavaFX only hides windows instead of killing them completely, on closing, to pause the potentially playing video
-    we'll "close" the video/webview by navigating the WebView elsewhere. Ugly solution, but there currently is no other way
-    because the JavaFX developers thought killing off windows/stages and its related threads isn't important.
-    */
-    private void pauseVideo() {
-        detailsTrailerView.getEngine().loadContent("");
-    }
-
 }

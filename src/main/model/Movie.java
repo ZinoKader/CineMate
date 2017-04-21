@@ -2,7 +2,6 @@ package main.model;
 
 import com.google.gson.annotations.SerializedName;
 import main.constants.TimeConstants;
-import main.constants.TmdbConstants;
 
 import java.time.LocalTime;
 
@@ -35,6 +34,9 @@ public class Movie extends MotionPicture implements TmdbObject {
     @SerializedName("reviews")
     private ResultsPager<MovieReview> reviews;
 
+    @SerializedName("recommendations")
+    private MovieRecommendationResults recommendations;
+
 
     public Movie() {
     }
@@ -55,10 +57,6 @@ public class Movie extends MotionPicture implements TmdbObject {
         return releaseDate;
     }
 
-    public int getRunTimeRaw() {
-        return runtime;
-    }
-
     public LocalTime getRuntime() {
         int hours = runtime / TimeConstants.MINUTES_IN_HOUR;
         int minutes = runtime % TimeConstants.MINUTES_IN_HOUR;
@@ -77,17 +75,12 @@ public class Movie extends MotionPicture implements TmdbObject {
         return revenue;
     }
 
-    //gets the first video from the available ones that is both a youtube video and of the trailer type
-    public String getTrailerUrl() {
-        for(Video video : getVideoResults().getVideos()) {
-            if(video.isTrailer() && video.isYoutube()) {
-                return video.getVideoUrl();
-            }
-        }
-        return TmdbConstants.TRAILER_PLACEHOLDER;
-    }
-
     public ResultsPager<MovieReview> getReviews() {
         return reviews;
     }
+
+    public MovieRecommendationResults getRecommendationResults() {
+        return recommendations;
+    }
+
 }
