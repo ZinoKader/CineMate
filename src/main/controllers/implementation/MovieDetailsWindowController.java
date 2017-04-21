@@ -30,6 +30,7 @@ import retrofit2.Response;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Controller implementation for detailed movie information window
@@ -152,9 +153,14 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
     }
 
     private void setDirector() {
-        Crew director = CrewHelper.filterDirector(movie.getCrew());
-        detailsDirectorName.setText(director.getName());
-        imageHelper.downloadAndSetImage(director.getProfilePath(), detailsDirectorImage, true);
+        List<Crew> directors = CrewHelper.filterDirectors(movie.getCrew());
+        if(directors.isEmpty()) {
+            Log.debug("Directors not available for this title. Did not set director.");
+        } else {
+            Crew director = directors.get(0); //just set the first and most significant director in the list
+            detailsDirectorName.setText(director.getName());
+            imageHelper.downloadAndSetImage(director.getProfilePath(), detailsDirectorImage, true);
+        }
     }
 
     private void setCast() {

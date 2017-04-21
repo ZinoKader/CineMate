@@ -8,14 +8,14 @@ import java.util.List;
 
 public class CrewHelper {
 
-    public static Crew filterDirector(List<Crew> crew) {
+    public static List<Crew> filterDirectors(List<Crew> crew) {
+        List<Crew> directors = new ArrayList<>();
         for(Crew crewMember : crew) {
-            if(crewMember.getJob().equals(CrewJobs.DIRECTOR)) {
-                return crewMember;
+            if (crewMember.getJob().equals(CrewJobs.DIRECTOR)) {
+                directors.add(crewMember);
             }
         }
-        //TODO: LOL BETTER SOLUTION PLS
-        return new Crew();
+        return directors;
     }
 
     public static List<Crew> filterWriters(List<Crew> crew) {

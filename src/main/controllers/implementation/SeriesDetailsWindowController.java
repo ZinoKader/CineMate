@@ -127,7 +127,7 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
     }
 
     private void setDirector() {
-        Crew director = CrewHelper.filterDirector(series.getCrew());
+        Crew director = CrewHelper.filterDirectors(series.getCrew());
         detailsDirectorName.setText(director.getName());
         imageHelper.downloadAndSetImage(director.getProfilePath(), detailsDirectorImage, true);
     }
