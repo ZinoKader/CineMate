@@ -1,4 +1,6 @@
-![CineMate](https://www.zinokader.se/img/CineMate_Logo.png)
+<p align="center">
+<img src="https://www.zinokader.se/img/CineMate_Logo.png" />
+</p>
 
 <br>
 
