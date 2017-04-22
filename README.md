@@ -1,4 +1,6 @@
-![CineMate](https://www.zinokader.se/img/CineMate_Logo.png)
+<p align="center">
+<img src="https://www.zinokader.se/img/CineMate_Logo.png" />
+</p>
 
 <br>
 
@@ -6,6 +8,9 @@
 CineMate is a film search engine that lets you search for movies, series, cast,
 crew, directors and more. Design inspired by Google's material design ensures that
 you'll be browsing for movies with style.
+
+
+![CineMate UI](https://www.zinokader.se/img/cinemate_showcase.png)
 
 Built using
 ----
