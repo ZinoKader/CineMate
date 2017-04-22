@@ -190,6 +190,14 @@
     -fx-text-fill: #fafafa;
 }
 
+.settingsButton {
+    -fx-image: url("../image/icon_settings.png")
+}
+
+.settingsButton:hover {
+    -fx-image: url("../image/icon_settings_hover.png")
+}
+
 .settingsLabel {
     -fx-font: 15px Raleway !important;
     -fx-text-fill: #000000;

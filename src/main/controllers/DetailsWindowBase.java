@@ -87,7 +87,12 @@ public abstract class DetailsWindowBase implements Initializable, DetailedView, 
 
     @Override
     public void setPassedData(Object passedData) {
-        passedInTmdbObject = (TmdbObject) passedData;
+        if(passedData instanceof TmdbObject) {
+            passedInTmdbObject = (TmdbObject) passedData;
+        } else {
+            Log.debug("Passed data must be of instance " + TmdbObject.class.toString());
+            stage.close();
+        }
     }
 
     @Override

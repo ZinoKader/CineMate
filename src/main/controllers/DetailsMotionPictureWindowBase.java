@@ -1,11 +1,16 @@
 package main.controllers;
 
+import com.jfoenix.controls.JFXListView;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import main.constants.TmdbConstants;
 import main.controllers.contract.TrailerView;
+import main.model.Cast;
 import main.model.MotionPicture;
+import main.view.CastListViewCell;
 import org.controlsfx.control.Rating;
 
 import java.net.URL;
@@ -14,7 +19,7 @@ import java.util.ResourceBundle;
 /**
  * A specialized DetailsWindowBase for MotionPicture-related window-controllers
  *
- * Holds shared methods between motionpicture-related windows that have enough in common to warrant a generalization
+ * Holds shared methods between motionpicture-related windows that have enough in common to warrant a generalization.
  * For now, MovieDetailsWindowController and SeriesDetailsWindowController extend this class and make use of
  * its generalized methods.
  */
@@ -27,6 +32,13 @@ public abstract class DetailsMotionPictureWindowBase extends DetailsWindowBase i
 
         //Listen to window closing events, on closing, pause the potentially playing video
         Platform.runLater(() -> stage.setOnCloseRequest(closeEvent -> pauseVideo()) );
+    }
+
+    protected void setCast(MotionPicture motionPicture, JFXListView<Cast> castListView) {
+        ObservableList<Cast> castList = FXCollections.observableArrayList();
+        castList.setAll(motionPicture.getCast());
+        castListView.setItems(castList);
+        castListView.setCellFactory(listView -> new CastListViewCell());
     }
 
     //set star ratings, show tooltip on hover

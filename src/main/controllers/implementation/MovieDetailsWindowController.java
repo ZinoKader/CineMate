@@ -20,7 +20,6 @@ import main.constants.FXConstants;
 import main.controllers.DetailsMotionPictureWindowBase;
 import main.helpers.CrewHelper;
 import main.model.*;
-import main.view.CastListViewCell;
 import main.view.MovieListViewCell;
 import main.view.MovieReviewListViewCell;
 import retrofit2.Call;
@@ -113,7 +112,7 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
                         setTrailer(movie);
                         setRatings(movie, detailsStarRatings, ratingToolTip);
                         setDirector();
-                        setCast();
+                        setCast(movie, castListView);
                         setCrew();
                         setRelatedMovies();
                         setReviews();
@@ -163,12 +162,6 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
         }
     }
 
-    private void setCast() {
-        ObservableList<Cast> castList = FXCollections.observableArrayList();
-        castList.setAll(movie.getCast());
-        castListView.setItems(castList);
-        castListView.setCellFactory(listView -> new CastListViewCell());
-    }
 
     @FXML
     public void handleCastClicked(MouseEvent mouseEvent) {

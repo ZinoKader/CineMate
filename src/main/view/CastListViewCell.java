@@ -48,7 +48,7 @@ public class CastListViewCell extends JFXListCell<Cast> {
 			}
 
 			castName.setText(cast.getName());
-			castCharacter.setText("Played: " + cast.getCharacter());
+			castCharacter.setText(cast.getCharacter());
 
 			String imageUrl = cast.getProfilePath();
 

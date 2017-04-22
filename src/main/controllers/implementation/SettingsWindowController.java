@@ -42,7 +42,7 @@ public class SettingsWindowController extends DetailsWindowBase implements Initi
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize();
+        super.initialize(location, resources);
         delegateSetData();
     }
 

@@ -1,10 +1,13 @@
 package main.controllers.implementation;
 
+import com.esotericsoftware.minlog.Log;
 import com.jfoenix.controls.JFXListView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,17 +19,15 @@ import main.CineMateApplication;
 import main.constants.DetailsWindowConstants;
 import main.constants.FXConstants;
 import main.controllers.DetailsMotionPictureWindowBase;
-import main.helpers.CrewHelper;
 import main.model.*;
-import main.view.CastListViewCell;
 import main.view.SeriesListViewCell;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Controller implementation for detailed movie information window
@@ -54,19 +55,22 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
     private Label detailsDescription;
 
     @FXML
-    private Label detailsBudget;
-
-    @FXML
-    private Label detailsRevenue;
-
-    @FXML
     private ImageView detailsBackdrop;
 
     @FXML
-    private ImageView detailsDirectorImage;
+    private StackPane keyPersonSection;
 
     @FXML
-    private Label detailsDirectorName;
+    private Separator keyPersonSeparator;
+
+    @FXML
+    private Label detailsKeyPersonJob;
+
+    @FXML
+    private ImageView detailsKeyPersonImage;
+
+    @FXML
+    private Label detailsKeyPersonName;
 
     @FXML
     private WebView detailsTrailerView;
@@ -75,18 +79,7 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
     private JFXListView<Cast> castListView;
 
     @FXML
-    private JFXListView<Label> crewListView;
-
-    @FXML
     private JFXListView<Series> relatedSeriesListView;
-
-    @FXML
-    private JFXListView<MovieReview> reviewsListView;
-
-    @FXML
-    private StackPane reviewsSection;
-
-    private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 
     private Series series;
 
@@ -103,9 +96,14 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
             @Override
             public void onResponse(Call<Series> call, Response<Series> response) {
                 series = response.body();
-                setBaseDetails();
-                setTrailer(series);
-                setRatings(series, detailsStarRatings, ratingToolTip);
+                Platform.runLater( () -> {
+                    setBaseDetails();
+                    setRatings(series, detailsStarRatings, ratingToolTip);
+                    setTrailer(series);
+                    setKeyPerson();
+                    setCast(series, castListView);
+                    setRelatedSeries();
+                });
             }
 
             @Override
@@ -126,18 +124,20 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
         detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT_NORMAL);
     }
 
-    private void setDirector() {
-        Crew director = CrewHelper.filterDirectors(series.getCrew());
-        detailsDirectorName.setText(director.getName());
-        imageHelper.downloadAndSetImage(director.getProfilePath(), detailsDirectorImage, true);
+    private void setKeyPerson() {
+        List<Crew> keyPeople = series.getCrew();
+        if(keyPeople.isEmpty()) {
+            //remove key person section if there are no key people
+            contentHolder.getChildren().removeAll(Arrays.asList(keyPersonSection, keyPersonSeparator));
+            Log.debug("Key person not available for this title. Did not set key person.");
+        } else {
+            Crew keyPerson = keyPeople.get(0); //just set the first and most significant director in the list
+            detailsKeyPersonJob.setText(keyPerson.getJob());
+            detailsKeyPersonName.setText(keyPerson.getName());
+            imageHelper.downloadAndSetImage(keyPerson.getProfilePath(), detailsKeyPersonImage, true);
+        }
     }
 
-    private void setCast() {
-        ObservableList<Cast> castList = FXCollections.observableArrayList();
-        castList.setAll(series.getCast());
-        castListView.setItems(castList);
-        castListView.setCellFactory(listView -> new CastListViewCell());
-    }
 
     @FXML
     public void handleCastClicked(MouseEvent mouseEvent) {
@@ -146,16 +146,6 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
             screenParent.loadWindow(CineMateApplication.PERSON_WINDOW_FXML, selectedCast);
             closeWindow();
         }
-    }
-
-    private void setCrew() {
-        ObservableList<Label> crewTexts = FXCollections.observableArrayList();
-        for(Crew crewMember : series.getCrew()) {
-            Label crewText = new Label();
-            crewText.setText("("+crewMember.getDepartment()+")" + " " + crewMember.getJob() + " : " + crewMember.getName());
-            crewTexts.add(crewText);
-        }
-        crewListView.setItems(crewTexts);
     }
 
     private void setRelatedSeries() {
