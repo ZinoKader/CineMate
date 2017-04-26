@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import main.CineMateApplication;
-import main.constants.DetailsWindowConstants;
+import main.constants.EffectConstants;
 import main.constants.FXConstants;
 import main.controllers.DetailsWindowBase;
 import main.model.*;
@@ -143,7 +143,7 @@ public class PersonDetailsWindowController extends DetailsWindowBase {
         }
         imageHelper.downloadAndSetImage(person.getProfilePath(), detailsPersonProfile, true);
         imageHelper.downloadAndSetImage(person.getProfilePath(), detailsBackdrop, false);
-        detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT_HIGH);
+        detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_HIGH);
     }
 
     private void setAppearances() {

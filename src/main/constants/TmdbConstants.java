@@ -3,8 +3,6 @@ package main.constants;
 
 public final class TmdbConstants {
 
-    private TmdbConstants() {}
-
     /** IMAGE RELATED CONSTANTS
      * Appending an integer to this URL creates a complete path to an image.
      * Example: http://image.tmdb.org/t/p/w500/27423b212f3.jpg
@@ -28,5 +26,7 @@ public final class TmdbConstants {
     public static final String API_QUERY_PARAM = "query";
 
     public static final int MAX_AVERAGE_RATING = 10;
+
+    private TmdbConstants() {}
 
 }

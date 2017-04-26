@@ -15,7 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import main.CineMateApplication;
-import main.constants.DetailsWindowConstants;
+import main.constants.EffectConstants;
 import main.constants.FXConstants;
 import main.controllers.DetailsMotionPictureWindowBase;
 import main.helpers.CrewHelper;
@@ -152,7 +152,7 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
         detailsBudget.setText("Budget: " + currencyFormat.format(movie.getBudget()));
         detailsRevenue.setText("Revenue: " + currencyFormat.format(movie.getRevenue()));
         imageHelper.downloadAndSetImage(movie.getBackdropPath(), detailsBackdrop, false);
-        detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT_NORMAL);
+        detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_NORMAL);
     }
 
     private void setDirector() {
