@@ -47,11 +47,6 @@
     -fx-text-fill: #fafafa !important;
 }
 
-.jfx-tree-view .jfx-list-cell:selected {
-    -fx-background-color: #222222 !important;
-    -fx-text-fill: #fafafa !important;
-}
-
 .jfx-list-cell {
     -fx-background-insets: 0;
 }
@@ -69,7 +64,6 @@
     -fx-text-fill: white;
 }
 
-
 /* Styling for our titles*/
 #title {
     -fx-font: 23px Raleway !important;
@@ -81,6 +75,14 @@
     -fx-max-height: 100px;
 }
 
+.list-item-title {
+    -fx-font: 23px Raleway !important;
+}
+
+.list-item-description {
+    -fx-font: 12px Raleway !important;
+    -fx-max-height: 100px;
+}
 
 /* Styling for detail windows */
 
@@ -168,7 +170,6 @@
 }
 
 
-
 /* hide scrollbars for horizontal treeviews */
 .tree-view .scroll-bar:horizontal .increment-arrow,
 .tree-view .scroll-bar:horizontal .decrement-arrow,
@@ -219,10 +220,41 @@
     width: 280px;
 }
 
-#seasonsTreeView {
-    -fx-background-color: #f4f4f4;
+/* styling for treeview */
+
+
+.tree-cell .label {
+    -fx-text-fill: #000000 !important;
 }
 
 #seasonsTreeView .tree-cell {
-    -fx-background-color: #f4f4f4;
+    -fx-background-color: #f4f4f4 !important;
+}
+
+.tree-cell:selected .label {
+    -fx-text-fill: #fafafa !important;
+}
+
+#seasonsTreeView .tree-cell:selected {
+    -fx-background-color: #222222 !important;
+}
+
+#seasonsTreeView .tree-cell:selected .container {
+    -fx-background-color: #222222 !important;
+}
+
+#seasonsTreeView .tree-cell:selected #episodeContainer .label {
+    -fx-text-fill: #fafafa !important;
+}
+
+#seasonsTreeView .tree-cell #episodeContainer .label {
+    -fx-text-fill: #fafafa !important;
+}
+
+#seasonsTreeView .tree-cell:selected #seasonContainer {
+    -fx-background-color: #222222 !important;
+}
+
+#seasonContainer {
+    -fx-background-color: #f4f4f4 !important;
 }

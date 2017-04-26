@@ -12,11 +12,11 @@
          </HBox.margin>
         </ImageView>
         <VBox pickOnBounds="false" prefHeight="300.0" prefWidth="800.0">
-            <Label fx:id="seasonTitle" wrapText="true" VBox.vgrow="NEVER">
+            <Label fx:id="seasonTitle" styleClass="list-item-title" wrapText="true" VBox.vgrow="NEVER">
             <VBox.margin>
                <Insets left="30.0" top="20.0" />
             </VBox.margin></Label>
-            <Label fx:id="seasonDescription" wrapText="true" VBox.vgrow="NEVER">
+            <Label fx:id="seasonDescription" styleClass="list-item-description" wrapText="true" VBox.vgrow="NEVER">
             <VBox.margin>
                <Insets left="30.0" top="20.0" />
             </VBox.margin>

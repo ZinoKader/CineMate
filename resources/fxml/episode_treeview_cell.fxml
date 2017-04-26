@@ -2,22 +2,34 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<HBox fx:id="episodeContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500" prefWidth="700" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <VBox pickOnBounds="false" prefHeight="300.0" prefWidth="800.0">
-            <Label fx:id="episodeTitle" wrapText="true" VBox.vgrow="NEVER">
-            <VBox.margin>
-               <Insets left="30.0" top="20.0" />
-            </VBox.margin></Label>
-            <Label fx:id="episodeDescription" wrapText="true" VBox.vgrow="NEVER">
-            <VBox.margin>
-               <Insets left="30.0" top="20.0" />
-            </VBox.margin>
-            </Label>
-         <HBox.margin>
+<HBox fx:id="episodeContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300" prefWidth="500" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+    <StackPane pickOnBounds="false" prefHeight="300.0" prefWidth="500.0">
+
+        <ImageView fx:id="episodeImage" fitHeight="281" fitWidth="500" preserveRatio="true" />
+
+        <Label fx:id="episodeTitle" maxWidth="400" styleClass="list-item-title" wrapText="true" StackPane.alignment="TOP_LEFT" VBox.vgrow="NEVER">
+            <StackPane.margin>
+                <Insets left="15.0" top="40.0" />
+            </StackPane.margin>
+        </Label>
+
+        <Label fx:id="episodeAired" wrapText="true" StackPane.alignment="TOP_LEFT" VBox.vgrow="NEVER">
+            <StackPane.margin>
+                <Insets left="15.0" top="100.0" />
+            </StackPane.margin>
+        </Label>
+
+        <Label fx:id="episodeDescription" maxWidth="440" styleClass="list-item-description" wrapText="true" StackPane.alignment="CENTER_LEFT" VBox.vgrow="NEVER">
+            <StackPane.margin>
+                <Insets left="15.0" top="60.0" />
+            </StackPane.margin>
+        </Label>
+
+        <HBox.margin>
             <Insets left="20.0" />
-         </HBox.margin>
-        </VBox>
-    </children>
+        </HBox.margin>
+
+    </StackPane>
 </HBox>

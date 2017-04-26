@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import main.constants.EffectConstants;
 import main.helpers.ImageHelper;
 import main.model.Episode;
 import main.model.Season;
@@ -23,6 +24,9 @@ public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
     private Label episodeTitle;
 
     @FXML
+    private Label episodeAired;
+
+    @FXML
     private Label seasonDescription;
 
     @FXML
@@ -30,6 +34,9 @@ public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
 
     @FXML
     private ImageView seasonImage;
+
+    @FXML
+    private ImageView episodeImage;
 
     @FXML
     private HBox seasonContainer;
@@ -104,13 +111,22 @@ public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
                         }
                     }
 
-                    episodeTitle.setText(episodeItem.getEpisodeTitle());
+                    episodeTitle.setText("Episode " + episodeItem.getEpisodeNumber() + ": " + episodeItem.getEpisodeTitle());
+                    episodeAired.setText("Air date " + episodeItem.getAirDate());
 
                     if(episodeItem.getDescription().isEmpty()) {
                         episodeDescription.setText("Episode description not available yet.");
                     } else {
                         episodeDescription.setText(episodeItem.getDescription());
                     }
+
+                    if(imageHelper.isImageCached(episodeItem.getPosterPath())) {
+                        episodeImage.setImage(imageHelper.getCachedImage(episodeItem.getPosterPath()));
+                    } else {
+                        imageHelper.downloadAndSetImage(episodeItem.getPosterPath(), episodeImage, false);
+                    }
+
+                    episodeImage.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_MEDIUM);
 
                     setText(null);
                     setGraphic(episodeContainer);

@@ -105,6 +105,25 @@
                 </VBox.margin>
             </Separator>
 
+            <StackPane maxWidth="1197" minWidth="1197" maxHeight="-Infinity" minHeight="-Infinity" VBox.vgrow="ALWAYS">
+                <Label alignment="TOP_CENTER" styleClass="detailsSectionTitle" text="Seasons &amp; Episodes" wrapText="true" StackPane.alignment="TOP_CENTER">
+                    <StackPane.margin>
+                        <Insets top="60.0" />
+                    </StackPane.margin>
+                </Label>
+                <JFXTreeView fx:id="seasonsTreeView" VBox.vgrow="ALWAYS" maxHeight="-Infinity" minHeight="1000">
+                    <StackPane.margin>
+                        <Insets top="130.0" bottom="50" />
+                    </StackPane.margin>
+                </JFXTreeView>
+            </StackPane>
+
+            <Separator>
+                <VBox.margin>
+                    <Insets top="50.0" />
+                </VBox.margin>
+            </Separator>
+
             <StackPane maxHeight="550" maxWidth="1197" minHeight="550" minWidth="1197">
                 <Label alignment="TOP_CENTER" styleClass="detailsSectionTitle" text="Related series" wrapText="true" StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER">
                     <StackPane.margin>
@@ -116,25 +135,6 @@
                         <Insets top="80.0" />
                     </StackPane.margin>
                 </JFXListView>
-            </StackPane>
-
-            <Separator>
-                <VBox.margin>
-                    <Insets top="50.0" />
-                </VBox.margin>
-            </Separator>
-
-            <StackPane maxWidth="1197" minWidth="1197" maxHeight="-Infinity" minHeight="-Infinity" VBox.vgrow="ALWAYS">
-                <Label alignment="TOP_CENTER" styleClass="detailsSectionTitle" text="Seasons &amp; Episodes" wrapText="true" StackPane.alignment="TOP_CENTER">
-                    <StackPane.margin>
-                        <Insets top="60.0" />
-                    </StackPane.margin>
-                </Label>
-                <JFXTreeView fx:id="seasonsTreeView" VBox.vgrow="ALWAYS" maxHeight="-Infinity">
-                    <StackPane.margin>
-                        <Insets top="130.0" bottom="200" />
-                    </StackPane.margin>
-                </JFXTreeView>
             </StackPane>
 
 

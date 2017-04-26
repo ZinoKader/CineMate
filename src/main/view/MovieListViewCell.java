@@ -61,7 +61,6 @@ public class MovieListViewCell extends JFXListCell<Movie> {
             String imageUrl = movie.getPosterPath();
 
 
-
             if(imageHelper.isImageCached(imageUrl)) {
                 movieImage.setImage(imageHelper.getCachedImage(imageUrl));
             } else {
