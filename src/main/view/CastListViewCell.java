@@ -52,12 +52,11 @@ public class CastListViewCell extends JFXListCell<Cast> {
 
 			String imageUrl = cast.getProfilePath();
 
-			//We are utilizing caching to minimize network calls
-			if (imageHelper.isImageCached(imageUrl)) {
-				castImage.setImage(imageHelper.getCachedImage(imageUrl));
-			} else {
-				imageHelper.downloadAndSetImage(imageUrl, castImage, true);
-			}
+            if(imageHelper.isImageCached(imageUrl)) {
+                castImage.setImage(imageHelper.getCachedImage(imageUrl));
+            } else {
+                imageHelper.downloadAndSetImage(imageUrl, castImage, true);
+            }
 
 			setText(null);
 			setGraphic(container);

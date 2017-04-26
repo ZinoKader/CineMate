@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
  *
  * Holds shared methods between motionpicture-related windows that have enough in common to warrant a generalization.
  * For now, MovieDetailsWindowController and SeriesDetailsWindowController extend this class and make use of
- * its generalized methods.
+ * its generalized methods that they both share.
  */
 public abstract class DetailsMotionPictureWindowBase extends DetailsWindowBase implements TrailerView {
 

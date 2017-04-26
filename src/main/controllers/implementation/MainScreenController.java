@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import main.CineMateApplication;
 import main.api.ApiAdapater;
@@ -20,7 +21,6 @@ import main.constants.FXConstants;
 import main.controllers.ScreenController;
 import main.controllers.contract.ControlledScreen;
 import main.exceptions.EmptyValueException;
-import main.exceptions.PropertyAccessException;
 import main.exceptions.PropertyLoadException;
 import main.helpers.MessageHelper;
 import main.model.*;
@@ -92,6 +92,12 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
 		messageHelper = new MessageHelper(rootPane);
 
+
+        searchTextField.setOnKeyPressed(event -> {
+            if(event.getCode() == KeyCode.ENTER) {
+                searchButtonPressed(); //simulate button press (this function is bound to FXML)
+            }
+        });
     }
 
 	@Override
@@ -156,8 +162,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
 	}
 
-	@FXML
-	private void searchButtonPressed() throws PropertyAccessException {
+    @FXML
+	private void searchButtonPressed() {
 		if(!searchTextField.getText().isEmpty() && currentSearchType != null) {
             try {
                 handleSearch(searchTextField.getText());
@@ -203,7 +209,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private void populateList(List<? extends TmdbObject> listObjects, MediaType mediaType) {
 		int searchPaneIndex = 0;
 		List<Node> searchResultListView = rootPane.getChildren();

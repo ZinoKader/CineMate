@@ -51,4 +51,7 @@ public interface ApiService {
     @GET("tv/{tv_id}")
     Call<Series> getSeriesDetailed(@Path("tv_id") String seriesId, @Query(TmdbConstants.API_APPEND_PARAM) AppendedQueries queries);
 
+    @GET("tv/{tv_id}/season/{season_number}")
+    Call<Season> getSeriesSeason(@Path("tv_id") String seriesId, @Path("season_number") int seasonNumber);
+
 }

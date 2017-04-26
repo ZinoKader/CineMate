@@ -52,20 +52,12 @@ public class MotionPicture {
         return credits.getCrew();
     }
 
-    public String getPosterPathRaw() {
-        return posterPath;
-    }
-
     public String getPosterPath() {
         if(posterPath == null) {
             return TmdbConstants.POSTER_PLACEHOLDER;
         } else {
             return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_POSTER_SIZE + posterPath;
         }
-    }
-
-    public String getBackdropPathRaw() {
-        return backdropPath;
     }
 
     public String getBackdropPath() {

@@ -96,7 +96,11 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
     @Override
     public void delegateSetData() {
 
-        movie = (Movie) passedInTmdbObject;
+        if(!passedInTmdbObject.getMediaType().equals(MediaType.MOVIE)) {
+            Log.debug("Wrong media type passed in for this controller type. Closing window.");
+            super.closeWindow();
+            return;
+        }
 
         AppendedQueries appendedQueries = new AppendedQueries(
                 Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.RECOMMENDATIONS, TmdbQuery.VIDEOS, TmdbQuery.REVIEWS));

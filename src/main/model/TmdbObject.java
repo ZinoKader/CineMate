@@ -5,7 +5,7 @@ package main.model;
  */
 public interface TmdbObject {
 
-    public MediaType getMediaType();
-    public String getId();
+    MediaType getMediaType();
+    String getId();
 
 }

@@ -89,11 +89,15 @@ public class PersonDetailsWindowController extends DetailsWindowBase {
     @Override
     public void delegateSetData() {
 
-        person = (Person) passedInTmdbObject;
+        if(!passedInTmdbObject.getMediaType().equals(MediaType.PERSON)) {
+            Log.debug("Wrong media type passed in for this controller type. Closing window.");
+            super.closeWindow();
+            return;
+        }
 
         AppendedQueries appendedQueries = new AppendedQueries(Arrays.asList(TmdbQuery.MOVIE_CREDITS, TmdbQuery.TV_CREDITS, TmdbQuery.IMAGES));
 
-        apiService.getPersonDetailed(person.getId(), appendedQueries).enqueue(new Callback<Person>() {
+        apiService.getPersonDetailed(passedInTmdbObject.getId(), appendedQueries).enqueue(new Callback<Person>() {
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {
                 person = response.body();

@@ -56,12 +56,11 @@ public class SeriesListViewCell extends JFXListCell<Series> {
 
 			String imageUrl = series.getPosterPath();
 
-			//We are utilizing caching to minimize network calls
-			if(imageHelper.isImageCached(imageUrl)) {
-				image.setImage(imageHelper.getCachedImage(imageUrl));
-			} else {
-				imageHelper.downloadAndSetImage(imageUrl, image, false);
-			}
+            if(imageHelper.isImageCached(imageUrl)) {
+                image.setImage(imageHelper.getCachedImage(imageUrl));
+            } else {
+                imageHelper.downloadAndSetImage(imageUrl, image, false);
+            }
 
 			setText(null);
 			setGraphic(container);

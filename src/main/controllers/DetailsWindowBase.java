@@ -23,6 +23,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Base implementation of a controller window. Handles setting up helpers, fetching settings and other generic tasks.
+ *
  * Making this class abstract allows us to "know" that all of our subclasses definitely implement the interfaces in DetailedView.
  * As such, we can call these methods from our abstract class because we're certain that our subclasses have an implementation of these methods.
  */
@@ -91,9 +93,10 @@ public abstract class DetailsWindowBase implements Initializable, DetailedView, 
             passedInTmdbObject = (TmdbObject) passedData;
         } else {
             Log.debug("Passed data must be of instance " + TmdbObject.class.toString());
-            stage.close();
+            closeWindow();
         }
     }
+
 
     @Override
     public void closeWindow() {

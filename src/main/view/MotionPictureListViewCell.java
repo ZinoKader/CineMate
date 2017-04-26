@@ -8,7 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import main.helpers.ImageHelper;
-import main.model.*;
+import main.model.AccreditedMovie;
+import main.model.AccreditedSeries;
+import main.model.MotionPicture;
 
 import java.io.IOException;
 
@@ -54,7 +56,8 @@ public class MotionPictureListViewCell extends JFXListCell<MotionPicture> {
 
 
 			switch(motionPicture.getMediaType()) {
-				//We can't keep a common title-getter since these fields are set automatically and have different serialized names
+				//We can't keep a common superclass between accredited types
+                //since these fields are set automatically and have different serialized names
 				case ACCREDITED_MOVIE:
 					AccreditedMovie movie = (AccreditedMovie) motionPicture;
 					title.setText(movie.getTitle());
@@ -70,12 +73,11 @@ public class MotionPictureListViewCell extends JFXListCell<MotionPicture> {
 			String imageUrl = motionPicture.getPosterPath();
 
 
-			//We are utilizing caching to minimize network calls
-			if(imageHelper.isImageCached(imageUrl)) {
-				image.setImage(imageHelper.getCachedImage(imageUrl));
-			} else {
-				imageHelper.downloadAndSetImage(imageUrl, image, false);
-			}
+            if(imageHelper.isImageCached(imageUrl)) {
+                image.setImage(imageHelper.getCachedImage(imageUrl));
+            } else {
+                imageHelper.downloadAndSetImage(imageUrl, image, false);
+            }
 
 			setText(null);
 			setGraphic(container);

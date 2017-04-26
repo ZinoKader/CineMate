@@ -17,6 +17,9 @@ public class Series extends MotionPicture implements TmdbObject {
     @SerializedName("first_air_date")
     private String releaseDate;
 
+    @SerializedName("number_of_seasons")
+    private int numberOfSeasons;
+
     @SerializedName("episode_run_time")
     private List<Integer> episodeRunTimes;
 
@@ -58,4 +61,7 @@ public class Series extends MotionPicture implements TmdbObject {
         return recommendations;
     }
 
+    public int getNumberOfSeasons() {
+        return numberOfSeasons;
+    }
 }
