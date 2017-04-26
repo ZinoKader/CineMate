@@ -18,7 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import main.CineMateApplication;
-import main.constants.DetailsWindowConstants;
+import main.constants.EffectConstants;
 import main.constants.FXConstants;
 import main.controllers.DetailsMotionPictureWindowBase;
 import main.helpers.SeriesDetailComparator;
@@ -32,6 +32,7 @@ import retrofit2.Response;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller implementation for detailed movie information window
@@ -90,6 +91,7 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
 
     private Series series;
 
+    private final static int SEASON_CELL_HEIGHT = 210;
 
     @Override
     public void delegateSetData() {
@@ -106,7 +108,7 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
         apiService.getSeriesDetailed(passedInTmdbObject.getId(), appendedQueries).enqueue(new Callback<Series>() {
             @Override
             public void onResponse(Call<Series> call, Response<Series> response) {
-                if (response.isSuccessful()) {
+                if(response.isSuccessful()) {
                     series = response.body();
                     Platform.runLater(() -> {
                         setBaseDetails();
@@ -148,7 +150,7 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
         detailsYear.setText(series.getReleaseDate());
         detailsRuntime.setText(series.getRuntime().format(DateTimeFormatter.ISO_TIME));
         imageHelper.downloadAndSetImage(series.getBackdropPath(), detailsBackdrop, false);
-        detailsBackdrop.setEffect(DetailsWindowConstants.FROSTED_GLASS_EFFECT_NORMAL);
+        detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_NORMAL);
     }
 
     private void setKeyPerson() {
@@ -191,11 +193,11 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
 
                         TreeItem<SeriesDetail> seasonItem = new TreeItem<>(season);
 
-                        //create episode nodes and add them to our season node
-                        for(Episode episode : season.getEpisodes()) {
-                            TreeItem<SeriesDetail> episodeItem = new TreeItem<>(episode);
-                            seasonItem.getChildren().add(episodeItem);
-                        }
+                        //create episode nodes (TreeItems) from episodes and add them to our season nodes
+                        //testing out Java 8 streams, they're pretty neat!
+                        seasonItem.getChildren().addAll(season.getEpisodes().stream()
+                                .map(TreeItem<SeriesDetail>::new)
+                                .collect(Collectors.toList()));
 
                         //sort episodes under seasons
                         seasonItem.getChildren().sort(new SeriesDetailComparator());
@@ -204,6 +206,10 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
 
                         //sort seasons
                         treeRoot.getChildren().sort(new SeriesDetailComparator());
+
+                        //set height of our treeview to amount of seasons (in the treeroot) times the height of a season cell
+                        seasonsTreeView.setPrefHeight(treeRoot.getChildren().size() * SEASON_CELL_HEIGHT);
+
                     } else {
                         Platform.runLater(() -> {
                             messageHelper.showMessage("Could not fetch season " + tempSeasonNumber);
