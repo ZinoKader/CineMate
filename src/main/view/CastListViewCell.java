@@ -24,24 +24,25 @@ public class CastListViewCell extends JFXListCell<Cast> {
 	private Label castCharacter;
 
 	@FXML
-	private VBox container;
+	private VBox castContainer;
 
-	private FXMLLoader fxmlLoader;
+	private FXMLLoader castFxmlLoader;
 
 	private ImageHelper imageHelper = new ImageHelper();
 
-	@Override public void updateItem(final Cast cast, final boolean empty) {
+	@Override
+    public void updateItem(final Cast cast, final boolean empty) {
 		super.updateItem(cast, empty);
 
 		if (empty || cast == null) {
 			setText(null);
 			setGraphic(null);
 		} else {
-			if (fxmlLoader == null) {
-				fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/cast_cell.fxml"));
-				fxmlLoader.setController(this);
+			if (castFxmlLoader == null) {
+				castFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/cast_cell.fxml"));
+				castFxmlLoader.setController(this);
 				try {
-					fxmlLoader.load();
+					castFxmlLoader.load();
 				} catch (IOException e) {
 					Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
 				}
@@ -59,7 +60,7 @@ public class CastListViewCell extends JFXListCell<Cast> {
             }
 
 			setText(null);
-			setGraphic(container);
+			setGraphic(castContainer);
 		}
 
 	}

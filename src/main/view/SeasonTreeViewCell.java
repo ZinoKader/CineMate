@@ -17,18 +17,30 @@ import java.io.IOException;
 public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
 
     @FXML
-    private Label title;
+    private Label seasonTitle;
 
     @FXML
-    private Label description;
+    private Label episodeTitle;
 
     @FXML
-    private ImageView image;
+    private Label seasonDescription;
 
     @FXML
-    private HBox container;
+    private Label episodeDescription;
 
-    private FXMLLoader fxmlLoader;
+    @FXML
+    private ImageView seasonImage;
+
+    @FXML
+    private HBox seasonContainer;
+
+    @FXML
+    private HBox episodeContainer;
+
+
+    private FXMLLoader seasonFxmlLoader;
+
+    private FXMLLoader episodeFxmlLoader;
 
     private ImageHelper imageHelper = new ImageHelper();
 
@@ -48,30 +60,33 @@ public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
 
                     Season seasonItem = (Season) seriesItem;
 
-                    if(fxmlLoader == null) {
-                        fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/season_treeview_cell.fxml"));
-                        fxmlLoader.setController(this);
+                    if(seasonFxmlLoader == null) {
+                        seasonFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/season_treeview_cell.fxml"));
+                        seasonFxmlLoader.setController(this);
                         try {
-                            fxmlLoader.load();
+                            seasonFxmlLoader.load();
                         } catch (IOException e) {
                             Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
                         }
                     }
 
-                    title.setText("Season " + seasonItem.getSeasonNumber());
+                    seasonTitle.setText("Season " + seasonItem.getSeasonNumber());
 
                     if(seasonItem.getDescription().isEmpty()) {
-                        description.setText("Season description not available yet.");
+                        seasonDescription.setText("Season description not available yet.");
                     } else {
-                        description.setText(seasonItem.getDescription());
+                        seasonDescription.setText(seasonItem.getDescription());
                     }
 
 
                     if(imageHelper.isImageCached(seasonItem.getPosterPath())) {
-                        image.setImage(imageHelper.getCachedImage(seasonItem.getPosterPath()));
+                        seasonImage.setImage(imageHelper.getCachedImage(seasonItem.getPosterPath()));
                     } else {
-                        imageHelper.downloadAndSetImage(seasonItem.getPosterPath(), image, false);
+                        imageHelper.downloadAndSetImage(seasonItem.getPosterPath(), seasonImage, false);
                     }
+
+                    setText(null);
+                    setGraphic(seasonContainer);
 
                     break;
 
@@ -79,38 +94,31 @@ public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
 
                     Episode episodeItem = (Episode) seriesItem;
 
-                    if(fxmlLoader == null) {
-                        fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/episode_treeview_cell.fxml"));
-                        fxmlLoader.setController(this);
+                    if(episodeFxmlLoader == null) {
+                        episodeFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/episode_treeview_cell.fxml"));
+                        episodeFxmlLoader.setController(this);
                         try {
-                            fxmlLoader.load();
+                            episodeFxmlLoader.load();
                         } catch (IOException e) {
                             Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
                         }
                     }
 
-                    title.setText(episodeItem.getEpisodeTitle());
+                    episodeTitle.setText(episodeItem.getEpisodeTitle());
 
                     if(episodeItem.getDescription().isEmpty()) {
-                        description.setText("Episode description not available yet.");
+                        episodeDescription.setText("Episode description not available yet.");
                     } else {
-                        description.setText(episodeItem.getDescription());
+                        episodeDescription.setText(episodeItem.getDescription());
                     }
 
-
-                    if(imageHelper.isImageCached(episodeItem.getPosterPath())) {
-                        image.setImage(imageHelper.getCachedImage(episodeItem.getPosterPath()));
-                    } else {
-                        imageHelper.downloadAndSetImage(episodeItem.getPosterPath(), image, false);
-                    }
+                    setText(null);
+                    setGraphic(episodeContainer);
 
                     break;
 
             }
 
-
-            setText(null);
-            setGraphic(container);
         }
 
     }

@@ -18,18 +18,18 @@ import java.io.IOException;
 public class MovieListViewCell extends JFXListCell<Movie> {
 
     @FXML
-    private Label title;
+    private Label movieTitle;
 
     @FXML
-    private Label description;
+    private Label movieDescription;
 
     @FXML
-    private ImageView image;
+    private ImageView movieImage;
 
     @FXML
-    private HBox container;
+    private HBox movieContainer;
 
-    private FXMLLoader fxmlLoader;
+    private FXMLLoader movieFxmlLoader;
 
     private ImageHelper imageHelper = new ImageHelper();
 
@@ -41,21 +41,21 @@ public class MovieListViewCell extends JFXListCell<Movie> {
             setText(null);
             setGraphic(null);
         } else {
-            if (fxmlLoader == null) {
-                fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/movie_cell.fxml"));
-                fxmlLoader.setController(this);
+            if (movieFxmlLoader == null) {
+                movieFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/movie_cell.fxml"));
+                movieFxmlLoader.setController(this);
                 try {
-                    fxmlLoader.load();
+                    movieFxmlLoader.load();
                 } catch (IOException e) {
                     Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
                 }
             }
 
-            title.setText(movie.getTitle());
+            movieTitle.setText(movie.getTitle());
             if(movie.getDescription().isEmpty()) {
-                description.setText("Movie description not available yet.");
+                movieDescription.setText("Movie movieDescription not available yet.");
             } else {
-                description.setText(movie.getDescription());
+                movieDescription.setText(movie.getDescription());
             }
 
             String imageUrl = movie.getPosterPath();
@@ -63,14 +63,14 @@ public class MovieListViewCell extends JFXListCell<Movie> {
 
 
             if(imageHelper.isImageCached(imageUrl)) {
-                image.setImage(imageHelper.getCachedImage(imageUrl));
+                movieImage.setImage(imageHelper.getCachedImage(imageUrl));
             } else {
-                imageHelper.downloadAndSetImage(imageUrl, image, false);
+                imageHelper.downloadAndSetImage(imageUrl, movieImage, false);
             }
 
 
             setText(null);
-            setGraphic(container);
+            setGraphic(movieContainer);
         }
 
     }

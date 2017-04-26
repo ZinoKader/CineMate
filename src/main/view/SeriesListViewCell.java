@@ -18,18 +18,18 @@ import java.io.IOException;
 public class SeriesListViewCell extends JFXListCell<Series> {
 
 	@FXML
-	private Label title;
+	private Label seriesTitle;
 
 	@FXML
-	private Label description;
+	private Label seriesDescription;
 
 	@FXML
-	private ImageView image;
+	private ImageView seriesImage;
 
 	@FXML
-	private HBox container;
+	private HBox seriesContainer;
 
-	private FXMLLoader fxmlLoader;
+	private FXMLLoader seriesFxmlLoader;
 
 	private ImageHelper imageHelper = new ImageHelper();
 
@@ -41,29 +41,29 @@ public class SeriesListViewCell extends JFXListCell<Series> {
 			setText(null);
 			setGraphic(null);
 		} else {
-			if (fxmlLoader == null) {
-				fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/series_cell.fxml"));
-				fxmlLoader.setController(this);
+			if (seriesFxmlLoader == null) {
+				seriesFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/series_cell.fxml"));
+				seriesFxmlLoader.setController(this);
 				try {
-					fxmlLoader.load();
+					seriesFxmlLoader.load();
 				} catch (IOException e) {
 					Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
 				}
 			}
 
-			title.setText(series.getTitle());
-			description.setText(series.getDescription());
+			seriesTitle.setText(series.getTitle());
+			seriesDescription.setText(series.getDescription());
 
 			String imageUrl = series.getPosterPath();
 
             if(imageHelper.isImageCached(imageUrl)) {
-                image.setImage(imageHelper.getCachedImage(imageUrl));
+                seriesImage.setImage(imageHelper.getCachedImage(imageUrl));
             } else {
-                imageHelper.downloadAndSetImage(imageUrl, image, false);
+                imageHelper.downloadAndSetImage(imageUrl, seriesImage, false);
             }
 
 			setText(null);
-			setGraphic(container);
+			setGraphic(seriesContainer);
 		}
 
 	}

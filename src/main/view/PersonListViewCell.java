@@ -18,18 +18,18 @@ import java.io.IOException;
 public class PersonListViewCell extends JFXListCell<Person> {
 
 	@FXML
-	private Label title;
+	private Label personTitle;
 
 	@FXML
-	private Label description;
+	private Label personDescription;
 
 	@FXML
-	private ImageView image;
+	private ImageView personImage;
 
 	@FXML
-	private HBox container;
+	private HBox personContainer;
 
-	private FXMLLoader fxmlLoader;
+	private FXMLLoader personFxmlLoader;
 
 	private ImageHelper imageHelper = new ImageHelper();
 
@@ -42,31 +42,28 @@ public class PersonListViewCell extends JFXListCell<Person> {
 			setText(null);
 			setGraphic(null);
 		} else {
-			if (fxmlLoader == null) {
-				fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
-				fxmlLoader.setController(this);
+			if (personFxmlLoader == null) {
+				personFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/person_cell.fxml"));
+				personFxmlLoader.setController(this);
 				try {
-					fxmlLoader.load();
+					personFxmlLoader.load();
 				} catch (IOException e) {
 					Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
 				}
 			}
 
-			title.setText(person.getName());
-
-
-			//description.setText(person.getKnownFor());
+			personTitle.setText(person.getName());
 
 			String imageUrl = person.getProfilePath();
 
             if(imageHelper.isImageCached(imageUrl)) {
-                image.setImage(imageHelper.getCachedImage(imageUrl));
+                personImage.setImage(imageHelper.getCachedImage(imageUrl));
             } else {
-                imageHelper.downloadAndSetImage(imageUrl, image, false);
+                imageHelper.downloadAndSetImage(imageUrl, personImage, false);
             }
 
 			setText(null);
-			setGraphic(container);
+			setGraphic(personContainer);
 		}
 
 	}

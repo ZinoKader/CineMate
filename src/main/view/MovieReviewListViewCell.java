@@ -13,15 +13,15 @@ import java.io.IOException;
 public class MovieReviewListViewCell extends JFXListCell<MovieReview> {
 
 	@FXML
-	private Label author;
+	private Label reviewAuthor;
 
 	@FXML
-	private Label content;
+	private Label reviewContent;
 
 	@FXML
-	private VBox container;
+	private VBox reviewContainer;
 
-	private FXMLLoader fxmlLoader;
+	private FXMLLoader reviewFxmlLoader;
 
 
 	@Override
@@ -32,21 +32,21 @@ public class MovieReviewListViewCell extends JFXListCell<MovieReview> {
 			setText(null);
 			setGraphic(null);
 		} else {
-			if (fxmlLoader == null) {
-				fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/movie_review_cell.fxml"));
-				fxmlLoader.setController(this);
+			if (reviewFxmlLoader == null) {
+				reviewFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/movie_review_cell.fxml"));
+				reviewFxmlLoader.setController(this);
 				try {
-					fxmlLoader.load();
+					reviewFxmlLoader.load();
 				} catch (IOException e) {
 					Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
 				}
 			}
 
-			author.setText(review.getAuthor());
-			content.setText(review.getContent());
+			reviewAuthor.setText(review.getAuthor());
+			reviewContent.setText(review.getContent());
 
 			setText(null);
-			setGraphic(container);
+			setGraphic(reviewContainer);
 		}
 
 	}

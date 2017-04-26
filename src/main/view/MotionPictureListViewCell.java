@@ -20,18 +20,18 @@ import java.io.IOException;
 public class MotionPictureListViewCell extends JFXListCell<MotionPicture> {
 
 	@FXML
-	private Label title;
+	private Label mpTitle;
 
 	@FXML
-	private Label character;
+	private Label mpCharacter;
 
 	@FXML
-	private ImageView image;
+	private ImageView mpImage;
 
 	@FXML
-	private HBox container;
+	private HBox mpContainer;
 
-	private FXMLLoader fxmlLoader;
+	private FXMLLoader mpFxmlLoader;
 
 	private ImageHelper imageHelper = new ImageHelper();
 
@@ -43,11 +43,11 @@ public class MotionPictureListViewCell extends JFXListCell<MotionPicture> {
 			setText(null);
 			setGraphic(null);
 		} else {
-			if (fxmlLoader == null) {
-				fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/motion_picture_cell.fxml"));
-				fxmlLoader.setController(this);
+			if (mpFxmlLoader == null) {
+				mpFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/motion_picture_cell.fxml"));
+				mpFxmlLoader.setController(this);
 				try {
-					fxmlLoader.load();
+					mpFxmlLoader.load();
 				} catch (IOException e) {
 					Log.debug("Could not load FXML file for " + getClass().getSimpleName(), e);
 				}
@@ -60,13 +60,13 @@ public class MotionPictureListViewCell extends JFXListCell<MotionPicture> {
                 //since these fields are set automatically and have different serialized names
 				case ACCREDITED_MOVIE:
 					AccreditedMovie movie = (AccreditedMovie) motionPicture;
-					title.setText(movie.getTitle());
-					character.setText(movie.getCharacter());
+					mpTitle.setText(movie.getTitle());
+					mpCharacter.setText(movie.getCharacter());
 					break;
 				case ACCREDITED_SERIES:
 					AccreditedSeries series = (AccreditedSeries) motionPicture;
-					title.setText(series.getTitle());
-					character.setText(series.getCharacter());
+					mpTitle.setText(series.getTitle());
+					mpCharacter.setText(series.getCharacter());
 					break;
 			}
 
@@ -74,13 +74,13 @@ public class MotionPictureListViewCell extends JFXListCell<MotionPicture> {
 
 
             if(imageHelper.isImageCached(imageUrl)) {
-                image.setImage(imageHelper.getCachedImage(imageUrl));
+                mpImage.setImage(imageHelper.getCachedImage(imageUrl));
             } else {
-                imageHelper.downloadAndSetImage(imageUrl, image, false);
+                imageHelper.downloadAndSetImage(imageUrl, mpImage, false);
             }
 
 			setText(null);
-			setGraphic(container);
+			setGraphic(mpContainer);
 		}
 
 	}
