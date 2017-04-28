@@ -5,8 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import main.constants.EffectConstants;
 import main.helpers.ImageHelper;
 import main.model.Episode;
@@ -112,7 +114,12 @@ public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
                     }
 
                     episodeTitle.setText("Episode " + episodeItem.getEpisodeNumber() + ": " + episodeItem.getEpisodeTitle());
-                    episodeAired.setText("Air date " + episodeItem.getAirDate());
+
+                    if(episodeItem.getAirDate() == null) {
+                        episodeAired.setText("Air date unavailable");
+                    } else{
+                        episodeAired.setText("Air date " + episodeItem.getAirDate());
+                    }
 
                     if(episodeItem.getDescription().isEmpty()) {
                         episodeDescription.setText("Episode description not available yet.");
@@ -127,6 +134,16 @@ public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
                     }
 
                     episodeImage.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_MEDIUM);
+
+                    if(imageHelper.isImageBright(new Image(episodeItem.getPosterPath()))) {
+                        episodeTitle.setTextFill(Color.BLACK);
+                        episodeAired.setTextFill(Color.BLACK);
+                        episodeDescription.setTextFill(Color.BLACK);
+                    } else {
+                        episodeTitle.setTextFill(Color.WHITE);
+                        episodeAired.setTextFill(Color.WHITE);
+                        episodeDescription.setTextFill(Color.WHITE);
+                    }
 
                     setText(null);
                     setGraphic(episodeContainer);
