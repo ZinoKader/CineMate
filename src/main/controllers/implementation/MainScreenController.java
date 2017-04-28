@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class MainScreenController implements Initializable, ControlledScreen {
 
@@ -207,15 +208,17 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
 	}
 
-	private void populateList(List<? extends TmdbObject> listObjects, MediaType mediaType) {
+	private void populateList(List<? extends TmdbObject> tmdbObjects, MediaType mediaType) {
 		int searchPaneIndex = 0;
 		List<Node> searchResultListView = rootPane.getChildren();
 
 		//find the index in the stackpane of our desired listview to show (they get shuffled around as they're reordered)
 		switch(mediaType) {
 			case MOVIE:
+                List<Movie> movies = tmdbObjects.stream().filter(tmdbItem -> tmdbItem.getMediaType().equals(MediaType.MOVIE))
+                        .map(tmdbItem -> (Movie) tmdbItem).collect(Collectors.toList());
 				movieObservableList.clear();
-				movieObservableList.addAll((List<? extends Movie>) listObjects);
+				movieObservableList.addAll(movies);
 				movieListView.setItems(movieObservableList);
 				movieListView.setCellFactory(listView -> new MovieListViewCell());
 				for(int i = 0; i < searchResultListView.size(); i++) {
@@ -226,8 +229,10 @@ public class MainScreenController implements Initializable, ControlledScreen {
 				}
 				break;
 			case SERIES:
+                List<Series> series = tmdbObjects.stream().filter(tmdbItem -> tmdbItem.getMediaType().equals(MediaType.SERIES))
+                        .map(tmdbItem -> (Series) tmdbItem).collect(Collectors.toList());
 				seriesObservableList.clear();
-				seriesObservableList.addAll((List<? extends Series>) listObjects);
+				seriesObservableList.addAll(series);
 				seriesListView.setItems(seriesObservableList);
 				seriesListView.setCellFactory(listView -> new SeriesListViewCell());
 				for(int i = 0; i < searchResultListView.size(); i++) {
@@ -238,8 +243,10 @@ public class MainScreenController implements Initializable, ControlledScreen {
 				}
 				break;
 			case PERSON:
+                List<Person> people = tmdbObjects.stream().filter(tmdbItem -> tmdbItem.getMediaType().equals(MediaType.PERSON))
+                        .map(tmdbItem -> (Person) tmdbItem).collect(Collectors.toList());
 				personObservableList.clear();
-				personObservableList.addAll((List<? extends Person>) listObjects);
+				personObservableList.addAll(people);
 				personListView.setItems(personObservableList);
 				personListView.setCellFactory(listView -> new PersonListViewCell());
 				for(int i = 0; i < searchResultListView.size(); i++) {
