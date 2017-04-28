@@ -199,8 +199,6 @@ public class MainScreenController implements Initializable, ControlledScreen {
 		if(searchResults != null) {
             if(searchResults.getResults() != null && !searchResults.getResults().isEmpty()) {
                 populateList(searchResults.getResults(), mediaType);
-            } else {
-                messageHelper.showMessage("No results for this query");
             }
         } else {
 		    messageHelper.showMessage("Something went wrong when searching, check your API key");
