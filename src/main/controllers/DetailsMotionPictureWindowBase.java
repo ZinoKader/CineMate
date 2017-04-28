@@ -41,7 +41,6 @@ public abstract class DetailsMotionPictureWindowBase extends DetailsWindowBase i
         castListView.setCellFactory(listView -> new CastListViewCell());
     }
 
-    //set star ratings, show tooltip on hover
     protected void setRatings(MotionPicture motionPicture, HBox targetNode, Tooltip ratingToolTip) {
 
         String rating = motionPicture.getAverageRating();
@@ -55,7 +54,7 @@ public abstract class DetailsMotionPictureWindowBase extends DetailsWindowBase i
         targetNode.getChildren().add(ratingsElement);
 
         double adjustedRating = Double.parseDouble(rating) / 2;
-        ratingToolTip.setText(String.valueOf(adjustedRating));
+        ratingToolTip.setText(String.valueOf(adjustedRating) + " / 5");
         Tooltip.install(targetNode, ratingToolTip);
     }
 
