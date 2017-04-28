@@ -8,8 +8,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import main.CineMateApplication;
 import main.constants.EffectConstants;
 import main.constants.FXConstants;
@@ -90,7 +92,7 @@ public class PersonDetailsWindowController extends DetailsWindowBase {
     public void delegateSetData() {
 
         if(!passedInTmdbObject.getMediaType().equals(MediaType.PERSON)) {
-            Log.debug("Wrong media type passed in for this controller type. Closing window.");
+            Log.debug("Wrong media type passed in for this controller type. Expected : " + MediaType.PERSON + ", received: " + passedInTmdbObject.getMediaType());
             super.closeWindow();
             return;
         }
@@ -144,6 +146,14 @@ public class PersonDetailsWindowController extends DetailsWindowBase {
         imageHelper.downloadAndSetImage(person.getProfilePath(), detailsPersonProfile, true);
         imageHelper.downloadAndSetImage(person.getProfilePath(), detailsBackdrop, false);
         detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_HIGH);
+
+        if(imageHelper.isImageBright(new Image(person.getProfilePath()))) {
+            detailsName.setTextFill(Color.BLACK);
+            detailsBiography.setTextFill(Color.BLACK);
+            detailsBorn.setTextFill(Color.BLACK);
+            detailsAge.setTextFill(Color.BLACK);
+            detailsDead.setTextFill(Color.BLACK);
+        }
     }
 
     private void setAppearances() {
@@ -179,6 +189,7 @@ public class PersonDetailsWindowController extends DetailsWindowBase {
                     screenParent.loadWindow(CineMateApplication.SERIES_WINDOW_FXML, selectedSeries);
                     break;
             }
+            super.closeWindow();
         }
     }
 }

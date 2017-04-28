@@ -11,11 +11,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 import main.CineMateApplication;
 import main.constants.EffectConstants;
@@ -96,11 +98,14 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
     @Override
     public void delegateSetData() {
 
-        if(!passedInTmdbObject.getMediaType().equals(MediaType.SERIES)) {
-            Log.debug("Wrong media type passed in for this controller type. Closing window.");
+        if(!(passedInTmdbObject.getMediaType().equals(MediaType.SERIES)
+                || passedInTmdbObject.getMediaType().equals(MediaType.ACCREDITED_SERIES))) {
+            Log.debug("Wrong media type passed in for this controller type. Expected: "
+                    + MediaType.SERIES + " or " + MediaType.ACCREDITED_SERIES + ", received: " + passedInTmdbObject.getMediaType());
             super.closeWindow();
             return;
         }
+
 
         AppendedQueries appendedQueries = new AppendedQueries(
                 Arrays.asList(TmdbQuery.CREDITS, TmdbQuery.RECOMMENDATIONS, TmdbQuery.VIDEOS, TmdbQuery.REVIEWS));
@@ -151,6 +156,13 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
         detailsRuntime.setText(series.getRuntime().format(DateTimeFormatter.ISO_TIME));
         imageHelper.downloadAndSetImage(series.getBackdropPath(), detailsBackdrop, false);
         detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_NORMAL);
+
+        if(imageHelper.isImageBright(new Image(series.getBackdropPath()))) {
+            detailsTitle.setTextFill(Color.BLACK);
+            detailsDescription.setTextFill(Color.BLACK);
+            detailsYear.setTextFill(Color.BLACK);
+            detailsRuntime.setTextFill(Color.BLACK);
+        }
     }
 
     private void setKeyPerson() {
@@ -172,7 +184,7 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
         if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             Cast selectedCast = castListView.getSelectionModel().getSelectedItem();
             screenParent.loadWindow(CineMateApplication.PERSON_WINDOW_FXML, selectedCast);
-            closeWindow();
+            super.closeWindow();
         }
     }
 
@@ -194,17 +206,18 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
                         TreeItem<SeriesDetail> seasonItem = new TreeItem<>(season);
 
                         //create episode nodes (TreeItems) from episodes and add them to our season nodes
-                        //testing out Java 8 streams, they're pretty neat!
-                        seasonItem.getChildren().addAll(season.getEpisodes().stream()
+                        seasonItem.getChildren().addAll(season.getEpisodes()
+                                .stream()
                                 .map(TreeItem<SeriesDetail>::new)
                                 .collect(Collectors.toList()));
 
-                        //sort episodes under seasons
+                        //sort episode nodes under season nodes
                         seasonItem.getChildren().sort(new SeriesDetailComparator());
 
+                        //add season node to root node
                         treeRoot.getChildren().add(seasonItem);
 
-                        //sort seasons
+                        //sort season nodes under root node
                         treeRoot.getChildren().sort(new SeriesDetailComparator());
 
                         //set height of our treeview to amount of seasons (in the treeroot) times the height of a season cell
@@ -243,7 +256,7 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
         if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             Series selectedSeries = relatedSeriesListView.getSelectionModel().getSelectedItem();
             screenParent.loadWindow(CineMateApplication.SERIES_WINDOW_FXML, selectedSeries);
-            closeWindow();
+            super.closeWindow();
         }
     }
 

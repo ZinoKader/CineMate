@@ -8,11 +8,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 import main.CineMateApplication;
 import main.constants.EffectConstants;
@@ -96,8 +98,10 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
     @Override
     public void delegateSetData() {
 
-        if(!passedInTmdbObject.getMediaType().equals(MediaType.MOVIE)) {
-            Log.debug("Wrong media type passed in for this controller type. Closing window.");
+        if(!(passedInTmdbObject.getMediaType().equals(MediaType.MOVIE)
+                || passedInTmdbObject.getMediaType().equals(MediaType.ACCREDITED_MOVIE))) {
+            Log.debug("Wrong media type passed in for this controller type. Expected: "
+                    + MediaType.MOVIE + " or " + MediaType.ACCREDITED_MOVIE + ", received: " + passedInTmdbObject.getMediaType());
             super.closeWindow();
             return;
         }
@@ -153,6 +157,15 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
         detailsRevenue.setText("Revenue: " + currencyFormat.format(movie.getRevenue()));
         imageHelper.downloadAndSetImage(movie.getBackdropPath(), detailsBackdrop, false);
         detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_NORMAL);
+
+        if(imageHelper.isImageBright(new Image(movie.getBackdropPath()))) {
+            detailsTitle.setTextFill(Color.BLACK);
+            detailsDescription.setTextFill(Color.BLACK);
+            detailsYear.setTextFill(Color.BLACK);
+            detailsRuntime.setTextFill(Color.BLACK);
+            detailsBudget.setTextFill(Color.BLACK);
+            detailsRevenue.setTextFill(Color.BLACK);
+        }
     }
 
     private void setDirector() {
@@ -172,7 +185,7 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
         if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             Cast selectedCast = castListView.getSelectionModel().getSelectedItem();
             screenParent.loadWindow(CineMateApplication.PERSON_WINDOW_FXML, selectedCast);
-            closeWindow();
+            super.closeWindow();
         }
     }
 
@@ -198,7 +211,7 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
         if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             Movie selectedMovie = relatedMoviesListView.getSelectionModel().getSelectedItem();
             screenParent.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
-            closeWindow();
+            super.closeWindow();
         }
     }
 
