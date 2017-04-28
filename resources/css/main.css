@@ -223,38 +223,27 @@
 /* styling for treeview */
 
 
-.tree-cell .label {
-    -fx-text-fill: #000000 !important;
-}
-
 #seasonsTreeView .tree-cell {
-    -fx-background-color: #f4f4f4 !important;
+    -fx-background-color: #f4f4f4;
 }
 
 .tree-cell:selected .label {
-    -fx-text-fill: #fafafa !important;
+    -fx-text-fill: #fafafa;
 }
 
 #seasonsTreeView .tree-cell:selected {
-    -fx-background-color: #222222 !important;
+    -fx-background-color: #222222;
 }
 
 #seasonsTreeView .tree-cell:selected .container {
-    -fx-background-color: #222222 !important;
+    -fx-background-color: #222222;
 }
 
-#seasonsTreeView .tree-cell:selected #episodeContainer .label {
-    -fx-text-fill: #fafafa !important;
-}
-
-#seasonsTreeView .tree-cell #episodeContainer .label {
-    -fx-text-fill: #fafafa !important;
-}
 
 #seasonsTreeView .tree-cell:selected #seasonContainer {
-    -fx-background-color: #222222 !important;
+    -fx-background-color: #222222;
 }
 
 #seasonContainer {
-    -fx-background-color: #f4f4f4 !important;
+    -fx-background-color: #f4f4f4;
 }

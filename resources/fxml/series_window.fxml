@@ -111,7 +111,7 @@
                         <Insets top="60.0" />
                     </StackPane.margin>
                 </Label>
-                <JFXTreeView fx:id="seasonsTreeView" VBox.vgrow="ALWAYS" maxHeight="-Infinity" minHeight="1000">
+                <JFXTreeView fx:id="seasonsTreeView" VBox.vgrow="ALWAYS" maxHeight="-Infinity" minHeight="600">
                     <StackPane.margin>
                         <Insets top="130.0" bottom="50" />
                     </StackPane.margin>
