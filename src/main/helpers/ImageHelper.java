@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
-import javafx.scene.image.PixelReader;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
@@ -24,7 +23,7 @@ import java.util.Map;
 public class ImageHelper {
 
     private Map<String, SoftReference> imageCache = new HashMap<>();
-    private static final int BRIGHTNESS_THRESHOLD = 220;
+    private static final int BRIGHTNESS_THRESHOLD = 200;
 
     public ImageHelper() {
     }
@@ -45,9 +44,9 @@ public class ImageHelper {
 
             try(InputStream in = new URL(imageUrl).openStream()) {
                 Image downloadedImage = new Image(in);
-                imageView.setImage(downloadedImage);
                 addImageToCache(imageUrl, downloadedImage);
 
+                Platform.runLater( () -> imageView.setImage(downloadedImage));
                 if(shouldClipCircular) {
                     Platform.runLater( () -> imageView.setClip(new Circle(
                             imageView.getFitWidth() / 2, imageView.getFitHeight() / 2, imageView.getFitWidth() / 2)));
@@ -90,12 +89,13 @@ public class ImageHelper {
     /**
      * Checks if the image is brighter than a certain threshold
      * Useful for finding out if text on top of said image should be black or white
+     * For a good demonstration of this in work, search for the series "Fargo" and open up season 3
      * @param image the image to check the brightness of
      * @return true if image is on average considered bright (a lot of white), false if not
      */
     public boolean isImageBright(Image image) {
-        PixelReader pixelReader = image.getPixelReader();
-        int strideLength = 4; //we actually use RGBA but we ignore the alpha (A), therefore each stride is 4 values
+
+        int strideLength = 4; //we use ARGB, therefore each stride is 4 values (although we ignore the alpha value)
 
         int imageWidth = (int) image.getWidth();
         int imageHeight = (int) image.getHeight();
@@ -103,7 +103,7 @@ public class ImageHelper {
 
         byte[] buffer = new byte[imageHeight * scanLineRowLength];
         //read pixel data from image into byte array
-        pixelReader.getPixels(0, 0, imageWidth, imageHeight, PixelFormat.getByteBgraInstance(), buffer, 0, scanLineRowLength);
+        image.getPixelReader().getPixels(0, 0, imageWidth, imageHeight, PixelFormat.getByteBgraInstance(), buffer, 0, scanLineRowLength);
 
         int redTotal = 0;
         int greenTotal = 0;
@@ -114,8 +114,9 @@ public class ImageHelper {
             if(i + 2 >= buffer.length) {
                 break; //stop before we hit the end of the byte array
             }
-            int red = (buffer[i+2] & 0xff);
-            int green = (buffer[i+1] & 0xff);
+            //0xff effectively ignores everything but the last 8 bits, as we only need values from 0-255 for RGB
+            int red = (buffer[i + 2] & 0xff);
+            int green = (buffer[i + 1] & 0xff);
             int blue = (buffer[i] & 0xff);
 
             redTotal += red;
@@ -127,14 +128,14 @@ public class ImageHelper {
         int greenAverage = greenTotal / buffer.length;
         int blueAverage = blueTotal / buffer.length;
 
-        Log.debug("RGB average: (" + redAverage + ", " + greenAverage + ", " + blueAverage + ")");
+        //Log.debug("RGB average: (" + redAverage + ", " + greenAverage + ", " + blueAverage + ")");
 
         if(redAverage > BRIGHTNESS_THRESHOLD && greenAverage > BRIGHTNESS_THRESHOLD && blueAverage > BRIGHTNESS_THRESHOLD) {
-            Log.debug("that shit bright, yo");
+            //Log.debug("that shit bright, yo");
             return true;
         }
 
-        Log.debug("not the brightest image in town");
+        //Log.debug("not the brightest image in town");
         return false;
     }
 
