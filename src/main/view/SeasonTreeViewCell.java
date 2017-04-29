@@ -8,14 +8,15 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import main.constants.EffectConstants;
-import main.helpers.ImageHelper;
+import main.helpers.ImageCache;
+import main.helpers.TextColorHelper;
 import main.model.Episode;
 import main.model.Season;
 import main.model.SeriesDetail;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
 
@@ -51,7 +52,7 @@ public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
 
     private FXMLLoader episodeFxmlLoader;
 
-    private ImageHelper imageHelper = new ImageHelper();
+    private ImageCache imageCache = new ImageCache();
 
     @Override
     protected void updateItem(SeriesDetail seriesItem, boolean empty) {
@@ -88,10 +89,10 @@ public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
                     }
 
 
-                    if(imageHelper.isImageCached(seasonItem.getPosterPath())) {
-                        seasonImage.setImage(imageHelper.getCachedImage(seasonItem.getPosterPath()));
+                    if(imageCache.isImageCached(seasonItem.getPosterPath())) {
+                        seasonImage.setImage(imageCache.getCachedImage(seasonItem.getPosterPath()));
                     } else {
-                        imageHelper.downloadAndSetImage(seasonItem.getPosterPath(), seasonImage, false);
+                        imageCache.downloadAndSetImage(seasonItem.getPosterPath(), seasonImage, false);
                     }
 
                     setText(null);
@@ -127,23 +128,16 @@ public class SeasonTreeViewCell extends TreeCell<SeriesDetail> {
                         episodeDescription.setText(episodeItem.getDescription());
                     }
 
-                    if(imageHelper.isImageCached(episodeItem.getPosterPath())) {
-                        episodeImage.setImage(imageHelper.getCachedImage(episodeItem.getPosterPath()));
+                    if(imageCache.isImageCached(episodeItem.getPosterPath())) {
+                        episodeImage.setImage(imageCache.getCachedImage(episodeItem.getPosterPath()));
                     } else {
-                        imageHelper.downloadAndSetImage(episodeItem.getPosterPath(), episodeImage, false);
+                        imageCache.downloadAndSetImage(episodeItem.getPosterPath(), episodeImage, false);
                     }
 
                     episodeImage.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_MEDIUM);
 
-                    if(imageHelper.isImageBright(new Image(episodeItem.getPosterPath()))) {
-                        episodeTitle.setTextFill(Color.BLACK);
-                        episodeAired.setTextFill(Color.BLACK);
-                        episodeDescription.setTextFill(Color.BLACK);
-                    } else {
-                        episodeTitle.setTextFill(Color.WHITE);
-                        episodeAired.setTextFill(Color.WHITE);
-                        episodeDescription.setTextFill(Color.WHITE);
-                    }
+                    TextColorHelper.setContentAwareTextColor(new Image(episodeItem.getPosterPath()), Arrays.asList(
+                            episodeTitle, episodeAired, episodeDescription));
 
                     setText(null);
                     setGraphic(episodeContainer);

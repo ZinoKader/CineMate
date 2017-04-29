@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import main.helpers.ImageHelper;
+import main.helpers.ImageCache;
 import main.model.Person;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class PersonListViewCell extends JFXListCell<Person> {
 
 	private FXMLLoader personFxmlLoader;
 
-	private ImageHelper imageHelper = new ImageHelper();
+	private ImageCache imageCache = new ImageCache();
 
 
 	@Override
@@ -56,10 +56,10 @@ public class PersonListViewCell extends JFXListCell<Person> {
 
 			String imageUrl = person.getProfilePath();
 
-            if(imageHelper.isImageCached(imageUrl)) {
-                personImage.setImage(imageHelper.getCachedImage(imageUrl));
+            if(imageCache.isImageCached(imageUrl)) {
+                personImage.setImage(imageCache.getCachedImage(imageUrl));
             } else {
-                imageHelper.downloadAndSetImage(imageUrl, personImage, false);
+                imageCache.downloadAndSetImage(imageUrl, personImage, false);
             }
 
 			setText(null);

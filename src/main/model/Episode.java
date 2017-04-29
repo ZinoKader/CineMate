@@ -42,9 +42,8 @@ public class Episode implements SeriesDetail {
     public String getPosterPath() {
         if(posterPath == null) {
             return TmdbConstants.POSTER_PLACEHOLDER;
-        } else {
-            return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_POSTER_SIZE + posterPath;
         }
+        return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_POSTER_SIZE + posterPath;
     }
 
     @Override

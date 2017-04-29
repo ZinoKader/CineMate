@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import main.helpers.ImageHelper;
+import main.helpers.ImageCache;
 import main.model.Movie;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class MovieListViewCell extends JFXListCell<Movie> {
 
     private FXMLLoader movieFxmlLoader;
 
-    private ImageHelper imageHelper = new ImageHelper();
+    private ImageCache imageCache = new ImageCache();
 
     @Override
     public void updateItem(Movie movie, boolean empty) {
@@ -61,10 +61,10 @@ public class MovieListViewCell extends JFXListCell<Movie> {
             String imageUrl = movie.getPosterPath();
 
 
-            if(imageHelper.isImageCached(imageUrl)) {
-                movieImage.setImage(imageHelper.getCachedImage(imageUrl));
+            if(imageCache.isImageCached(imageUrl)) {
+                movieImage.setImage(imageCache.getCachedImage(imageUrl));
             } else {
-                imageHelper.downloadAndSetImage(imageUrl, movieImage, false);
+                imageCache.downloadAndSetImage(imageUrl, movieImage, false);
             }
 
 

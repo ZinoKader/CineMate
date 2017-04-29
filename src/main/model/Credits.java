@@ -13,7 +13,6 @@ public class Credits {
     private List<Crew> crew;
 
     public Credits() {
-
     }
 
     public List<Cast> getCast() {

@@ -11,11 +11,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import main.CineMateApplication;
 import main.constants.EffectConstants;
 import main.constants.FXConstants;
 import main.controllers.DetailsWindowBase;
+import main.helpers.TextColorHelper;
 import main.model.*;
 import main.view.MotionPictureListViewCell;
 import retrofit2.Call;
@@ -143,17 +143,12 @@ public class PersonDetailsWindowController extends DetailsWindowBase {
             detailsDead.setVisible(false);
             detailsAge.setText("Age " + person.getAge());
         }
-        imageHelper.downloadAndSetImage(person.getProfilePath(), detailsPersonProfile, true);
-        imageHelper.downloadAndSetImage(person.getProfilePath(), detailsBackdrop, false);
+        imageCache.downloadAndSetImage(person.getProfilePath(), detailsPersonProfile, true);
+        imageCache.downloadAndSetImage(person.getProfilePath(), detailsBackdrop, false);
         detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_HIGH);
 
-        if(imageHelper.isImageBright(new Image(person.getProfilePath()))) {
-            detailsName.setTextFill(Color.BLACK);
-            detailsBiography.setTextFill(Color.BLACK);
-            detailsBorn.setTextFill(Color.BLACK);
-            detailsAge.setTextFill(Color.BLACK);
-            detailsDead.setTextFill(Color.BLACK);
-        }
+        TextColorHelper.setContentAwareTextColor(new Image(person.getProfilePath()), Arrays.asList(
+                detailsName, detailsBiography, detailsBorn, detailsAge, detailsDead));
     }
 
     private void setAppearances() {

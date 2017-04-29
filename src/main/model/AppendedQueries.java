@@ -20,9 +20,7 @@ public class AppendedQueries {
     @Override
     public String toString() {
         StringBuilder queryBuilder = new StringBuilder();
-        for(TmdbQuery query : queries) {
-            queryBuilder.append(query.toString().toLowerCase()).append(",");
-        }
+        queries.forEach(query -> queryBuilder.append(query.toString().toLowerCase()).append(","));
         return queryBuilder.toString();
     }
 }

@@ -15,7 +15,7 @@ import main.controllers.contract.DetailedView;
 import main.exceptions.EmptyValueException;
 import main.exceptions.PropertyLoadException;
 import main.helpers.DelayedTaskHelper;
-import main.helpers.ImageHelper;
+import main.helpers.ImageCache;
 import main.helpers.MessageHelper;
 import main.model.TmdbObject;
 
@@ -34,7 +34,7 @@ public abstract class DetailsWindowBase implements Initializable, DetailedView, 
     protected Stage stage;
     protected ScreenController screenParent;
     protected UserSettings userSettings;
-    protected ImageHelper imageHelper;
+    protected ImageCache imageCache;
     protected DelayedTaskHelper delayedTaskHelper;
     protected MessageHelper messageHelper;
 
@@ -60,7 +60,7 @@ public abstract class DetailsWindowBase implements Initializable, DetailedView, 
 
         ApiAdapater apiAdapater = new ApiAdapater(apiKey);
         apiService = apiAdapater.getApiService();
-        imageHelper = new ImageHelper();
+        imageCache = new ImageCache();
         delayedTaskHelper = new DelayedTaskHelper();
 
         Platform.runLater( () -> { //run when stage has been set

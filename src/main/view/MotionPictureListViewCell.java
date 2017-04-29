@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import main.helpers.ImageHelper;
+import main.helpers.ImageCache;
 import main.model.AccreditedMovie;
 import main.model.AccreditedSeries;
 import main.model.MotionPicture;
@@ -33,7 +33,7 @@ public class MotionPictureListViewCell extends JFXListCell<MotionPicture> {
 
 	private FXMLLoader mpFxmlLoader;
 
-	private ImageHelper imageHelper = new ImageHelper();
+	private ImageCache imageCache = new ImageCache();
 
 	@Override
 	public void updateItem(MotionPicture motionPicture, boolean empty) {
@@ -73,10 +73,10 @@ public class MotionPictureListViewCell extends JFXListCell<MotionPicture> {
 			String imageUrl = motionPicture.getPosterPath();
 
 
-            if(imageHelper.isImageCached(imageUrl)) {
-                mpImage.setImage(imageHelper.getCachedImage(imageUrl));
+            if(imageCache.isImageCached(imageUrl)) {
+                mpImage.setImage(imageCache.getCachedImage(imageUrl));
             } else {
-                imageHelper.downloadAndSetImage(imageUrl, mpImage, false);
+                imageCache.downloadAndSetImage(imageUrl, mpImage, false);
             }
 
 			setText(null);

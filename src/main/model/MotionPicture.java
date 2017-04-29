@@ -37,6 +37,9 @@ public class MotionPicture {
     private VideoResults videos;
 
     public String getDescription() {
+        if(description == null) {
+            return "No description available.";
+        }
         return description;
     }
 
@@ -55,17 +58,15 @@ public class MotionPicture {
     public String getPosterPath() {
         if(posterPath == null) {
             return TmdbConstants.POSTER_PLACEHOLDER;
-        } else {
-            return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_POSTER_SIZE + posterPath;
         }
+        return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_POSTER_SIZE + posterPath;
     }
 
     public String getBackdropPath() {
         if(backdropPath == null) {
             return TmdbConstants.BACKDROP_PLACEHOLDER;
-        } else {
-            return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_BACKDROP_SIZE + backdropPath;
         }
+        return TmdbConstants.TMDB_IMAGE_ENDPOINT + TmdbConstants.DEFAULT_BACKDROP_SIZE + backdropPath;
     }
 
     //gets the first video from the available ones that is both a youtube video and of the trailer type

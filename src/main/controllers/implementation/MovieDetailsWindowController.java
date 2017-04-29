@@ -14,13 +14,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 import main.CineMateApplication;
 import main.constants.EffectConstants;
 import main.constants.FXConstants;
 import main.controllers.DetailsMotionPictureWindowBase;
 import main.helpers.CrewHelper;
+import main.helpers.TextColorHelper;
 import main.model.*;
 import main.view.MovieListViewCell;
 import main.view.MovieReviewListViewCell;
@@ -155,17 +155,11 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
         detailsRuntime.setText(movie.getRuntime().format(DateTimeFormatter.ISO_TIME));
         detailsBudget.setText("Budget: " + currencyFormat.format(movie.getBudget()));
         detailsRevenue.setText("Revenue: " + currencyFormat.format(movie.getRevenue()));
-        imageHelper.downloadAndSetImage(movie.getBackdropPath(), detailsBackdrop, false);
+        imageCache.downloadAndSetImage(movie.getBackdropPath(), detailsBackdrop, false);
         detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_NORMAL);
 
-        if(imageHelper.isImageBright(new Image(movie.getBackdropPath()))) {
-            detailsTitle.setTextFill(Color.BLACK);
-            detailsDescription.setTextFill(Color.BLACK);
-            detailsYear.setTextFill(Color.BLACK);
-            detailsRuntime.setTextFill(Color.BLACK);
-            detailsBudget.setTextFill(Color.BLACK);
-            detailsRevenue.setTextFill(Color.BLACK);
-        }
+        TextColorHelper.setContentAwareTextColor(new Image(movie.getBackdropPath()), Arrays.asList(
+                detailsTitle, detailsDescription, detailsYear, detailsRuntime, detailsBudget, detailsRevenue));
     }
 
     private void setDirector() {
@@ -175,7 +169,7 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
         } else {
             Crew director = directors.get(0); //just set the first and most significant director in the list
             detailsDirectorName.setText(director.getName());
-            imageHelper.downloadAndSetImage(director.getProfilePath(), detailsDirectorImage, true);
+            imageCache.downloadAndSetImage(director.getProfilePath(), detailsDirectorImage, true);
         }
     }
 

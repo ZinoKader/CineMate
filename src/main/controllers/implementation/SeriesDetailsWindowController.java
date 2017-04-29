@@ -17,13 +17,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 import main.CineMateApplication;
 import main.constants.EffectConstants;
 import main.constants.FXConstants;
 import main.controllers.DetailsMotionPictureWindowBase;
 import main.helpers.SeriesDetailComparator;
+import main.helpers.TextColorHelper;
 import main.model.*;
 import main.view.SeasonTreeViewCell;
 import main.view.SeriesListViewCell;
@@ -154,15 +154,12 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
         detailsDescription.setText(series.getDescription());
         detailsYear.setText(series.getReleaseDate());
         detailsRuntime.setText(series.getRuntime().format(DateTimeFormatter.ISO_TIME));
-        imageHelper.downloadAndSetImage(series.getBackdropPath(), detailsBackdrop, false);
+        imageCache.downloadAndSetImage(series.getBackdropPath(), detailsBackdrop, false);
         detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_NORMAL);
 
-        if(imageHelper.isImageBright(new Image(series.getBackdropPath()))) {
-            detailsTitle.setTextFill(Color.BLACK);
-            detailsDescription.setTextFill(Color.BLACK);
-            detailsYear.setTextFill(Color.BLACK);
-            detailsRuntime.setTextFill(Color.BLACK);
-        }
+        TextColorHelper.setContentAwareTextColor(new Image(series.getBackdropPath()), Arrays.asList(
+                detailsTitle, detailsDescription, detailsYear, detailsRuntime));
+
     }
 
     private void setKeyPerson() {
@@ -175,7 +172,7 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
             Crew keyPerson = keyPeople.get(0); //just set the first and most significant director in the list
             detailsKeyPersonJob.setText(keyPerson.getJob());
             detailsKeyPersonName.setText(keyPerson.getName());
-            imageHelper.downloadAndSetImage(keyPerson.getProfilePath(), detailsKeyPersonImage, true);
+            imageCache.downloadAndSetImage(keyPerson.getProfilePath(), detailsKeyPersonImage, true);
         }
     }
 

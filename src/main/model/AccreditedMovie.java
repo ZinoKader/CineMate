@@ -8,11 +8,10 @@ public class AccreditedMovie extends Movie {
     private String character;
 
     public String getCharacter() {
-        if(!character.isEmpty()) {
-            return character;
-        } else {
+        if(character.isEmpty()) {
             return "Character not available";
         }
+        return character;
     }
 
     @Override

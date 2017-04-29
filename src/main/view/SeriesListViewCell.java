@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import main.helpers.ImageHelper;
+import main.helpers.ImageCache;
 import main.model.Series;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class SeriesListViewCell extends JFXListCell<Series> {
 
 	private FXMLLoader seriesFxmlLoader;
 
-	private ImageHelper imageHelper = new ImageHelper();
+	private ImageCache imageCache = new ImageCache();
 
 	@Override
 	public void updateItem(Series series, boolean empty) {
@@ -56,10 +56,10 @@ public class SeriesListViewCell extends JFXListCell<Series> {
 
 			String imageUrl = series.getPosterPath();
 
-            if(imageHelper.isImageCached(imageUrl)) {
-                seriesImage.setImage(imageHelper.getCachedImage(imageUrl));
+            if(imageCache.isImageCached(imageUrl)) {
+                seriesImage.setImage(imageCache.getCachedImage(imageUrl));
             } else {
-                imageHelper.downloadAndSetImage(imageUrl, seriesImage, false);
+                imageCache.downloadAndSetImage(imageUrl, seriesImage, false);
             }
 
 			setText(null);

@@ -88,64 +88,52 @@
 
 #detailsTitle {
     -fx-font: 32px Raleway !important;
-    -fx-text-fill: #fafafa;
 }
 
 #detailsName {
     -fx-font: 32px Raleway !important;
-    -fx-text-fill: #fafafa;
 }
 
 #detailsDescription {
     -fx-font: 15px Raleway !important;
     -fx-max-height: 100px;
-    -fx-text-fill: #fafafa;
 }
 
 #detailsBiography {
     -fx-font: 15px Raleway !important;
     -fx-max-height: 100px;
-    -fx-text-fill: #fafafa;
 }
 
 #detailsRating {
     -fx-font: 24px Raleway !important;
-    -fx-text-fill: #fafafa;
 }
 
 #detailsYear {
     -fx-font: 20px Raleway !important;
-    -fx-text-fill: #fafafa;
 }
 
 #detailsBorn, #detailsDead, #detailsAge {
     -fx-font: 20px Raleway !important;
-    -fx-text-fill: #fafafa;
 }
 
 #detailsRuntime {
     -fx-font: 20px Raleway !important;
-    -fx-text-fill: #fafafa;
 }
 
 .detailsSectionTitle {
     -fx-font: 25px Raleway !important;
-    -fx-text-fill: #000000;
 }
 
 .detailsJobName {
     -fx-font: 22px Raleway !important;
-    -fx-text-fill: #000000;
 }
 
 #detailsBudget {
     -fx-font: 20px Raleway !important;
-    -fx-text-fill: #fafafa;
 }
 
 #detailsRevenue {
     -fx-font: 20px Raleway !important;
-    -fx-text-fill: #fafafa;
 }
 
 #crewListView .list-cell {
@@ -227,9 +215,6 @@
     -fx-background-color: #f4f4f4;
 }
 
-.tree-cell:selected .label {
-    -fx-text-fill: #fafafa;
-}
 
 #seasonsTreeView .tree-cell:selected {
     -fx-background-color: #222222;

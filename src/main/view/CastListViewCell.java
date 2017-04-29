@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import main.helpers.ImageHelper;
+import main.helpers.ImageCache;
 import main.model.Cast;
 
 import java.io.IOException;
@@ -28,7 +28,7 @@ public class CastListViewCell extends JFXListCell<Cast> {
 
 	private FXMLLoader castFxmlLoader;
 
-	private ImageHelper imageHelper = new ImageHelper();
+	private ImageCache imageCache = new ImageCache();
 
 	@Override
     public void updateItem(final Cast cast, final boolean empty) {
@@ -53,10 +53,10 @@ public class CastListViewCell extends JFXListCell<Cast> {
 
 			String imageUrl = cast.getProfilePath();
 
-            if(imageHelper.isImageCached(imageUrl)) {
-                castImage.setImage(imageHelper.getCachedImage(imageUrl));
+            if(imageCache.isImageCached(imageUrl)) {
+                castImage.setImage(imageCache.getCachedImage(imageUrl));
             } else {
-                imageHelper.downloadAndSetImage(imageUrl, castImage, true);
+                imageCache.downloadAndSetImage(imageUrl, castImage, true);
             }
 
 			setText(null);
