@@ -58,6 +58,7 @@ public class StartupScreenController implements Initializable, ControlledScreen 
             userSettings = new UserSettings();
         } catch (PropertyLoadException e) {
             Log.debug("Failed to load properties file on startup");
+            Platform.runLater( () -> messageHelper.showMessage("Failed to load settings. Please contact the developer."));
             e.printStackTrace();
         }
 
@@ -69,7 +70,8 @@ public class StartupScreenController implements Initializable, ControlledScreen 
         }
 
         //If userSettings is null, we can not continue with our program and an assertion can be thrown
-        assert userSettings != null;
+        //This should rarely happen but if it does, there is no way our program can communicate with the API
+        assert userSettings != null : "UserSettings was null. Properties must be loaded correctly for the program to run.";
 
         Platform.runLater(this::delayLogin);
 
@@ -119,21 +121,26 @@ public class StartupScreenController implements Initializable, ControlledScreen 
                 //Set API key in properties file, so the user only needs to enter it once.
                 if(loginValidation.isSuccessful()) {
                     try {
+                        Log.debug("API key was successfully set, logging in user");
                         userSettings.setApiKey(apiKeyTextField.getText());
                         Platform.runLater( () -> messageHelper.showMessage("Success! You're being logged in..."));
                         goToMainScreen();
                     } catch (IOException e) {
-                        Platform.runLater( () -> messageHelper.showMessage("Could not save your API key"));
+                        Log.debug("Could not set API key for user: " + e.getCause());
+                        Platform.runLater( () -> messageHelper.showMessage("Could not save your API key, please try again"));
                         e.printStackTrace();
                     }
                 } else {
+                    Log.debug("Authentication services were unreachable - check internet connection");
                     Platform.runLater( () -> messageHelper.showMessage("Could not reach authentication services"));
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable throwable) {
-                Platform.runLater( () -> messageHelper.showMessage("Your API key is incorrect or invalid"));
+                Log.debug("The entered API key was invalid ");
+                Platform.runLater( () -> messageHelper.showMessage("Your API key is invalid"));
+                throwable.printStackTrace();
             }
         });
 
