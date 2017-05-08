@@ -11,9 +11,10 @@ import java.util.List;
 /**
  * Helper class for deciding text color based on background image.
  */
-public class TextColorHelper {
+public final class TextColorHelper {
 
     private static final int BRIGHTNESS_THRESHOLD = 200;
+    private static final int LAST_8_BITS = 0xff; //0xff effectively ignores everything but the last 8 bits, as we only need values from 0-255 for RGB
     private static final Color BRIGHT_IMAGE_TEXT_COLOR = Color.BLACK;
     private static final Color DARK_IMAGE_TEXT_COLOR = Color.WHITE;
 
@@ -51,10 +52,10 @@ public class TextColorHelper {
                 if(i + 2 >= buffer.length) {
                     break; //stop before we hit the end of the byte array
                 }
-                //0xff effectively ignores everything but the last 8 bits, as we only need values from 0-255 for RGB
-                int red = (buffer[i + 2] & 0xff);
-                int green = (buffer[i + 1] & 0xff);
-                int blue = (buffer[i] & 0xff);
+
+                int red = (buffer[i + 2] & LAST_8_BITS);
+                int green = (buffer[i + 1] & LAST_8_BITS);
+                int blue = (buffer[i] & LAST_8_BITS);
 
                 redTotal += red;
                 greenTotal += green;

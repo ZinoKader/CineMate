@@ -29,6 +29,7 @@ import java.util.ResourceBundle;
 /**
  * Controller implementation for detailed person informaton window
  */
+@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 public class PersonDetailsWindowController extends DetailsWindowBase {
 
     @FXML
@@ -73,19 +74,15 @@ public class PersonDetailsWindowController extends DetailsWindowBase {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        filterMoviesTextField.textProperty().addListener((observable, oldText, filterText) -> {
-            movieAppearanceList.filtered(motionPicture -> {
-                Movie movie = (Movie) motionPicture;
-                return movie.getTitle().toLowerCase().contains(filterText.toLowerCase());
-            });
-        });
+        filterMoviesTextField.textProperty().addListener((observable, oldText, filterText) -> movieAppearanceList.filtered(motionPicture -> {
+            Movie movie = (Movie) motionPicture;
+            return movie.getTitle().toLowerCase().contains(filterText.toLowerCase());
+        }));
 
-        filterSeriesTextField.textProperty().addListener((observable, oldText, filterText) -> {
-            movieAppearanceList.filtered(motionPicture -> {
-                Series series = (Series) motionPicture;
-                return series.getTitle().toLowerCase().contains(filterText.toLowerCase());
-            });
-        });
+        filterSeriesTextField.textProperty().addListener((observable, oldText, filterText) -> movieAppearanceList.filtered(motionPicture -> {
+            Series series = (Series) motionPicture;
+            return series.getTitle().toLowerCase().contains(filterText.toLowerCase());
+        }));
     }
 
     @Override

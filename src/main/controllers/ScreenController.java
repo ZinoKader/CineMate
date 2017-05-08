@@ -18,13 +18,14 @@ import main.controllers.contract.ControlledWindow;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Holds screens. Creates new windows. Extends StackPane to be able to easily identify and remove screens that are no longer displayed.
  */
 public class ScreenController extends StackPane {
 
-    private HashMap<String, Node> screens = new HashMap<>();
+    private Map<String, Node> screens = new HashMap<>();
 
     public ScreenController() {
         super(); //create a StackPane instance

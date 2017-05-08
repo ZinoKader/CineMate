@@ -2,6 +2,7 @@ package main.model;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Cast extends Person {
 
     @SerializedName("character")

@@ -12,6 +12,10 @@ import main.model.Cast;
 
 import java.io.IOException;
 
+/**
+ * Cell view for cast
+ */
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class CastListViewCell extends JFXListCell<Cast> {
 
 	@FXML

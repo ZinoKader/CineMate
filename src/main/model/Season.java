@@ -5,6 +5,7 @@ import main.constants.TmdbConstants;
 
 import java.util.List;
 
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Season implements SeriesDetail {
 
     @SerializedName("air_date")

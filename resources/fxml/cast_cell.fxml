@@ -4,22 +4,22 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
-<VBox fx:id="castContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290" prefWidth="200" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <ImageView fx:id="castImage" fitHeight="180.0" fitWidth="128.0" preserveRatio="false">
-            <VBox.margin>
-                <Insets left="35.0" top="20.0" />
-            </VBox.margin>
-        </ImageView>
-        <Label fx:id="castName" alignment="CENTER" contentDisplay="CENTER" wrapText="true" minWidth="200">
-            <VBox.margin>
-                <Insets top="20.0" />
-            </VBox.margin>
-        </Label>
-      <Label fx:id="castCharacter" alignment="CENTER" contentDisplay="CENTER" wrapText="true" minWidth="200">
-         <VBox.margin>
-            <Insets top="20.0" />
-         </VBox.margin>
-      </Label>
-    </children>
+<VBox fx:id="castContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="290" prefWidth="200" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <ImageView fx:id="castImage" fitHeight="180.0" fitWidth="128.0">
+        <VBox.margin>
+            <Insets left="35.0" top="20.0"/>
+        </VBox.margin>
+    </ImageView>
+    <Label fx:id="castName" alignment="CENTER" contentDisplay="CENTER" wrapText="true" minWidth="200">
+        <VBox.margin>
+            <Insets top="20.0"/>
+        </VBox.margin>
+    </Label>
+    <Label fx:id="castCharacter" alignment="CENTER" contentDisplay="CENTER" wrapText="true" minWidth="200">
+        <VBox.margin>
+          <Insets top="20.0"/>
+        </VBox.margin>
+    </Label>
 </VBox>

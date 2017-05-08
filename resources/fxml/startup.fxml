@@ -2,44 +2,40 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.VBox?>
-
-<VBox fx:id="rootParent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.implementation.StartupScreenController">
-   <children>
-      <ImageView fitHeight="120.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@/image/logo.png" />
-         </image>
-         <VBox.margin>
-            <Insets left="150.0" top="30.0" />
-         </VBox.margin>
-      </ImageView>
-      <Label alignment="CENTER" minWidth="600.0" text="Enter your TMDB API key" textAlignment="CENTER" wrapText="true">
-         <VBox.margin>
-            <Insets top="75.0" />
-         </VBox.margin>
-      </Label>
-      <JFXTextField fx:id="apiKeyTextField" alignment="CENTER" maxWidth="250.0">
-         <VBox.margin>
-            <Insets left="175.0" top="5.0" />
-         </VBox.margin>
-      </JFXTextField>
-      <JFXButton alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSubmitApiKey" text="Submit">
-         <VBox.margin>
-            <Insets left="268.0" top="20.0" />
-         </VBox.margin>
-      </JFXButton>
-      <ImageView fitHeight="47.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@/image/powered-by-tmdb.png" />
-         </image>
-         <VBox.margin>
-            <Insets left="30.0" top="80.0" />
-         </VBox.margin>
-      </ImageView>
-   </children>
+<?import javafx.scene.layout.*?>
+<VBox fx:id="rootParent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="600.0" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.implementation.StartupScreenController">
+    <ImageView fitHeight="120.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+        <VBox.margin>
+            <Insets left="150.0" top="30.0"/>
+        </VBox.margin>
+        <Image url="@/image/logo.png"/>
+    </ImageView>
+    <Label alignment="CENTER" minWidth="600.0" text="Enter your TMDB API key" textAlignment="CENTER" wrapText="true">
+        <VBox.margin>
+          <Insets top="75.0"/>
+        </VBox.margin>
+    </Label>
+    <JFXTextField fx:id="apiKeyTextField" alignment="CENTER" maxWidth="250.0">
+        <VBox.margin>
+          <Insets left="175.0" top="5.0"/>
+        </VBox.margin>
+    </JFXTextField>
+    <JFXButton alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSubmitApiKey"
+               text="Submit">
+        <VBox.margin>
+          <Insets left="268.0" top="20.0"/>
+        </VBox.margin>
+    </JFXButton>
+    <ImageView fitHeight="47.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+        <VBox.margin>
+            <Insets left="30.0" top="80.0"/>
+        </VBox.margin>
+        <Image url="@/image/powered-by-tmdb.png"/>
+    </ImageView>
 </VBox>

@@ -10,6 +10,10 @@ import main.model.MovieReview;
 
 import java.io.IOException;
 
+/**
+ * Cell view for movie reviews
+ */
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class MovieReviewListViewCell extends JFXListCell<MovieReview> {
 
 	@FXML

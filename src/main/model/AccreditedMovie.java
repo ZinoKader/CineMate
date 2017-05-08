@@ -2,6 +2,7 @@ package main.model;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class AccreditedMovie extends Movie {
 
     @SerializedName("character")

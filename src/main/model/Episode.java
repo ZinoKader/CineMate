@@ -3,6 +3,7 @@ package main.model;
 import com.google.gson.annotations.SerializedName;
 import main.constants.TmdbConstants;
 
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Episode implements SeriesDetail {
 
     @SerializedName("air_date")

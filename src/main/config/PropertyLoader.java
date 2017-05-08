@@ -14,15 +14,15 @@ import java.util.Properties;
  * Methods in this class are made protected to only allow usage from its subclasses.
  */
 
-abstract class PropertyLoader {
+class PropertyLoader {
 
     private static final String PROPERTIES_PATH = "settings.properties";
     private Properties properties = new Properties();
 
-    protected PropertyLoader() {
+    PropertyLoader() {
     }
 
-    protected void initializeProperties() throws PropertyLoadException {
+    void initializeProperties() throws PropertyLoadException {
 
         handlePropertiesFileCreation();
 
@@ -52,7 +52,8 @@ abstract class PropertyLoader {
     }
 
 
-    protected void put(SettingsKey key, String value) throws IOException {
+    //the inspection is invalid here since .store() throws IOException but FOPstream throws FileNotFoundException
+    void put(SettingsKey key, String value) throws IOException {
         properties.setProperty(String.valueOf(key), value);
         properties.store(new FileOutputStream(PROPERTIES_PATH), "");
     }

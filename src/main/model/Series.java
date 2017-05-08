@@ -7,6 +7,7 @@ import main.constants.TimeConstants;
 import java.time.LocalTime;
 import java.util.List;
 
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Series extends MotionPicture implements TmdbObject {
 
     @SerializedName("id")

@@ -15,6 +15,7 @@ import java.io.IOException;
 /**
  * Cell view for series for the main screen listview. Has to extend ListCell.
  */
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class SeriesListViewCell extends JFXListCell<Series> {
 
 	@FXML

@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class ImageCache {
 
-    private Map<String, SoftReference> imageCache = new HashMap<>();
+    private Map<String, SoftReference<Image>> imageCache = new HashMap<>();
 
     public ImageCache() {
     }
@@ -81,7 +81,7 @@ public class ImageCache {
      * @return returns the cache Image object
      */
     public Image getCachedImage(String url) {
-        return (Image) imageCache.get(url).get();
+        return imageCache.get(url).get();
     }
 
 }

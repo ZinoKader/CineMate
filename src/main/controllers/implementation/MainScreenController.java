@@ -34,6 +34,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+/**
+ * Controller implementation for main application window
+ */
+@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 public class MainScreenController implements Initializable, ControlledScreen {
 
     @FXML
@@ -89,7 +93,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
 		listenToItemClicks(movieListView);
 		listenToItemClicks(seriesListView);
 		listenToItemClicks(personListView);
-		listenToWindowShown();
+		delayLogin();
 
 		messageHelper = new MessageHelper(rootPane);
 
@@ -102,7 +106,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
     }
 
 	@Override
-	public void listenToWindowShown() {
+	public void delayLogin() {
 	    //Because of JavaFX tomfoolery, we have to observe the parent node to know when the window is shown
         Platform.runLater( () -> rootParent.sceneProperty().addListener((sceneObservable, oldScene, newScene) -> {
             //Reload user settings on window reload
@@ -213,7 +217,9 @@ public class MainScreenController implements Initializable, ControlledScreen {
 		List<Node> searchResultListView = rootPane.getChildren();
 
 		//find the index in the stackpane of our desired listview to show (they get shuffled around as they're reordered)
-		switch(mediaType) {
+        //about branch density, I don't agree here. I think a switch statement is appropriate given the clarity it provides,
+        //switching between mediatypes and clearly handling them differently based on which mediatype it is.
+        switch(mediaType) {
 			case MOVIE:
                 List<Movie> movies = tmdbObjects.stream().filter(tmdbItem -> tmdbItem.getMediaType().equals(MediaType.MOVIE))
                         .map(tmdbItem -> (Movie) tmdbItem).collect(Collectors.toList());
@@ -269,8 +275,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
     }
 
     @Override
-	public void setScreenParent(ScreenController screenParent) {
-		this.screenParent = screenParent;
+	public void setScreenParent(ScreenController screenController) {
+		this.screenParent = screenController;
 	}
 
 

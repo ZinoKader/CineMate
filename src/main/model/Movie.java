@@ -8,6 +8,7 @@ import java.time.LocalTime;
 /**
  * Contains Movie-specific fields.
  */
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Movie extends MotionPicture implements TmdbObject {
 
     @SerializedName("id")

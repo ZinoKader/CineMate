@@ -2,6 +2,7 @@ package main.model;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Video {
 
     private static final String YOUTUBE_VIDEO_ENDPOINT = "https://www.youtube.com/embed/";

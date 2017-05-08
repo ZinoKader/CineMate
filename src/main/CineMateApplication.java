@@ -15,7 +15,8 @@ import main.controllers.ScreenController;
 public class CineMateApplication extends Application {
 
 
-    private static Stage primaryStage = null;
+    @SuppressWarnings("StaticVariableMayNotBeInitialized")
+    private static Stage primaryStage;
 
     private static final int DEFAULT_FONT_SIZE = 12;
     private static final String RALEWAY_PATH = "/font/Raleway.ttf";
@@ -43,7 +44,9 @@ public class CineMateApplication extends Application {
 
         Log.DEBUG(); //set logging level to DEBUG as default
 
+        //to reach the stage from outside of our application class, this static field has to be assigned from here
         primaryStage = stage;
+
         Font.loadFont(getClass().getResource(RALEWAY_PATH).toExternalForm(), DEFAULT_FONT_SIZE);
 
         ScreenController screenContainer = new ScreenController();

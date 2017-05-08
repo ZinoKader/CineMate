@@ -4,26 +4,27 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<HBox fx:id="personContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200" prefWidth="700" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <ImageView fx:id="personImage" fitHeight="180.0" fitWidth="128.0" preserveRatio="false">
-         <HBox.margin>
-            <Insets left="10.0" top="10.0" />
-         </HBox.margin></ImageView>
-        <VBox pickOnBounds="false" prefHeight="300.0" prefWidth="800.0">
-            <Label fx:id="personTitle" styleClass="list-item-title" wrapText="true" VBox.vgrow="NEVER">
-            <VBox.margin>
-               <Insets left="30.0" top="20.0" />
-            </VBox.margin>
-            </Label>
-            <Label fx:id="personDescription" styleClass="list-item-description" wrapText="true" VBox.vgrow="NEVER">
-            <VBox.margin>
-               <Insets left="30.0" top="20.0" />
-            </VBox.margin>
-            </Label>
-         <HBox.margin>
-            <Insets left="20.0" />
-         </HBox.margin>
-        </VBox>
-    </children>
+<HBox fx:id="personContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="200" prefWidth="700" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <ImageView fx:id="personImage" fitHeight="180.0" fitWidth="128.0">
+        <HBox.margin>
+        <Insets left="10.0" top="10.0"/>
+        </HBox.margin>
+    </ImageView>
+    <VBox pickOnBounds="false" prefHeight="300.0" prefWidth="800.0">
+        <Label fx:id="personTitle" styleClass="list-item-title" wrapText="true" VBox.vgrow="NEVER">
+        <VBox.margin>
+            <Insets left="30.0" top="20.0"/>
+        </VBox.margin>
+        </Label>
+        <Label fx:id="personDescription" styleClass="list-item-description" wrapText="true" VBox.vgrow="NEVER">
+        <VBox.margin>
+            <Insets left="30.0" top="20.0"/>
+        </VBox.margin>
+        </Label>
+        <HBox.margin>
+        <Insets left="20.0"/>
+        </HBox.margin>
+    </VBox>
 </HBox>

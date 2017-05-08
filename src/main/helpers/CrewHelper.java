@@ -6,7 +6,13 @@ import main.model.Crew;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CrewHelper {
+/**
+ * Helps us filter lists of Crew objects and extract our desired jobs
+ */
+public final class CrewHelper {
+
+    private CrewHelper() {
+    }
 
     public static List<Crew> filterDirectors(List<Crew> crew) {
         /* Could be done like this, but that's lame

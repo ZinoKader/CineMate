@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Serializes video results into a list of videos
  */
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class VideoResults {
 
     @SerializedName("results")

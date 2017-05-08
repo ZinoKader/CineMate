@@ -17,6 +17,7 @@ import java.io.IOException;
 /**
  * Cell view for movies and series (MotionPicture). Has to extend ListCell.
  */
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class MotionPictureListViewCell extends JFXListCell<MotionPicture> {
 
 	@FXML

@@ -1,5 +1,6 @@
 package main.controllers.implementation;
 
+import com.esotericsoftware.minlog.Log;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -28,90 +29,89 @@ import java.util.ResourceBundle;
 /**
  * Controller for startup screen. Handles implementations of logic.
  */
+@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 public class StartupScreenController implements Initializable, ControlledScreen {
 
-	private ScreenController screenParent;
-	private UserSettings userSettings;
-	private MessageHelper messageHelper;
-	private DelayedTaskHelper delayedTaskHelper;
+    private ScreenController screenParent;
+    private UserSettings userSettings;
+    private MessageHelper messageHelper;
+    private DelayedTaskHelper delayedTaskHelper;
 
-	private ApiAdapater apiAdapater;
-	private ApiService apiService;
+    @FXML
+    private Parent rootParent;
 
-	@FXML
-	private Parent rootParent;
-
-	@FXML
-	private JFXTextField apiKeyTextField;
+    @FXML
+    private JFXTextField apiKeyTextField;
 
     private String apiKey;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
 
-		messageHelper = new MessageHelper(rootParent);
+        messageHelper = new MessageHelper(rootParent);
         delayedTaskHelper = new DelayedTaskHelper();
 
-		//FOR DEBUGGING: REMOVE LATER
-		apiKeyTextField.setText("4b45808a4d1a83471866761a8d7e5325");
+        //FOR DEBUGGING: REMOVE LATER
+        apiKeyTextField.setText("4b45808a4d1a83471866761a8d7e5325");
 
         try {
             userSettings = new UserSettings();
         } catch (PropertyLoadException e) {
+            Log.debug("Failed to load properties file on startup");
             e.printStackTrace();
         }
 
         try {
             apiKey = userSettings.getApiKey();
         } catch (EmptyValueException e) {
+            Log.debug("No entry for apiKey exists");
             e.printStackTrace();
         }
 
-        listenToWindowShown();
+        //If userSettings is null, we can not continue with our program and an assertion can be thrown
+        assert userSettings != null;
 
-	}
+        Platform.runLater(this::delayLogin);
 
-	@Override
-    public void listenToWindowShown() {
-        Task<Void> checkApiTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                Platform.runLater( () -> checkForSavedApiKey());
-                return null;
-            }
-        };
+    }
 
-        delayedTaskHelper.delayedTask(checkApiTask, FXConstants.DEFAULT_DELAYED_TASK_TIME);
+    @Override
+    public void delayLogin() {
+        delayedTaskHelper.delayedTask(checkForSavedApiKey(), FXConstants.DEFAULT_DELAYED_TASK_TIME);
     }
 
 
     /**
-     * Design decision: this is run later because running goToMainScreen() in initialize() would not have required
+     * This is run later because running goToMainScreen() in initialize() would not have required
      * fields available, such as screenParent, because in ScreenController, we have to first initialize the FxmlLoader
      * which in turn will run the initialize() method on all of our controllers. But at this point, our screenParent
      * field has not been assigned yet in any controller, because the screen controller is gotten from the FxmlLoader.
      *
      * So to avoid NullPointerException where we try to reference a screenParent that doesn't exist yet, we have to
-     * delay the running of this method to when window is actually showing, which is done in listenToWindowShown()
+     * delay the running of this method to when window is actually showing, which is done in delayLogin()
      *
      */
-	private void checkForSavedApiKey() {
-        //FOR DEBUGGING: APIKEY 4b45808a4d1a83471866761a8d7e5325
+    private Task<Void> checkForSavedApiKey() {
         //We can continue with logging in if the API key has been set before already
-        if(apiKey != null && !apiKey.isEmpty()) {
-            messageHelper.showMessage("API key is already stored, logging in...");
-            goToMainScreen();
-        }
-
+        return new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                if (apiKey != null && !apiKey.isEmpty()) {
+                    messageHelper.showMessage("Using previously stored API key, logging in...");
+                    goToMainScreen();
+                }
+                return null;
+            }
+        };
     }
 
-	public void handleSubmitApiKey() {
-		String apiKey = apiKeyTextField.getText();
+    public void handleSubmitApiKey() {
+        String apiKey = apiKeyTextField.getText();
 
-        apiAdapater = new ApiAdapater(apiKey);
-        apiService = apiAdapater.getApiService();
+        ApiAdapater apiAdapater = new ApiAdapater(apiKey);
+        ApiService apiService = apiAdapater.getApiService();
 
-		apiService.getResponse().enqueue(new Callback<Void>() {
+        apiService.getResponse().enqueue(new Callback<Void>() {
 
             @Override
             public void onResponse(Call<Void> call, Response<Void> loginValidation) {
@@ -120,10 +120,10 @@ public class StartupScreenController implements Initializable, ControlledScreen 
                 if(loginValidation.isSuccessful()) {
                     try {
                         userSettings.setApiKey(apiKeyTextField.getText());
-                        Platform.runLater(() -> messageHelper.showMessage("Success! You're being logged in..."));
+                        Platform.runLater( () -> messageHelper.showMessage("Success! You're being logged in..."));
                         goToMainScreen();
                     } catch (IOException e) {
-                        messageHelper.showMessage("Could not save your API key.");
+                        Platform.runLater( () -> messageHelper.showMessage("Could not save your API key"));
                         e.printStackTrace();
                     }
                 } else {
@@ -137,14 +137,14 @@ public class StartupScreenController implements Initializable, ControlledScreen 
             }
         });
 
-	}
+    }
 
-	private void goToMainScreen() {
-		screenParent.setScreen(CineMateApplication.MAIN_SCREEN_ID);
-	}
+    private void goToMainScreen() {
+        screenParent.setScreen(CineMateApplication.MAIN_SCREEN_ID);
+    }
 
 
-    @Override public void setScreenParent(ScreenController screenParent) {
-		this.screenParent = screenParent;
-	}
+    @Override public void setScreenParent(ScreenController screenController) {
+        this.screenParent = screenController;
+    }
 }

@@ -2,7 +2,7 @@ package main.constants;
 
 import java.time.format.DateTimeFormatter;
 
-public class TimeConstants {
+public final class TimeConstants {
 
     public static final int SECONDS_IN_MINUTE = 60;
     public static final int MINUTES_IN_HOUR = 60;

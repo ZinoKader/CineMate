@@ -11,6 +11,7 @@ import java.time.LocalDate;
  *
  */
 
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Person implements TmdbObject {
 
     @SerializedName("id")

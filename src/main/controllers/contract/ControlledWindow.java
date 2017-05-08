@@ -6,6 +6,7 @@ import main.controllers.ScreenController;
 /**
  * Contract for controllers that are opened like new windows
  */
+@SuppressWarnings("unused")
 public interface ControlledWindow {
 
     void setStage(Stage stage);

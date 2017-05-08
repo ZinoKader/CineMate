@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Iterator;
 import java.util.List;
 
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class ResultsPager<T> implements Iterable<T> {
 
     @SerializedName("results")

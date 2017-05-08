@@ -15,6 +15,7 @@ import java.io.IOException;
 /**
  * Cell view for movies for the main screen listview. Has to extend ListCell.
  */
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class MovieListViewCell extends JFXListCell<Movie> {
 
     @FXML

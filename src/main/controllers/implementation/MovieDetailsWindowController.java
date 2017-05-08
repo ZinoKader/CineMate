@@ -36,6 +36,7 @@ import java.util.List;
 /**
  * Controller implementation for detailed movie information window
  */
+@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase {
 
     @FXML
@@ -102,7 +103,7 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
                 || passedInTmdbObject.getMediaType().equals(MediaType.ACCREDITED_MOVIE))) {
             Log.debug("Wrong media type passed in for this controller type. Expected: "
                     + MediaType.MOVIE + " or " + MediaType.ACCREDITED_MOVIE + ", received: " + passedInTmdbObject.getMediaType());
-            super.closeWindow();
+            closeWindow();
             return;
         }
 
@@ -179,7 +180,7 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
         if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             Cast selectedCast = castListView.getSelectionModel().getSelectedItem();
             screenParent.loadWindow(CineMateApplication.PERSON_WINDOW_FXML, selectedCast);
-            super.closeWindow();
+            closeWindow();
         }
     }
 
@@ -205,7 +206,7 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
         if(mouseEvent.getClickCount() == FXConstants.DOUBLE_CLICK_COUNT) {
             Movie selectedMovie = relatedMoviesListView.getSelectionModel().getSelectedItem();
             screenParent.loadWindow(CineMateApplication.MOVIE_WINDOW_FXML, selectedMovie);
-            super.closeWindow();
+            closeWindow();
         }
     }
 

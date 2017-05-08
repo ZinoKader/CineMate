@@ -2,14 +2,10 @@ package main.controllers.implementation;
 
 import com.esotericsoftware.minlog.Log;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import main.CineMateApplication;
 import main.constants.FXConstants;
 import main.controllers.DetailsWindowBase;
-import main.controllers.ScreenController;
-import main.controllers.contract.ControlledWindow;
 import main.exceptions.EmptyValueException;
 
 import java.io.IOException;
@@ -19,22 +15,13 @@ import java.util.ResourceBundle;
 /**
  * Controller implementation for detailed person information window
  */
-public class SettingsWindowController extends DetailsWindowBase implements Initializable, ControlledWindow {
+@SuppressWarnings("InstanceVariableMayNotBeInitialized")
+public class SettingsWindowController extends DetailsWindowBase {
 
     @FXML
     private TextField apiKeyTextField;
 
     private String apiKey;
-
-    @Override
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    @Override
-    public void setScreenParent(ScreenController screenParent) {
-        this.screenParent = screenParent;
-    }
 
     @Override
     public void setPassedData(Object passedData) {

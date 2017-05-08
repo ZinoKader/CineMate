@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
  * Making this class abstract allows us to "know" that all of our subclasses definitely implement the interfaces in DetailedView.
  * As such, we can call these methods from our abstract class because we're certain that our subclasses have an implementation of these methods.
  */
+@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 public abstract class DetailsWindowBase implements Initializable, DetailedView, ControlledWindow {
 
     protected ApiService apiService;
@@ -92,7 +93,7 @@ public abstract class DetailsWindowBase implements Initializable, DetailedView, 
         if(passedData instanceof TmdbObject) {
             passedInTmdbObject = (TmdbObject) passedData;
         } else {
-            Log.debug("Passed data must be of instance " + TmdbObject.class.toString());
+            Log.debug("Passed data must be of instance " + TmdbObject.class);
             closeWindow();
         }
     }

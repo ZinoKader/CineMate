@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 /**
  * Helps managing and showing snackbar messages (small alert messages at the bottom of the given pane).
  */
+@SuppressWarnings("unused")
 public class MessageHelper {
 
     private Parent targetParent;

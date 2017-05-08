@@ -7,26 +7,27 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-
 <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500" prefWidth="500" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.implementation.SettingsWindowController">
     <Pane>
-    <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="497">
-        <children>
-            <Label styleClass="settingsTitle" text="Settings" />
+        <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+              minWidth="-Infinity" prefHeight="497.0" prefWidth="497">
+            <padding>
+                <Insets top="50.0"/>
+            </padding>
+            <Label styleClass="settingsTitle" text="Settings"/>
             <Label styleClass="settingsLabel" text="API Key">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="40.0" />
-               </VBox.margin></Label>
-            <JFXTextField fx:id="apiKeyTextField" alignment="CENTER" maxWidth="350.0" promptText="Your TMDB API key..." styleClass="settingsTextField">
+                <VBox.margin>
+                    <Insets bottom="10.0" top="40.0"/>
+                </VBox.margin>
+            </Label>
+            <JFXTextField fx:id="apiKeyTextField" alignment="CENTER" maxWidth="350.0" promptText="Your TMDB API key..."
+                          styleClass="settingsTextField">
             </JFXTextField>
             <JFXButton alignment="CENTER" onAction="#saveButtonPressed" text="Save">
-               <VBox.margin>
-                  <Insets top="280.0" />
-               </VBox.margin></JFXButton>
-        </children>
-         <padding>
-            <Insets top="50.0" />
-         </padding>
-    </VBox>
+                <VBox.margin>
+                    <Insets top="280.0"/>
+                </VBox.margin>
+            </JFXButton>
+        </VBox>
     </Pane>
 </ScrollPane>

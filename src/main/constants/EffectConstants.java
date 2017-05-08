@@ -3,6 +3,9 @@ package main.constants;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 
+/**
+ * Constants for JavaFX effects
+ */
 public final class EffectConstants {
 
     private static final double BLUR_AMOUNT_LOW = 25;

@@ -4,6 +4,7 @@ package main.exceptions;
  * This exception is thrown when the requested property could not be accessed.
  */
 
+@SuppressWarnings("unused")
 public class PropertyAccessException extends Exception {
 
     public PropertyAccessException() {

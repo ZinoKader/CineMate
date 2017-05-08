@@ -15,6 +15,7 @@ import java.io.IOException;
 /**
  * Cell view for people for the main screen listview. Has to extend ListCell.
  */
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class PersonListViewCell extends JFXListCell<Person> {
 
 	@FXML

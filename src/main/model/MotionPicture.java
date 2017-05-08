@@ -11,6 +11,7 @@ import java.util.List;
  * This class would be abstract if we didn't need to keep an instance of it in our Person class for castIn and knownFor.
  * Gson needs to be able to create an instance of MotionPicture so it can serialize to a List of MotionPicture in Person
  */
+@SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class MotionPicture {
 
     public MotionPicture() {

@@ -2,9 +2,14 @@ package main.api;
 
 import main.constants.TimeConstants;
 import main.constants.TmdbConstants;
-import okhttp3.*;
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Level;
 import retrofit2.Retrofit;
+import retrofit2.Retrofit.Builder;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.concurrent.TimeUnit;
@@ -32,7 +37,7 @@ public class ApiAdapater {
     private ApiService init() {
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        loggingInterceptor.setLevel(Level.BASIC);
 
         Interceptor apiKeyInterceptor = chain -> {
             HttpUrl interceptedUrl = chain.request().url().newBuilder()
@@ -50,7 +55,7 @@ public class ApiAdapater {
                 .addInterceptor(apiKeyInterceptor)
                 .build();
 
-        final Retrofit restAdapter = new Retrofit.Builder()
+        final Retrofit restAdapter = new Builder()
                 .baseUrl(MOVIE_WEB_API_ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
