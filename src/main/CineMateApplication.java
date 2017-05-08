@@ -45,7 +45,7 @@ public class CineMateApplication extends Application {
         Log.DEBUG(); //set logging level to DEBUG as default
 
         //to reach the stage from outside of our application class, this static field has to be assigned from here
-        primaryStage = stage;
+        CineMateApplication.primaryStage = stage;
 
         Font.loadFont(getClass().getResource(RALEWAY_PATH).toExternalForm(), DEFAULT_FONT_SIZE);
 
