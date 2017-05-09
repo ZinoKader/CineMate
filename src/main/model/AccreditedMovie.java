@@ -2,6 +2,9 @@ package main.model;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Movie with credits attached
+ */
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class AccreditedMovie extends Movie {
 
