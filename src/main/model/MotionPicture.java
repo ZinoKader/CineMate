@@ -7,8 +7,8 @@ import main.constants.TmdbConstants;
 import java.util.List;
 
 /**
- * Abstraction for Movie and Series, holding common fields for these classes.
- * This class would be abstract if we didn't need to keep an instance of it in our Person class for castIn and knownFor.
+ * Abstraction for Movie and Series, holding common fields for these classes
+ * This class would be abstract if we didn't need to keep an instance of it in our Person class for castIn and knownFor
  * Gson needs to be able to create an instance of MotionPicture so it can serialize to a List of MotionPicture in Person
  */
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})

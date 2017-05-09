@@ -7,6 +7,10 @@ import main.constants.TimeConstants;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Series DAO derived straight from TMDB API
+ * Is a specialized MotionPicture for series
+ */
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Series extends MotionPicture implements TmdbObject {
 

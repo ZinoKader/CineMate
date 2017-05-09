@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- *
+ * Credits for a MotionPicture, holds cast and crew
  */
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Credits {

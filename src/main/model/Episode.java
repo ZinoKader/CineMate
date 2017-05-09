@@ -3,6 +3,9 @@ package main.model;
 import com.google.gson.annotations.SerializedName;
 import main.constants.TmdbConstants;
 
+/**
+ * An Episode of a Series
+ */
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Episode implements SeriesDetail {
 

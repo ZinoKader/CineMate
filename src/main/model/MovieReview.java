@@ -2,6 +2,9 @@ package main.model;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Movie review DAO, only used for Movie as Series don't have reviews in the TMDB API
+ */
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class MovieReview {
 

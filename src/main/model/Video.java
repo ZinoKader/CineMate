@@ -2,6 +2,9 @@ package main.model;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Holds videos
+ */
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Video {
 
@@ -22,15 +25,15 @@ public class Video {
     public Video() {
     }
 
-    public boolean isYoutube() {
+    boolean isYoutube() {
         return videoSite.equals(VIDEO_SITE_YOUTUBE);
     }
 
-    public boolean isTrailer() {
+    boolean isTrailer() {
         return videoType.equals(VIDEO_TYPE_TRAILER);
     }
 
-    public String getVideoUrl() {
+    String getVideoUrl() {
         return YOUTUBE_VIDEO_ENDPOINT + urlKey + YOUTUBE_EMBED_OPTIONS;
     }
 

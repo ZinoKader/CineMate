@@ -5,6 +5,9 @@ import main.constants.TmdbConstants;
 
 import java.util.List;
 
+/**
+ * A Season of a Series
+ */
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Season implements SeriesDetail {
 

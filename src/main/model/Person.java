@@ -8,9 +8,9 @@ import java.time.Duration;
 import java.time.LocalDate;
 
 /**
- *
+ * Person DAO derived straight from TMDB API
+ * Is a TmdbObject along with Movie and Series to make use of polymorphism when using these DAO in lists together
  */
-
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Person implements TmdbObject {
 

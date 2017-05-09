@@ -5,6 +5,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Pager for a JSON result page from the API endpoint, which can be paged
+ * Takes any param T and holds such data types and allows paging of these
+ * Will be used in the future to allow paging of more result pages
+ * @param <T> The data type to paginate
+ */
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class ResultsPager<T> implements Iterable<T> {
 

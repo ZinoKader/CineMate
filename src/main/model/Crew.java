@@ -2,6 +2,9 @@ package main.model;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Crew in a MotionPicture, is a Person with a job and job department attached to the MotionPicture
+ */
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Crew extends Person {
 

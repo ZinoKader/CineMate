@@ -6,7 +6,8 @@ import main.constants.TimeConstants;
 import java.time.LocalTime;
 
 /**
- * Contains Movie-specific fields.
+ * Movie DAO derived straight from TMDB API
+ * Is a specialized MotionPicture for movies
  */
 @SuppressWarnings({"unused", "InstanceVariableMayNotBeInitialized"})
 public class Movie extends MotionPicture implements TmdbObject {
