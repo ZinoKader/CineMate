@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import main.CineMateApplication;
-import main.api.ApiAdapater;
+import main.api.ApiAdapter;
 import main.api.ApiService;
 import main.config.UserSettings;
 import main.constants.FXConstants;
@@ -110,8 +110,8 @@ public class StartupScreenController implements Initializable, ControlledScreen 
     public void handleSubmitApiKey() {
         String apiKey = apiKeyTextField.getText();
 
-        ApiAdapater apiAdapater = new ApiAdapater(apiKey);
-        ApiService apiService = apiAdapater.getApiService();
+        ApiAdapter apiAdapter = new ApiAdapter(apiKey);
+        ApiService apiService = apiAdapter.getApiService();
 
         apiService.getResponse().enqueue(new Callback<Void>() {
 

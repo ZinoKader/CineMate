@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Provides an appropriate REST adapter with our given TheMovieDB API endpoint
  */
-public class ApiAdapater {
+public class ApiAdapter {
 
 
     /**
@@ -29,7 +29,7 @@ public class ApiAdapater {
     private String apiKey;
 
 
-    public ApiAdapater(String apiKey) {
+    public ApiAdapter(String apiKey) {
         this.apiKey = apiKey;
         apiService = init();
     }
@@ -66,7 +66,7 @@ public class ApiAdapater {
 
 
     /**
-     * @return The ApiAdapater instance
+     * @return The ApiAdapter instance
      */
     public ApiService getApiService() {
         return apiService;

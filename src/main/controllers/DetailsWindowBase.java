@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import main.api.ApiAdapater;
+import main.api.ApiAdapter;
 import main.api.ApiService;
 import main.config.UserSettings;
 import main.controllers.contract.ControlledWindow;
@@ -59,8 +59,8 @@ public abstract class DetailsWindowBase implements Initializable, DetailedView, 
             e.printStackTrace();
         }
 
-        ApiAdapater apiAdapater = new ApiAdapater(apiKey);
-        apiService = apiAdapater.getApiService();
+        ApiAdapter apiAdapter = new ApiAdapter(apiKey);
+        apiService = apiAdapter.getApiService();
         imageCache = new ImageCache();
         delayedTaskHelper = new DelayedTaskHelper();
 

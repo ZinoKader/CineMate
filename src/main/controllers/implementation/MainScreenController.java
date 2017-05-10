@@ -14,7 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import main.CineMateApplication;
-import main.api.ApiAdapater;
+import main.api.ApiAdapter;
 import main.api.ApiService;
 import main.config.UserSettings;
 import main.constants.FXConstants;
@@ -73,7 +73,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
     private ScreenController screenParent;
     private UserSettings userSettings;
     private MessageHelper messageHelper;
-    private ApiAdapater apiAdapter;
+    private ApiAdapter apiAdapter;
     private ApiService apiService;
 
     /**
@@ -124,7 +124,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
         }
 
         try {
-            apiAdapter = new ApiAdapater(userSettings.getApiKey());
+            apiAdapter = new ApiAdapter(userSettings.getApiKey());
         } catch (EmptyValueException e) {
             e.printStackTrace();
         }

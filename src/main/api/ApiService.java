@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 
 
 /**
- * Interface for ApiAdapater REST adapter
+ * Interface for ApiAdapter REST adapter
  * This is the standard way of implementing REST API service interfaces.
  * This interface doesn't have a concrete subclass by design.
  */
