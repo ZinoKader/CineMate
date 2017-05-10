@@ -62,16 +62,16 @@ public class CineMateApplication extends Application {
         Group root = new Group();
         root.getChildren().addAll(screenContainer); //works because controller is a subclass of Parent which is a Node
         Scene scene = new Scene(root);
-        primaryStage.setTitle("CineMate by Zino Kader");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        CineMateApplication.primaryStage.setTitle("CineMate by Zino Kader");
+        CineMateApplication.primaryStage.setScene(scene);
+        CineMateApplication.primaryStage.setResizable(false);
+        CineMateApplication.primaryStage.show();
     }
 
     public static void resizeScreen() {
         //sizes the window automatically to fit the contents of the scene
-        primaryStage.sizeToScene();
-        primaryStage.centerOnScreen();
+        CineMateApplication.primaryStage.sizeToScene();
+        CineMateApplication.primaryStage.centerOnScreen();
     }
 
     public static void main(String[] args) {

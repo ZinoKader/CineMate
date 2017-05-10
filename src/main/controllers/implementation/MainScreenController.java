@@ -221,7 +221,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
         //switching between mediatypes and clearly handling them differently based on which mediatype it is.
         switch (mediaType) {
             case MOVIE:
-                List<Movie> movies = tmdbObjects.stream().filter(tmdbItem -> tmdbItem.getMediaType().equals(MediaType.MOVIE))
+                List<Movie> movies = tmdbObjects.stream()
+                        .filter(tmdbItem -> tmdbItem.getMediaType().equals(MediaType.MOVIE))
                         .map(tmdbItem -> (Movie) tmdbItem).collect(Collectors.toList());
                 movieObservableList.clear();
                 movieObservableList.addAll(movies);
@@ -235,7 +236,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
                 }
                 break;
             case SERIES:
-                List<Series> series = tmdbObjects.stream().filter(tmdbItem -> tmdbItem.getMediaType().equals(MediaType.SERIES))
+                List<Series> series = tmdbObjects.stream()
+                        .filter(tmdbItem -> tmdbItem.getMediaType().equals(MediaType.SERIES))
                         .map(tmdbItem -> (Series) tmdbItem).collect(Collectors.toList());
                 seriesObservableList.clear();
                 seriesObservableList.addAll(series);
@@ -249,7 +251,8 @@ public class MainScreenController implements Initializable, ControlledScreen {
                 }
                 break;
             case PERSON:
-                List<Person> people = tmdbObjects.stream().filter(tmdbItem -> tmdbItem.getMediaType().equals(MediaType.PERSON))
+                List<Person> people = tmdbObjects.stream()
+                        .filter(tmdbItem -> tmdbItem.getMediaType().equals(MediaType.PERSON))
                         .map(tmdbItem -> (Person) tmdbItem).collect(Collectors.toList());
                 personObservableList.clear();
                 personObservableList.addAll(people);
