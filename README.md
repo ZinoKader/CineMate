@@ -9,6 +9,7 @@ CineMate is a film search engine that lets you search for movies, series, cast,
 crew, directors and more. Design inspired by Google's material design ensures that
 you'll be browsing for movies with style.
 
+Made for the course Object Oriented Programming in Java (TDDD78).
 
 ![CineMate UI](https://www.zinokader.se/img/cinemate_showcase.png)
 
@@ -29,8 +30,3 @@ Built using
 
 
 
-License
-----
-Built by [Zino Kader](https://www.zinokader.se)
-<br>
-Licensed under [GPL-V3](LICENSE.md)
