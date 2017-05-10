@@ -144,8 +144,8 @@ public class PersonDetailsWindowController extends DetailsWindowBase {
         imageCache.downloadAndSetImage(person.getProfilePath(), detailsBackdrop, false);
         detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_HIGH);
 
-        TextColorHelper.setContentAwareTextColor(new Image(person.getProfilePath()), Arrays.asList(
-                detailsName, detailsBiography, detailsBorn, detailsAge, detailsDead));
+        TextColorHelper.setContentAwareTextColor(new Image(person.getProfilePath()),
+                Arrays.asList(detailsName, detailsBiography, detailsBorn, detailsAge, detailsDead));
     }
 
     private void setAppearances() {

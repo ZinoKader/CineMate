@@ -159,8 +159,8 @@ public class MovieDetailsWindowController extends DetailsMotionPictureWindowBase
         imageCache.downloadAndSetImage(movie.getBackdropPath(), detailsBackdrop, false);
         detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_NORMAL);
 
-        TextColorHelper.setContentAwareTextColor(new Image(movie.getBackdropPath()), Arrays.asList(
-                detailsTitle, detailsDescription, detailsYear, detailsRuntime, detailsBudget, detailsRevenue));
+        TextColorHelper.setContentAwareTextColor(new Image(movie.getBackdropPath()),
+                Arrays.asList(detailsTitle, detailsDescription, detailsYear, detailsRuntime, detailsBudget, detailsRevenue));
     }
 
     private void setDirector() {

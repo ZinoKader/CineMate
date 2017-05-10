@@ -158,8 +158,8 @@ public class SeriesDetailsWindowController extends DetailsMotionPictureWindowBas
         imageCache.downloadAndSetImage(series.getBackdropPath(), detailsBackdrop, false);
         detailsBackdrop.setEffect(EffectConstants.FROSTED_GLASS_EFFECT_NORMAL);
 
-        TextColorHelper.setContentAwareTextColor(new Image(series.getBackdropPath()), Arrays.asList(
-                detailsTitle, detailsDescription, detailsYear, detailsRuntime));
+        TextColorHelper.setContentAwareTextColor(new Image(series.getBackdropPath()),
+                Arrays.asList(detailsTitle, detailsDescription, detailsYear, detailsRuntime));
 
     }
 
