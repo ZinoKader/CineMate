@@ -74,7 +74,7 @@ public class StartupScreenController implements Initializable, ControlledScreen 
         assert userSettings != null : "UserSettings was null. Properties must be loaded correctly for the program to run.";
 
         //comment this out to not login automatically
-        //Platform.runLater(this::delayLogin);
+        Platform.runLater(this::delayLogin);
 
     }
 
