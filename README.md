@@ -4,6 +4,12 @@
 
 <br>
 
+<p align="center">
+Download the latest release (.app for OS X) <a target="_blank" href="https://github.com/ZinoKader/CineMate/releases/download/1.0/CineMate.app.zip">here</a>!
+</p>
+
+<br>
+
 
 CineMate is a film search engine that lets you search for movies, series, cast,
 crew, directors and more. Design inspired by Google's material design ensures that
