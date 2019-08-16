@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://www.zinokader.se/img/CineMate_Logo.png" />
+<img src="resources/image/logo.png" />
 </p>
 
 <br>
