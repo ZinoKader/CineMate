@@ -17,7 +17,7 @@ you'll be browsing for movies with style.
 
 Made for the course Object Oriented Programming in Java (TDDD78).
 
-![CineMate UI](https://www.zinokader.se/img/cinemate_showcase.png)
+![CineMate UI](resources/image/showcase.png)
 
 Built using
 ----
